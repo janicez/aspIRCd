@@ -549,7 +549,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                                 fl |= CHFL_OWNER;
                                 s++;
                         }
-                        else if(*s == '!')
+                        else if(*s == '&')
 			{
 				fl |= CHFL_ADMIN;
 				s++;
@@ -597,7 +597,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                         }
                         else if(fl & CHFL_ADMIN)
 			{
-				*ptr_uid++ = '!';
+				*ptr_uid++ = '&';
 				len_nick++;
 				len_uid++;
 			}
