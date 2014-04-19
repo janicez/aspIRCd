@@ -77,13 +77,6 @@ print("Would you like to enable IPv6 Support?")
 
 IPv6 = promptYesNo("IPv6? (y/n)")
 
-print("")
-
-print("Enable the superior Linux Edge-Triggered Polling system? (Requires 2.5 Linux kernel versions or later)")
-
-poll = promptYesNo("Enable Polling? (y/n)")
-
-
 configflags.append("--prefix=%s" % installloc)
 configflags.append("--with-nicklen=%s" % nicklen)
 
@@ -99,11 +92,6 @@ else:
 
 if IPv6:
     configflags.append("--enable-ipv6")
-else:
-    configflags.append("")
-
-if poll:
-    configflags.append("--enable-epoll")
 else:
     configflags.append("")
 
