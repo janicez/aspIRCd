@@ -20,17 +20,17 @@
 
 #include "stdinc.h"
 #include "channel.h"
-#include "client.h" 
+#include "client.h"
 #include "ircd.h"
 #include "numeric.h"
 #include "logger.h"
 #include "s_serv.h"
 #include "s_conf.h"
-#include "s_newconf.h" 
+#include "s_newconf.h"
 #include "send.h"
 #include "whowas.h"
 #include "match.h"
-#include "hash.h" 
+#include "hash.h"
 #include "msg.h"
 #include "parse.h"
 #include "modules.h"
@@ -64,7 +64,7 @@ mo_ojoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 		return 0;
 	}
 
-	if(*parv[1] == '@' || *parv[1] == '%' || *parv[1] == '+' || *parv[1] == '!' || *parv[1] == '~')
+	if(*parv[1] == '@' || *parv[1] == '%' || *parv[1] == '+' || *parv[1] == '&' || *parv[1] == '~')
 	{
 		parv[1]++;
 		move_me = 1;
@@ -109,7 +109,7 @@ mo_ojoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                 sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +y %s",
                                 me.name, chptr->chname, source_p->name);
         }
-        else if(*parv[1] == '!' && ConfigChannel.use_admin)
+        else if(*parv[1] == '&' && ConfigChannel.use_admin)
 	{
 		add_user_to_channel(chptr, source_p, CHFL_ADMIN);
 		sendto_server(client_p, chptr, CAP_TS6, NOCAPS,
