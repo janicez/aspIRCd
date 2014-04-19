@@ -28,3 +28,5 @@ The official channel for syntaxIRCd is `#syntaxIRCd` on
 Please use ***GitHub issue tracker*** for any issues
 
 Atheme and Anope modules are being worked on, and will be released in the next release.
+
+**Denora** works with syntaxIRCd, module being built soon
