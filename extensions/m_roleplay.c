@@ -64,32 +64,32 @@ struct Message scene_msgtab = {
 struct Message ambiance_msgtab = {
 	"AMBIANCE", 0, 0, 0, MFLG_SLOW,
 	{mg_unreg, {m_scene, 3}, mg_ignore, mg_ignore, mg_ignore, {m_scene, 3}}
-};  
+};
 
 struct Message fsay_msgtab = {
 	"FSAY", 0, 0, 0, MFLG_SLOW,
 	{mg_unreg, {m_npc, 4}, mg_ignore, mg_ignore, mg_ignore, {m_fsay, 4}}
-};  
+};
 
 struct Message faction_msgtab = {
 	"FACTION", 0, 0, 0, MFLG_SLOW,
 	{mg_unreg, {m_npca, 4}, mg_ignore, mg_ignore, mg_ignore, {m_faction, 4}}
-};  
+};
 
 struct Message npc_msgtab = {
 	"NPC", 0, 0, 0, MFLG_SLOW,
 	{mg_unreg, {m_npc, 4}, mg_ignore, mg_ignore, mg_ignore, {m_npc, 4}}
-};  
+};
 
 struct Message npca_msgtab = {
 	"NPCA", 0, 0, 0, MFLG_SLOW,
 	{mg_unreg, {m_npca, 4}, mg_ignore, mg_ignore, mg_ignore, {m_npca, 4}}
-};  
+};
 
 struct Message roleplay_msgtab = {
 	"ROLEPLAY", 0, 0, 0, MFLG_SLOW,
 	{mg_ignore, mg_ignore, mg_ignore, mg_ignore, {me_roleplay, 4}, mg_ignore}
-};  
+};
 
 mapi_clist_av1 roleplay_clist[] = { &scene_msgtab, &ambiance_msgtab, &fsay_msgtab, &faction_msgtab, &npc_msgtab, &npca_msgtab, &roleplay_msgtab, NULL };
 
@@ -194,7 +194,7 @@ m_displaymsg(struct Client *source_p, const char *channel, int underline, int ac
 	else
 		rb_snprintf(text2, sizeof(text2), "%s", text);
 
-	sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@npc.fakeuser.invalid PRIVMSG %s :%s (%s)", nick2, source_p->name, channel, text2, source_p->name); 
+	sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@npc.fakeuser.invalid PRIVMSG %s :%s (%s)", nick2, source_p->name, channel, text2);
 	sendto_match_servs(source_p, "*", CAP_ENCAP, NOCAPS, "ENCAP * ROLEPLAY %s %s :%s",
 			channel, nick2, text2);
 	return 0;
@@ -210,6 +210,6 @@ me_roleplay(struct Client *client_p, struct Client *source_p, int parc, const ch
 	if((chptr = find_channel(parv[1])) == NULL)
 		return 0;
 
-	sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@npc.fakeuser.invalid PRIVMSG %s :%s (%s)", parv[2], source_p->name, parv[1], parv[3], source_p->name); 
+	sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@npc.fakeuser.invalid PRIVMSG %s :%s (%s)", parv[2], source_p->name, parv[1], parv[3]);
 	return 0;
 }
