@@ -13,6 +13,8 @@ createauthonly.c - Only allow authenticated (identified) users to create
 
 ip_cloaking.c  - Cloak (spoof) the host for users that have umode +x.
 
+ip_cloaking_old.c - Cloak (spoof) the host for users that have umode +h.
+
 m_42.c         - The Answer to Life, the Universe, and Everything.
                  Syntax: 42
 
