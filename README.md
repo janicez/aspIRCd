@@ -1,6 +1,6 @@
-# Elemental-IRCd
+# syntaxIRCd
 
-**Elemental-IRCd** is a high performance, lightweight, and scalable
+**syntaxIRCd** is a high performance, lightweight, and scalable
 IRC daemon. It is a fork of the now-defunct ShadowIRCD and seeks to continue in
 the direction ShadowIRCD was headed.
 
@@ -14,22 +14,17 @@ Debian packages:
  - `bison`
  - `build-essential`
 
-```
-Cassy | If you put something on a platform which cannot support it
-      | it may tip and fall and become broken. Simple physics.
-```
+## Debian/ubuntu Users
+
+You should run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential`
 
 Read the included documentation for detailed compilation and install
 directions.
 
 ## Support
 
-The official channel for Elemental-IRCd is `#elemental-ircd` on
-`irc.yolo-swag.com`. Anyone with push access to the repository will have halfop
-(`+h`, `%`) or higher.
+The official channel for syntaxIRCd is `#syntaxIRCd` on
+`irc.syntaxnode.co.uk`. 
+Please use ***GitHub issue tracker*** for any issues
 
-Atheme and Anope (1.8 and 2.0) modules are included in the source tree of
-Elemental-IRCd. For most cases the default `protocol/elemental-ircd` module in
-Atheme should be fine, but this version will always be more up-to-date.
-
-To report bugs, please use the GitHub issue tracker.
+Atheme and Anope modules are being worked on, and will be released in the next release.
