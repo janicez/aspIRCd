@@ -8,3 +8,4 @@
  - [X] Add old_cloak (+h)
  - [ ] Move selected extensions to unsupported
  - [X] Add /FORCEPART feature again
+ - [ ] Change roleplay channel mode to U 
