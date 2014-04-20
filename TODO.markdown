@@ -7,4 +7,4 @@
  - [ ] Fix Denora to support owner (+y)
  - [X] Add old_cloak (+h)
  - [ ] Move selected extensions to unsupported
- - [ ] Add /FORCEPART feature again
+ - [X] Add /FORCEPART feature again
