@@ -4,11 +4,11 @@
  * adds NPC, NPCA, and SCENE which allow users to send messages from 'fake'
  * nicknames. in the case of NPC and NPCA, the nickname will be underlined
  * to clearly show that it is fake. SCENE is a special case and not underlined.
- * these commands only work on channels set +N
+ * these commands only work on channels set +U
  *
- * also adds oper commands FSAY and FACTION, which are like NPC and NPCA 
+ * also adds oper commands FSAY and FACTION, which are like NPC and NPCA
  * except without the underline.
- * 
+ *
  * all of these messages have the hostmask npc.fakeuser.invalid, and their ident
  * is the nickname of the user running the commands.
  */
@@ -39,8 +39,8 @@ static unsigned int mymode;
 static int
 _modinit(void)
 {
-	/* initalize the +N cmode */
-	mymode = cflag_add('N', chm_simple);
+	/* initalize the +U cmode */
+	mymode = cflag_add('U', chm_simple);
 	if (mymode == 0)
 		return -1;
 
@@ -50,8 +50,8 @@ _modinit(void)
 static void
 _moddeinit(void)
 {
-	/* orphan the +N cmode on modunload */
-	cflag_orphan('N');
+	/* orphan the +U cmode on modunload */
+	cflag_orphan('U');
 }
 
 
