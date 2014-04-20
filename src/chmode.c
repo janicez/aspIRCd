@@ -2,9 +2,9 @@
  *  charybdis: A slightly useful ircd.
  *  chmode.c: channel mode management
  *
- * Copyright (C) 1990 Jarkko Oikarinen and University of Oulu, Co Center 
- * Copyright (C) 1996-2002 Hybrid Development Team 
- * Copyright (C) 2002-2005 ircd-ratbox development team 
+ * Copyright (C) 1990 Jarkko Oikarinen and University of Oulu, Co Center
+ * Copyright (C) 1996-2002 Hybrid Development Team
+ * Copyright (C) 2002-2005 ircd-ratbox development team
  * Copyright (C) 2005-2006 charybdis development team
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -81,13 +81,13 @@ construct_cflags_strings(void)
 	int i;
         char *ptr = cflagsbuf;
 	char *ptr2 = cflagsmyinfo;
-        
+
         *ptr = '\0';
 	*ptr2 = '\0';
 
 	for(i = 0; i < 256; i++)
 	{
-		if( !(chmode_table[i].set_func == chm_ban) && 
+		if( !(chmode_table[i].set_func == chm_ban) &&
 			!(chmode_table[i].set_func == chm_forward) &&
 			!(chmode_table[i].set_func == chm_throttle) &&
                         !(chmode_table[i].set_func == chm_key) &&
@@ -104,7 +104,7 @@ construct_cflags_strings(void)
 		{
 			chmode_flags[i] = 0;
 		}
-                
+
 		switch (chmode_flags[i])
 		{
 		    case MODE_EXLIMIT:
@@ -113,7 +113,7 @@ construct_cflags_strings(void)
 			{
 			    *ptr++ = (char) i;
 			}
-			
+
 			break;
 		    case MODE_REGONLY:
 			if(rb_dlink_list_length(&service_list))
@@ -128,7 +128,7 @@ construct_cflags_strings(void)
 			    *ptr++ = (char) i;
 			}
 		}
-		
+
 		/* Should we leave orphaned check here? -- dwr */
 		if( !(chmode_table[i].set_func == chm_nosuch) &&
 			!(chmode_table[i].set_func == chm_orphaned) &&
@@ -139,7 +139,7 @@ construct_cflags_strings(void)
 		    *ptr2++ = (char) i;
 		}
 	}
-        
+
         *ptr++ = '\0';
 	*ptr2++ = '\0';
 }
@@ -540,7 +540,7 @@ chm_simple(struct Client *source_p, struct Channel *chptr,
 	int override = 0;
 	struct Metadata *md;
 	struct DictionaryIter iter;
-	
+
 	if(alevel != CHFL_CHANOP && alevel != CHFL_ADMIN && alevel != CHFL_HALFOP && alevel != CHFL_OWNER)
 	{
 		if (IsOverride(source_p))
@@ -614,8 +614,8 @@ chm_orphaned(struct Client *source_p, struct Channel *chptr,
 		sendto_one_numeric(source_p, 469, "Mode %c is disabled.", c);
 		return;
 	}
-        
-	if((dir == MODE_ADD) && !(chptr->mode.mode & mode_type))
+
+        if((dir == MODE_ADD) && !(chptr->mode.mode & mode_type))
 	{
 		chptr->mode.mode |= mode_type;
 
@@ -679,10 +679,10 @@ chm_hidden(struct Client *source_p, struct Channel *chptr,
 		mode_changes[mode_count].mems = ONLY_OPERS;
 		mode_changes[mode_count].override = 0;
 		mode_changes[mode_count++].arg = NULL;
-		
+
 		ilog(L_MAIN, "+%c set on [%s] by %s",
 				c, chptr->chname, get_oper_name(source_p));
-	
+
 		/* A little ugly */
 		if (MyClient(source_p))
 		{
@@ -709,10 +709,10 @@ chm_hidden(struct Client *source_p, struct Channel *chptr,
 		mode_changes[mode_count].id = NULL;
 		mode_changes[mode_count].override = 0;
 		mode_changes[mode_count++].arg = NULL;
-		
+
 		ilog(L_MAIN, "+%c unset from [%s] by %s",
 				c, chptr->chname, get_oper_name(source_p));
-		
+
 		/* A little ugly */
 		if (MyClient(source_p))
 		{
@@ -1039,10 +1039,10 @@ chm_owner(struct Client *source_p, struct Channel *chptr,
 
         if((dir == MODE_QUERY) || (parc <= *parn))
                 return;
-        
+
         ownernick = parv[(*parn)];
         (*parn)++;
-        
+
         /* empty nick */
         if(EmptyString(ownernick))
         {
@@ -1066,7 +1066,7 @@ chm_owner(struct Client *source_p, struct Channel *chptr,
 
         if(MyClient(source_p) && (++mode_limit > MAXMODEPARAMS))
                 return;
-        
+
         if(dir == MODE_ADD)
         {
                 if(targ_p == source_p)
@@ -1965,7 +1965,7 @@ struct ChannelMode chmode_table[256] =
   {chm_simple,	MODE_NOREPEAT },	/* K */
   {chm_staff,	MODE_EXLIMIT },		/* L */
   {chm_hidden,	MODE_NOOPERKICK },	/* M */
-  {chm_nosuch,	0 },			/* N */
+  {chm_simple,	MODE_NONICK },		/* N */
   {chm_nosuch,	0 },			/* O */
   {chm_staff,	MODE_PERMANENT },	/* P */
   {chm_simple,	MODE_DISFORWARD },	/* Q */
@@ -1987,7 +1987,7 @@ struct ChannelMode chmode_table[256] =
   {chm_admin,	0 },			/* a */
   {chm_ban,	CHFL_BAN },		/* b */
   {chm_simple,	MODE_NOCOLOR },		/* c */
-  {chm_simple,	MODE_NONICK },		/* d */
+  {chm_nosuch,	0 },		        /* d */
   {chm_ban,	CHFL_EXCEPTION },	/* e */
   {chm_forward,	0 },			/* f */
   {chm_simple,	MODE_FREEINVITE },	/* g */
@@ -2001,7 +2001,7 @@ struct ChannelMode chmode_table[256] =
   {chm_op,	0 },			/* o */
   {chm_simple,	MODE_PRIVATE },		/* p */
   {chm_ban,	CHFL_QUIET },		/* q */
-  {chm_simple, MODE_REGONLY },		/* r */
+  {chm_simple,  MODE_REGONLY },		/* r */
   {chm_simple,	MODE_SECRET },		/* s */
   {chm_simple,	MODE_TOPICLIMIT },	/* t */
   {chm_nosuch,	0 },			/* u */
