@@ -1,2 +1,4 @@
 NEWS/CHANGES
 ============
+
+Added ip_cloaking_old.c - This allows you to have usermode +h for cloaking instead +x (taken from ShadowIRCd)
