@@ -6,6 +6,6 @@
  - [ ] Change +y mode for owner to +q and put quiet on +y
  - [X] Add old_cloak (+h)
  - [ ] Move selected extensions to unsupported
- - [ ] Add /FORCEPART feature again
+ - [X] Add /FORCEPART feature again
  - [X] Change roleplay channel mode to U 
  - [ ] Add Denora module
