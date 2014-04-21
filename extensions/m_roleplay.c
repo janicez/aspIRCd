@@ -2,9 +2,8 @@
  * roleplay commands for charybdis.
  *
  * adds NPC, NPCA, and SCENE which allow users to send messages from 'fake'
- * nicknames. in the case of NPC and NPCA, the nickname will be underlined
- * to clearly show that it is fake. SCENE is a special case and not underlined.
- * these commands only work on channels set +N
+ * nicknames
+ * these commands only work on channels set +U
  *
  * also adds oper commands FSAY and FACTION, which are like NPC and NPCA 
  * except without the underline.
@@ -177,7 +176,7 @@ m_displaymsg(struct Client *source_p, const char *channel, int underline, int ac
 	}
 
 	if(underline)
-		rb_snprintf(nick2, sizeof(nick2), "\x1F%s\x1F", strip_unprintable(nick3));
+		rb_snprintf(nick2, sizeof(nick2), "%s", strip_unprintable(nick3));
 	else
 		rb_snprintf(nick2, sizeof(nick2), "%s", strip_unprintable(nick3));
 
