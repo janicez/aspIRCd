@@ -26,6 +26,7 @@
  *  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
+ * $Id: m_force.c 3297 2007-03-28 14:49:48Z jilles $
  */
 
 #include "stdinc.h"
@@ -49,13 +50,20 @@
 
 static int mo_forcejoin(struct Client *client_p, struct Client *source_p,
 			int parc, const char *parv[]);
+static int mo_forcepart(struct Client *client_p, struct Client *source_p,
+			int parc, const char *parv[]);
 
 struct Message forcejoin_msgtab = {
 	"FORCEJOIN", 0, 0, 0, MFLG_SLOW,
 	{mg_unreg, mg_not_oper, mg_ignore, mg_ignore, mg_ignore, {mo_forcejoin, 3}}
 };
 
-mapi_clist_av1 force_clist[] = { &forcejoin_msgtab, NULL };
+struct Message forcepart_msgtab = {
+	"FORCEPART", 0, 0, 0, MFLG_SLOW,
+	{mg_unreg, mg_not_oper, mg_ignore, mg_ignore, mg_ignore, {mo_forcepart, 3}}
+};
+
+mapi_clist_av1 force_clist[] = { &forcejoin_msgtab, &forcepart_msgtab, NULL };
 
 DECLARE_MODULE_AV1(force, NULL, NULL, force_clist, NULL, NULL, "$Revision: 3297 $");
 
@@ -106,11 +114,28 @@ mo_forcejoin(struct Client *client_p, struct Client *source_p, int parc, const c
 			source_p->name, source_p->username, source_p->host);
 
 	/* select our modes from parv[2] if they exist... (chanop) */
-	if(*parv[2] == '@')
+	if(*parv[2] == '~')
+        {
+                type = CHFL_OWNER;
+                mode = 'q';
+                sjmode = '~';
+        }else if(*parv[2] == '&')
+        {
+                type = CHFL_ADMIN;
+                mode = 'a';
+                sjmode = '&';
+        }
+        else if(*parv[2] == '@')
+        {
+                type = CHFL_CHANOP;
+                mode = 'o';
+                sjmode = '@';
+        }
+        else if(*parv[2] == '%')
 	{
-		type = CHFL_CHANOP;
-		mode = 'o';
-		sjmode = '@';
+		type = CHFL_HALFOP;
+		mode = 'h';
+		sjmode = '%';
 	}
 	else if(*parv[2] == '+')
 	{
@@ -214,5 +239,70 @@ mo_forcejoin(struct Client *client_p, struct Client *source_p, int parc, const c
 		 */
 		sendto_one_notice(source_p, ":*** Notice -- Creating channel %s", chptr->chname);
 	}
+	return 0;
+}
+
+
+static int
+mo_forcepart(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
+{
+	struct Client *target_p;
+	struct Channel *chptr;
+	struct membership *msptr;
+
+	if(!IsOperAdmin(source_p))
+	{
+		sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name, "admin");
+		return 0;
+	}
+
+	if((hunt_server(client_p, source_p, ":%s FORCEPART %s %s", 1, parc, parv)) != HUNTED_ISME)
+		return 0;
+
+	/* if target_p == NULL then let the oper know */
+	if((target_p = find_client(parv[1])) == NULL)
+	{
+		sendto_one(source_p, form_str(ERR_NOSUCHNICK), me.name, source_p->name, parv[1]);
+		return 0;
+	}
+
+	if(!IsClient(target_p))
+		return 0;
+
+	sendto_wallops_flags(UMODE_WALLOP, &me,
+			     "FORCEPART called for %s %s by %s!%s@%s",
+			     parv[1], parv[2], source_p->name, source_p->username, source_p->host);
+	ilog(L_MAIN, "FORCEPART called for %s %s by %s!%s@%s",
+	     parv[1], parv[2], source_p->name, source_p->username, source_p->host);
+	sendto_server(NULL, NULL, NOCAPS, NOCAPS,
+			":%s WALLOPS :FORCEPART called for %s %s by %s!%s@%s",
+			me.name, parv[1], parv[2],
+			source_p->name, source_p->username, source_p->host);
+
+	if((chptr = find_channel(parv[2])) == NULL)
+	{
+		sendto_one_numeric(source_p, ERR_NOSUCHCHANNEL,
+				   form_str(ERR_NOSUCHCHANNEL), parv[1]);
+		return 0;
+	}
+
+	if((msptr = find_channel_membership(chptr, target_p)) == NULL)
+	{
+		sendto_one_numeric(source_p, ERR_USERNOTINCHANNEL,
+				form_str(ERR_USERNOTINCHANNEL),
+				parv[1], parv[2]);
+		return 0;
+	}
+
+	sendto_server(target_p, chptr, NOCAPS, NOCAPS,
+		      ":%s PART %s :%s", target_p->name, chptr->chname, target_p->name);
+
+	sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@%s PART %s :%s",
+			     target_p->name, target_p->username,
+			     target_p->host, chptr->chname, target_p->name);
+
+
+	remove_user_from_channel(msptr);
+
 	return 0;
 }
