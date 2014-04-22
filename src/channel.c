@@ -270,7 +270,7 @@ is_owner(struct membership *msptr)
 {
         if(!ConfigChannel.use_owner)
                 return 0;
-        if(is_chmode_y(msptr))
+        if(is_chmode_q(msptr))
                 return 1;
         else
                 return 0;
