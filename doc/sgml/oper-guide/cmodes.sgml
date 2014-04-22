@@ -55,7 +55,7 @@
 	<title>+e, ban exemption</title>
 	<para>
 	  This mode takes one parameter of the same form as bans, which
-	  overrides +b and +q bans for all clients it matches.
+	  overrides +b and +y bans for all clients it matches.
 	</para>
 	<para>
 	  This can be useful if it is necessary to ban an entire ISP
@@ -161,7 +161,7 @@
 	<title>+L, large ban list</title>
 	<para>
 	  Channels with this mode will be allowed larger banlists (by default,
-          500 instead of 50 entries for +b, +q, +e and +I together).
+          500 instead of 50 entries for +b, +y, +e and +I together).
 	  Only network operators with resv privilege may set this mode.
 	</para>
       </sect2>
@@ -189,7 +189,7 @@
 	  over the channel, having the ability to set all channel modes except
 	  +L and +P, and kick users.
 	  Like voiced users, channel operators can always
-	  send to the channel, overriding +b, +m and +q modes and the
+	  send to the channel, overriding +b, +m and +y modes and the
 	  per-channel flood limit.
 	  In most clients channel operators are marked with an '@' sign.
 	</para>
@@ -226,7 +226,7 @@
 	</para>
       </sect2>
       <sect2>
-	<title>+q, quiet</title>
+	<title>+y, quiet</title>
 	<para>
 	  This mode behaves exactly like +b (ban), except that the user may still join
 	  the channel. The net effect is that they cannot knock on the channel,
@@ -285,7 +285,7 @@
 	<para>
 	  This mode takes one parameter, a nick, and grants or removes voice
 	  privilege to that user. Voiced users can always send to the channel,
-	  overriding +b, +m and +q modes and the per-channel flood limit.
+	  overriding +b, +m and +y modes and the per-channel flood limit.
 	  In most clients voiced users are marked with a plus sign.
 	</para>
 	<para>
@@ -296,7 +296,7 @@
       <sect2>
         <title>+z, reduced moderation</title>
         <para>
-          When +z is set, the effects of +m, +b and +q are relaxed. For each message, if that message
+          When +z is set, the effects of +m, +b and +y are relaxed. For each message, if that message
           would normally be blocked by one of these modes, it is instead sent to all channel operators. This is intended for use in moderated debates.
         </para>
         <para>
