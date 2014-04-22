@@ -162,7 +162,7 @@ typedef int (*ExtbanFunc)(const char *data, struct Client *client_p,
 
 #define is_chmode_h(x)	((x) && (x)->flags & CHFL_HALFOP) /* does not check if halfop is enabled, should typically not be used */
 #define is_chmode_a(x)	((x) && (x)->flags & CHFL_ADMIN) /* does not check if admin is enabled, should typically not be used */
-#define is_chmode_y(x)  ((x) && (x)->flags & CHFL_OWNER) /* does not check if owner is enabled, should typically not be used */
+#define is_chmode_q(x)  ((x) && (x)->flags & CHFL_OWNER) /* does not check if owner is enabled, should typically not be used */
 #define is_chanop(x)	((x) && (x)->flags & CHFL_CHANOP)
 #define is_voiced(x)	((x) && (x)->flags & CHFL_VOICE)
 #define can_send_banned(x) ((x) && (x)->flags & (CHFL_BANNED|CHFL_QUIETED))
