@@ -648,7 +648,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 
                         if(fl & CHFL_ADMIN)
                         {
-                                /* its possible the +q has filled up MAXMODEPARAMS, if so, start
+                                /* its possible the +y has filled up MAXMODEPARAMS, if so, start
                                  * a new buffer
                                  */
                                 if(pargs >= MAXMODEPARAMS)
