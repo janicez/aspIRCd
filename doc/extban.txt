@@ -13,7 +13,7 @@ result of the comparison will be negated, unless the ban is invalid in which
 case it will never match. Invalid bans are ones where <data> is missing but
 required or where <data> is otherwise invalid as noted below.
 
-Unless noted below, all types can be used with +b, +q, +e and +I.
+Unless noted below, all types can be used with +b, +y, +e and +I.
 
 If any extended ban types are loaded, they are listed in 005 (RPL_ISUPPORT)
 as EXTBAN=$:<types>.
@@ -25,7 +25,7 @@ listed or removed.
 
 The ability to send to a channel is cached; this cache may not be updated
 if a condition for an extended ban changes. To work around this, part and
-rejoin the channel, or add or remove a +b, +q or +e entry.
+rejoin the channel, or add or remove a +b, +y or +e entry.
 
 The extban types that come with charybdis are:
 
@@ -49,12 +49,12 @@ matches opers (most useful with +I)
 extb_realname.so
 	$r:<mask>
 matches users with a realname (gecos) matching the mask (* and ? wildcards);
-this can only be used with +b and +q
+this can only be used with +b and +y
 
 extb_server.so
 	$s:<mask>
 matches users connected to a server matching the mask (* and ? wildcards);
-this can only be used with +b and +q
+this can only be used with +b and +y
 
 Comparisons:
 
