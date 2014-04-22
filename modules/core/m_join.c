@@ -643,12 +643,12 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 
                 if(fl & CHFL_OWNER)
                 {
-                        *mbuf++ = 'y';
+                        *mbuf++ = 'q';
                         para[pargs++] = target_p->name;
 
                         if(fl & CHFL_ADMIN)
                         {
-                                /* its possible the +y has filled up MAXMODEPARAMS, if so, start
+                                /* its possible the +q has filled up MAXMODEPARAMS, if so, start
                                  * a new buffer
                                  */
                                 if(pargs >= MAXMODEPARAMS)
@@ -670,7 +670,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                         }
                         if(fl & CHFL_CHANOP)
                         {
-                               /* its possible the +y has filled up MAXMODEPARAMS, if so, start
+                               /* its possible the +q has filled up MAXMODEPARAMS, if so, start
                                 * a new buffer
                                 */
                                 if(pargs >= MAXMODEPARAMS)
@@ -692,7 +692,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                         }
                         if(fl & CHFL_HALFOP)
                         {
-                                /* its possible the +y has filled up MAXMODEPARAMS, if so, start
+                                /* its possible the +q has filled up MAXMODEPARAMS, if so, start
                                  * a new buffer
                                  */
                                 if(pargs >= MAXMODEPARAMS)
@@ -714,7 +714,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                         }
                         if(fl & CHFL_VOICE)
                         {
-                                /* its possible the +y has filled up MAXMODEPARAMS, if so, start
+                                /* its possible the +q has filled up MAXMODEPARAMS, if so, start
                                  * a new buffer
                                  */
                                 if(pargs >= MAXMODEPARAMS)
@@ -1135,7 +1135,7 @@ remove_our_modes(struct Channel *chptr, struct Client *source_p)
                 {
                         msptr->flags &= ~CHFL_ADMIN;
                         lpara[count++] = msptr->client_p->name;
-                        *mbuf++ = 'y';
+                        *mbuf++ = 'q';
 
                         /* Make sure it fits if +h, +o, or +v are involved */
                         if(is_admin(msptr))
