@@ -95,7 +95,7 @@ type D
 +t (only chanops may change topic)
 (charybdis TS6)
 type A
-+q (quiet)
++y (quiet)
 type C
 +f (forward: channel name <= 30 chars)
 +j (join throttle: N:T with integer N and T)
