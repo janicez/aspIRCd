@@ -253,7 +253,7 @@ main(int argc, char *argv[])
 	else
 	{
 		hashed = strdup(rb_crypt(getpass("plaintext: "), salt));
-		plaintext = getpass("again: ");
+		plaintext = getpass("Password again: ");
 
 		if (strcmp(rb_crypt(plaintext, salt), hashed) != 0)
 		{
