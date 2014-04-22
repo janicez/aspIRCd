@@ -260,7 +260,7 @@ isupport_prefix(const void *ptr)
 	static char result[13];
 
 	rb_snprintf(result, sizeof result, "(%s%so%sv)%s%s@%s+",
-                        ConfigChannel.use_owner ? "y" : "",
+                        ConfigChannel.use_owner ? "q" : "",
 			ConfigChannel.use_admin ? "a" : "",
 			ConfigChannel.use_halfop ? "h" : "",
                         ConfigChannel.use_owner ? "~" : "",
@@ -274,7 +274,7 @@ isupport_maxlist(const void *ptr)
 {
 	static char result[30];
 
-	rb_snprintf(result, sizeof result, "bq%s%s:%i",
+	rb_snprintf(result, sizeof result, "by%s%s:%i",
 			ConfigChannel.use_except ? "e" : "",
 			ConfigChannel.use_invex ? "I" : "",
 			ConfigChannel.max_bans);
@@ -313,7 +313,7 @@ isupport_ownermode(const void *ptr)
 	if(!ConfigChannel.use_owner)
 		return NULL;
 
-	rb_snprintf(result, sizeof result, "y");
+	rb_snprintf(result, sizeof result, "q");
 
 	return result;
 }
