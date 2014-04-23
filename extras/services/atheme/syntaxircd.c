@@ -68,7 +68,7 @@ struct cmode_ syntaxircd_mode_list[] = {
   { 'T', CMODE_NONOTICE },
   { 'G', CMODE_NOCAPS },
   { 'E', CMODE_NOKICKS },
-  { 'd', CMODE_NONICKS },
+  { 'N', CMODE_NONICKS },
   { 'K', CMODE_NOREPEAT },
   { 'J', CMODE_KICKNOREJOIN },
   { '\0', 0 }
