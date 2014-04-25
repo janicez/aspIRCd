@@ -29,4 +29,4 @@ Please use ***GitHub issue tracker*** for any issues
 
 Atheme and Anope modules are being worked on, and will be released in the next release.
 
-**Denora** works with syntaxIRCd
+**Denora** works with syntaxIRCd - https://github.com/SyntaxIRCd/denora
