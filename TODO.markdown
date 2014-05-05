@@ -8,7 +8,7 @@
  - [ ] Add modules for services packages
  - [x] Make end user oper failures more generic
  - [x] Add old_cloak (+h)
- - [ ] Show own modes in a `WHOIS`
+ - [x] Show own modes in a `WHOIS`
  - [x] Remove AHBL blacklists from default configs
  - [x] Add /FORCEPART feature again
  - [x] Change roleplay channel mode to U
