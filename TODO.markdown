@@ -2,10 +2,13 @@
 
 ## syntaxIRCd 1.0.4
 
- - [ ] Add modules for services packages (Atheme Only)
- - [X] Change +y mode for owner to +q and put quiet on +y
- - [X] Add old_cloak (+h)
- - [ ] Move selected extensions to unsupported
- - [X] Add /FORCEPART feature again
- - [X] Change roleplay channel mode to U 
- - [ ] Add Denora module
+ - [ ] Fix `extended-join` not triggering for users on other servers
+ - [x] Change +y mode for owner to +q and put quiet on +y
+ - [x] Add basic autoconfiguration script
+ - [ ] Add modules for services packages
+ - [x] Make end user oper failures more generic
+ - [x] Add old_cloak (+h)
+ - [x] Show own modes in a `WHOIS`
+ - [x] Remove AHBL blacklists from default configs
+ - [x] Add /FORCEPART feature again
+ - [x] Change roleplay channel mode to U
