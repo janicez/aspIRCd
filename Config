@@ -116,7 +116,7 @@ and start to connect clients and servers as you need.
 
 If you have any problems, please check the documentation in the doc/ folder
 of the source repository. If problems persist please stop by #syntaxIRCD
-on irc.syntaxnode.co.uk and ask. Running syntaxIRCd on large networks is not
+on irc.foxatomic.net and ask. Running syntaxIRCd on large networks is not
 recommended (Not sure how stable it is).""" %\
     (installloc2, installloc2, installloc2))
 
