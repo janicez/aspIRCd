@@ -1,6 +1,6 @@
 # syntaxIRCd TODO
 
-## Version 1.0.4
+## Version 1.0.5
 
  - [ ] Fix `extended-join` not triggering for users on other servers
  - [x] Change +y mode for owner to +q and put quiet on +y
