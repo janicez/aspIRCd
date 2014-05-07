@@ -5,7 +5,7 @@
  - [ ] Fix `extended-join` not triggering for users on other servers
  - [x] Change +y mode for owner to +q and put quiet on +y
  - [x] Add basic autoconfiguration script
- - [x] Add modules for services packages
+ - [ ] Add modules for services packages
  - [x] Make end user oper failures more generic
  - [x] Add old_cloak (+h)
  - [x] Remove quotes from `PART`
