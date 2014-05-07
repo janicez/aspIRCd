@@ -13,3 +13,4 @@
  - [x] Remove AHBL blacklists from default configs
  - [x] Add /FORCEPART feature again
  - [x] Change roleplay channel mode to U
+ - [ ] Add denora module
