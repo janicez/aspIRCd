@@ -5,7 +5,8 @@
  - [ ] Fix `extended-join` not triggering for users on other servers
  - [x] Change +y mode for owner to +q and put quiet on +y
  - [x] Add basic autoconfiguration script
- - [ ] Add modules for services packages (anope/atheme)
+ - [ ] Add module for Anope
+ - [x] Add module for Atheme
  - [x] Make end user oper failures more generic
  - [x] Add old_cloak (+h)
  - [x] Remove quotes from `PART`
