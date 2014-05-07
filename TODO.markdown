@@ -15,4 +15,4 @@
  - [x] Add /FORCEPART feature again
  - [x] Change roleplay channel mode to U
  - [ ] Add denora module
- - [ ] Add m_clearchan to autoload
+ - [ ] Move m_clearchan to autoload
