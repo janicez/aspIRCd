@@ -64,6 +64,7 @@ TSRCS =                          \
   m_certfp.c \
   m_challenge.c \
   m_chghost.c \
+  m_clearchan.c \
   m_close.c \
   m_cmessage.c \
   m_connect.c \
