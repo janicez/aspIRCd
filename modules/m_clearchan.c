@@ -84,41 +84,41 @@ mo_clearchan(struct Client *client_p, struct Client *source_p, int parc, const c
 	RB_DLINK_FOREACH(ptr, chptr->members.head)
 	{
 		msptr = ptr->data;
-		msptr->flags &= ~CHFL_CHANOP | CHFL_VOICE;
+		msptr->flags &= ~CHFL_CHANOP | CHFL_VOICE | CHFL_OWNER | CHFL_ADMIN | CHFL_HALFOP;
 	}
 
 	sendto_wallops_flags(UMODE_WALLOP, &me,
-			     "CLEARCHAN called for [%s] by %s!%s@%s",
-			     parv[1], source_p->name, source_p->username, source_p->host);
-	ilog(L_MAIN, "CLEARCHAN called for [%s] by %s!%s@%s",
-	     parv[1], source_p->name, source_p->username, source_p->host);
+			     "CLEARCHAN called for [%s] by %s",
+			     parv[1], source_p->name);
+	ilog(L_MAIN, "CLEARCHAN called for [%s] by %s",
+	     parv[1], source_p->name);
 
 	if(*chptr->chname != '&')
 	{
 		sendto_server(NULL, NULL, NOCAPS, NOCAPS,
-			      ":%s WALLOPS :CLEARCHAN called for [%s] by %s!%s@%s",
-			      me.name, parv[1], source_p->name, source_p->username, source_p->host);
+			      ":%s WALLOPS :CLEARCHAN called for [%s] by %s",
+			      me.name, parv[1], source_p->name);
 
 		/* SJOIN the user to give them ops, and lock the channel */
 		sendto_server(client_p, chptr, NOCAPS, NOCAPS,
-			      ":%s SJOIN %ld %s +ntsi :@%s",
+			      ":%s SJOIN %ld %s +nrtsi :@%s",
 			      me.name, (long) (chptr->channelts - 1),
 			      chptr->chname, source_p->name);
 	}
 
-	sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@%s JOIN %s",
-			     source_p->name, source_p->username, source_p->host, chptr->chname);
+	sendto_channel_local(ALL_MEMBERS, chptr, ":%s JOIN %s",
+			     source_p->name, chptr->chname);
 	sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +o %s",
 			     me.name, chptr->chname, source_p->name);
 
-	add_user_to_channel(chptr, source_p, CHFL_CHANOP);
+	add_user_to_channel(chptr, source_p, CHFL_CHANOP );
 
 	/* Take the TS down by 1, so we don't see the channel taken over
 	 * again. */
 	if(chptr->channelts)
 		chptr->channelts--;
 
-	chptr->mode.mode = MODE_SECRET | MODE_TOPICLIMIT | MODE_INVITEONLY | MODE_NOPRIVMSGS;
+	chptr->mode.mode = MODE_SECRET | MODE_TOPICLIMIT | MODE_INVITEONLY | MODE_NOPRIVMSGS | MODE_REGONLY;
 	chptr->mode.key[0] = '\0';
 
 	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, chptr->members.head)
@@ -131,21 +131,21 @@ mo_clearchan(struct Client *client_p, struct Client *source_p, int parc, const c
 			continue;
 
 		sendto_channel_local(ALL_MEMBERS, chptr,
-				     ":%s KICK %s %s :CLEARCHAN",
+				     ":%s KICK %s %s :This channel was cleared",
 				     source_p->name, chptr->chname, target_p->name);
 
 		if(*chptr->chname != '&')
 			sendto_server(NULL, chptr, NOCAPS, NOCAPS,
-				      ":%s KICK %s %s :CLEARCHAN",
+				      ":%s KICK %s %s :This channel was cleared",
 				      source_p->name, chptr->chname, target_p->name);
 
 		remove_user_from_channel(msptr);
 	}
 
-	/* Join the user themselves to the channel down here, so they dont see a nicklist 
+	/* Join the user themselves to the channel down here, so they dont see a nicklist
 	 * or people being kicked */
-	sendto_one(source_p, ":%s!%s@%s JOIN %s",
-		   source_p->name, source_p->username, source_p->host, chptr->chname);
+	sendto_one(source_p, ":%s JOIN %s",
+		   source_p->name, chptr->chname);
 
 	channel_member_names(chptr, source_p, 1);
 
