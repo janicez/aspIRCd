@@ -10,7 +10,7 @@ This software is under GPL.
 
 from os import system
 import os
-installloc = ("$HOME/ircd")
+installloc = ("$PWD/run")
 installloc2 = os.getenv("HOME")
 
 def promptUser(prompt, default):
@@ -38,7 +38,7 @@ art = """
 
 welcome ="""
 Welcome to the syntaxIRCd Configuration script. This script will help you choose the
-best compile flags for your installation of syntaxIRCd, whilst install is restricted to /home/<username>/ircd
+best compile flags for your installation of syntaxIRCd, whilst install is restricted to ./run
 """
 
 print(art)

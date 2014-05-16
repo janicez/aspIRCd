@@ -385,7 +385,7 @@ pretty_mask(const char *idmask)
 	{
 		mask_pos += rb_sprintf(mask_buf + mask_pos, "%s", mask) + 1;
 		t = mask_buf + old_mask_pos + 1;
-		if (*t == '&')
+		if (*t == '!')
 			*t = '~';
 		if (*t == '~')
 			t++;
@@ -401,7 +401,7 @@ pretty_mask(const char *idmask)
 		if(*t != '\0')
 			host = t;
 
-		if((t = strchr(mask, '&')) != NULL)
+		if((t = strchr(mask, '!')) != NULL)
 		{
 			ex = t;
 			*t++ = '\0';
@@ -416,7 +416,7 @@ pretty_mask(const char *idmask)
 				user = mask;
 		}
 	}
-	else if((t = strchr(mask, '&')) != NULL)
+	else if((t = strchr(mask, '!')) != NULL)
 	{
 		ex = t;
 		*t++ = '\0';
@@ -459,7 +459,7 @@ pretty_mask(const char *idmask)
 	if(at)
 		*at = '@';
 	if(ex)
-		*ex = '&';
+		*ex = '!';
 	if(ne)
 		nick[NICKLEN - 1] = ne;
 	if(ue)
