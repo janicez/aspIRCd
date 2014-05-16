@@ -35,7 +35,7 @@ ircd_t syntaxIRCd = {
         "+q",                           /* Mode we set for owner. */
         "+a",                           /* Mode we set for protect. */
         "+h",                           /* Mode we set for halfops. */
-	PROTOCOL_SHADOWIRCD,		/* Protocol type */
+	PROTOCOL_SORCERY,		/* Protocol type */
 	CMODE_PERM,                     /* Permanent cmodes */
 	CMODE_IMMUNE,                   /* Oper-immune cmode */
 	"beIy",                         /* Ban-like cmodes */
@@ -101,6 +101,37 @@ struct cmode_ syntaxircd_user_mode_list[] = {
 };
 
 /* *INDENT-ON* */
+static void dakota_join_sts(channel_t *c, user_t *u, bool isnew, char *modes)
+{
+        if (isnew)
+        {
+	        sts(":%s SJOIN %lu %s %s :%s", ME, (unsigned long)c->ts,
+                                c->name, modes, CLIENT_NAME(u));
+                sts(":%s TMODE %lu %s +ao %s %s", CLIENT_NAME(u),
+                                (unsigned long)c->ts, c->name,
+                                CLIENT_NAME(u), CLIENT_NAME(u));
+        } else {
+                sts(":%s SJOIN %lu %s + :%s", ME, (unsigned long)c->ts,
+                                c->name, CLIENT_NAME(u));
+                sts(":%s TMODE %lu %s +ao %s %s", CLIENT_NAME(u),
+                                (unsigned long)c->ts, c->name,
+                                CLIENT_NAME(u), CLIENT_NAME(u));
+	}
+}
+
+static void dakota_chan_lowerts(channel_t *c, user_t *u)
+{
+        slog(LG_DEBUG, "ts6_chan_lowerts(): lowering TS for %s to %lu",
+                        c->name, (unsigned long)c->ts);
+        sts(":%s SJOIN %lu %s %s :%s", ME, (unsigned long)c->ts, c->name,
+                                channel_modes(c, true), CLIENT_NAME(u));
+        sts(":%s TMODE %lu %s +ao %s %s", CLIENT_NAME(u),
+                        (unsigned long)c->ts, c->name,
+                        CLIENT_NAME(u), CLIENT_NAME(u));
+        if (ircd->uses_uid)
+                chanban_clear(c);
+}
+
 
 void _modinit(module_t * m)
 {
@@ -108,6 +139,8 @@ void _modinit(module_t * m)
 
 	mode_list = syntaxircd_mode_list;
 	user_mode_list = syntaxircd_user_mode_list;
+        join_sts = &dakota_join_sts;
+        chan_lowerts = &dakota_chan_lowerts;
 	status_mode_list = syntaxircd_status_mode_list;
 	prefix_mode_list = syntaxircd_prefix_mode_list;
 

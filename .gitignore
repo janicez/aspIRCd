@@ -41,3 +41,6 @@ tools/viconf
 include/serno.h
 libratbox/src/version.c.last
 configure.ac
+run
+services
+
