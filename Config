@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+
+"""
+Copyright 2014 Sam Dodrill <shadowh511@gmail.com>
+
+edited by Craigory <root@foaxtomic.net>
+
+This software is under GPL.
+"""
+
+from os import system
+import os
+installloc = ("$HOME/ircd")
+installloc2 = os.getenv("HOME")
+
+def promptUser(prompt, default):
+    inp = raw_input("%s [%s]> " % (prompt, default))
+
+    if inp == "":
+        return default
+    else:
+        return inp
+
+def promptYesNo(prompt, default=True):
+    inp = False if promptUser(prompt, "y") == "n" else True
+    return inp
+
+configflags = ["./configure"]
+
+art = """
+                     _                ___  ____    ____     _ 
+  ___  _   _  _ __  | |_  __ _ __  __|_ _||  _ \  / ___| __| |
+ / __|| | | || '_ \ | __|/ _` |\ \/ / | | | |_) || |    / _` |
+ \__ \| |_| || | | || |_| (_| | >  <  | | |  _ < | |___| (_| |
+ |___/ \__, ||_| |_| \__|\__,_|/_/\_\|___||_| \_\ \____|\__,_|
+       |___/                                                v3
+"""
+
+welcome ="""
+Welcome to the syntaxIRCd Configuration script. This script will help you choose the
+best compile flags for your installation of syntaxIRCd, whilst install is restricted to /home/<username>/ircd
+"""
+
+print(art)
+print(welcome)
+
+print("")
+
+print("Please specify the maximum nickname length. This must be the same across")
+print("all servers in your network or you risk desyncs. The maximum is 50.")
+
+nicklen = 100
+while nicklen > 51:
+    if nicklen != 100:
+        print "Error: you must choose a value under 50."
+
+    nicklen = int(promptUser("Maximum nickname length?", "31"))
+
+print("")
+
+print("Would you like to use SSL encryption for client and server links? (Recommended)")
+
+usessl = promptYesNo("SSL? (y/n)")
+
+print("")
+
+print("Would you like to disable small network support? This increases the size")
+print("of a few buffers in the code and can increase performance on large networks.")
+
+smallnet = promptYesNo("Small network? (y/n)")
+
+print("")
+
+print("Would you like to enable IPv6 Support?")
+
+IPv6 = promptYesNo("IPv6? (y/n)")
+
+configflags.append("--prefix=%s" % installloc)
+configflags.append("--with-nicklen=%s" % nicklen)
+
+if usessl:
+    configflags.append("--enable-openssl")
+else:
+    configflags.append("--disable-openssl")
+
+if not smallnet:
+    configflags.append("--enable-small-net")
+else:
+    configflags.append("--disable-small-net")
+
+if IPv6:
+    configflags.append("--enable-ipv6")
+else:
+    configflags.append("")
+
+print("\nThat should be it for now. Running %s" % " ".join(configflags))
+
+print("")
+print("")
+print("")
+raw_input("Press enter to install syntaxIRCd...")
+
+
+
+system(" ".join(configflags))
+
+system("clear")
+
+print(art)
+
+print("""
+Next, run make and make install. Then copy %s/ircd/etc/example.conf to
+%s/ircd/etc/ircd.conf and read through the example configuration completely to make
+sure your install is tailored to your needs. After that, run %s/ircd/bin/ircd
+and start to connect clients and servers as you need.
+
+If you have any problems, please check the documentation in the doc/ folder
+of the source repository. If problems persist please stop by #syntaxIRCD
+on irc.foxatomic.net and ask. Running syntaxIRCd on large networks is not
+recommended (Not sure how stable it is).""" %\
+    (installloc2, installloc2, installloc2))
+
+# vim: set ts=4 sw=4 tw=0 et
