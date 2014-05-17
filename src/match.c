@@ -780,7 +780,7 @@ const unsigned int CharAttrs[] = {
 /* { */ PRINT_C | ALPHA_C | NICK_C | CHAN_C | NONEOS_C | USER_C,
 /* | */ PRINT_C | ALPHA_C | NICK_C | CHAN_C | NONEOS_C | USER_C,
 /* } */ PRINT_C | ALPHA_C | NICK_C | CHAN_C | NONEOS_C | USER_C,
-/* ~ */ PRINT_C | ALPHA_C | CHAN_C | NONEOS_C | USER_C,
+/* ~ */ PRINT_C | NICK_C | DIGIT_C | ALPHA_C | CHAN_C | NONEOS_C | USER_C,
 /* del  */ CHAN_C | NONEOS_C,
 /* 0x80 */ CHAN_C | NONEOS_C,
 /* 0x81 */ CHAN_C | NONEOS_C,
