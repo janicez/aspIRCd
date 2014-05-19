@@ -80,7 +80,7 @@ m_quit(struct Client *client_p, struct Client *source_p, int parc, const char *p
 	   (source_p->localClient->firsttime + ConfigFileEntry.anti_spam_exit_message_time) >
 	   rb_current_time())
 	{
-		exit_client(client_p, source_p, source_p, "Client Quit");
+		exit_client(client_p, source_p, source_p, "Anti-Spam quit enabled.");
 		return 0;
 	}
 
