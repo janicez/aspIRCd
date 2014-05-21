@@ -35,7 +35,7 @@ ircd_t syntaxIRCd = {
         "+q",                           /* Mode we set for owner. */
         "+a",                           /* Mode we set for protect. */
         "+h",                           /* Mode we set for halfops. */
-	PROTOCOL_SORCERY,		/* Protocol type */
+	PROTOCOL_SHADOWIRCD,		/* Protocol type */
 	CMODE_PERM,                     /* Permanent cmodes */
 	CMODE_IMMUNE,                   /* Oper-immune cmode */
 	"beIy",                         /* Ban-like cmodes */
@@ -132,6 +132,11 @@ static void dakota_chan_lowerts(channel_t *c, user_t *u)
                 chanban_clear(c);
 }
 
+static bool dakota_is_valid_host(const char *host)
+
+{
+	return true;
+}
 
 void _modinit(module_t * m)
 {
@@ -143,6 +148,7 @@ void _modinit(module_t * m)
         chan_lowerts = &dakota_chan_lowerts;
 	status_mode_list = syntaxircd_status_mode_list;
 	prefix_mode_list = syntaxircd_prefix_mode_list;
+        is_valid_host = &dakota_is_valid_host;
 
 	ircd = &syntaxIRCd;
 
