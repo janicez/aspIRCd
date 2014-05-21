@@ -14,7 +14,7 @@
 #include "pmodule.h"
 #include "protocol/shadowircd.h"
 
-DECLARE_MODULE_V1("protocol/syntaxircd", true, _modinit, NULL, PACKAGE_STRING, "Syntaxnode <support@syntaxnode.co.uk>");
+DECLARE_MODULE_V1("protocol/syntaxircd", true, _modinit, NULL, PACKAGE_STRING, "SyntaxIRCd <root@foxatomic.net>");
 
 /* *INDENT-OFF* */
 
