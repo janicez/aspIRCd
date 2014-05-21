@@ -78,7 +78,7 @@ build:
 		revh=`hg parents --template '{date|shortdate}_{node|short}' 2>/dev/null | sed -e s/-//g -e s/_/-/`;\
 		[ -z "$$revh" ] || echo '#define SERNO "'$$revh'"' >include/serno.h ; \
 	fi
-	@[ -f include/serno.h ] || echo '#define SERNO "crames"' >include/serno.h
+	@[ -f include/serno.h ] || echo '#define SERNO "crack"' >include/serno.h
 	@for i in $(SUBDIRS); do \
 		echo "build ==> $$i";\
 		cd $$i;\
