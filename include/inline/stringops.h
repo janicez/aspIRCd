@@ -2,7 +2,7 @@
  *  charybdis: an advanced ircd.
  *  inline/stringops.h: inlined string operations used in a few places
  *
- *  Copyright (c) 2005-2008 charybdis development team
+ *  Copyright (c) 2005-2014 charybdis development team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
