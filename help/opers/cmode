@@ -20,7 +20,7 @@ NO PARAMETERS:
      +r     - Registered users only.  Only users identified to services
               may join.
      +c     - No color.  All color codes in messages are stripped.
-     +d     - No nick changes. People on the channel will not be able to
+     +N     - No nick changes. People on the channel will not be able to
               change nick.
      +g     - Free invite.  Everyone may invite users.  Significantly
               weakens +i control.
@@ -69,14 +69,15 @@ WITH PARAMETERS:
               PARAMS: /mode #channel +l limit
      +v     - Voice.  Allows a user to talk in a +m channel.  Noted by +nick.
               PARAMS: /mode #channel +v nick
-   ^ +h     - Halfop.  Grants channel half-operator status.
+     +h     - Halfop.  Grants channel half-operator status.
               PARAMS: /mode #channel +h nick
      +o     - Op.  Grants channel operator status.
               PARAMS: /mode #channel +o nick
-   ^ +a     - Admin.  Grants channel administrator status.
+     +a     - Admin.  Grants channel administrator status.
               PARAMS: /mode #channel +a nick
-   ^ +y     - Owner. Grants channel owner status.
-              PARAMS: /mode #channel +y nick
+
+     +q     - Owner. Grants channel owner status.
+              PARAMS: /mode #channel +q nick
      +b     - Ban.  Prevents a user from entering the channel, and from
               sending or changing nick if they are on it, based on a 
               nick!ident@host match.
