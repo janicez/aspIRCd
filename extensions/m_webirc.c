@@ -68,7 +68,7 @@ DECLARE_MODULE_AV1(webirc, NULL, NULL, webirc_clist, NULL, NULL, "$Revision: 207
  * mr_webirc - webirc message handler
  *      parv[1] = password
  *      parv[2] = fake username (we ignore this)
- *	parv[3] = fake hostname 
+ *	parv[3] = fake hostname
  *	parv[4] = fake ip
  */
 static int
@@ -83,7 +83,7 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 		return 0;
 	}
 
-	aconf = find_address_conf(client_p->host, client_p->sockhost, 
+	aconf = find_address_conf(client_p->host, client_p->sockhost,
 				IsGotId(client_p) ? client_p->username : "webirc",
 				IsGotId(client_p) ? client_p->username : "webirc",
 				(struct sockaddr *) &client_p->localClient->ip,
@@ -116,17 +116,17 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 	}
 
 
-	rb_strlcpy(source_p->sockhost, parv[4], sizeof(source_p->sockhost));
+	rb_strlcpy(source_p->sockhost, parv[3], sizeof(source_p->sockhost));
 
 	if(strlen(parv[3]) <= HOSTLEN)
 		rb_strlcpy(source_p->host, parv[3], sizeof(source_p->host));
 	else
 		rb_strlcpy(source_p->host, source_p->sockhost, sizeof(source_p->host));
-	
+
 	rb_inet_pton_sock(parv[4], (struct sockaddr *)&source_p->localClient->ip);
 
 	/* Check dlines now, klines will be checked on registration */
-	if((aconf = find_dline((struct sockaddr *)&source_p->localClient->ip, 
+	if((aconf = find_dline((struct sockaddr *)&source_p->localClient->ip,
 			       source_p->localClient->ip.ss_family)))
 	{
 		if(!(aconf->status & CONF_EXEMPTDLINE))
@@ -136,6 +136,6 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 		}
 	}
 
-	sendto_one(source_p, "NOTICE * :CGI:IRC host/IP set to %s %s", parv[3], parv[4]);
+	sendto_one(source_p, "NOTICE * :Congratulations, your host is reset via I:line: %s %s", parv[3], parv[4]);
 	return 0;
 }
