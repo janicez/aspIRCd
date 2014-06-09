@@ -73,8 +73,8 @@ int user_modes[256] = {
 	0,			/* E */
 	0,			/* F */
 	UMODE_SCALLERID,	/* G */
-	0,			/* H */
-	UMODE_HIDECHANS,	/* I */
+	UMODE_HIDECHANS,	/* H */
+	0,	                /* I */
 	0,			/* J */
 	0,			/* K */
 	0,			/* L */
