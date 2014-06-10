@@ -1955,7 +1955,7 @@ struct ChannelMode chmode_table[256] =
 
   {chm_nosuch,	0 },			/* @ */
   {chm_nosuch,	0 },			/* A */
-  {chm_nosuch,	0 },			/* B */
+  {chm_simple,	MODE_HIDEBANS },	/* B */
   {chm_simple,	MODE_NOCTCP },		/* C */
   {chm_simple,	MODE_NOACTION },	/* D */
   {chm_simple,	MODE_NOKICK },		/* E */
@@ -2006,12 +2006,12 @@ struct ChannelMode chmode_table[256] =
   {chm_simple,  MODE_REGONLY },		/* r */
   {chm_simple,	MODE_SECRET },		/* s */
   {chm_simple,	MODE_TOPICLIMIT },	/* t */
-  {chm_simple,	MODE_HIDEBANS },	/* u */
+  {chm_simple,	MODE_OPMODERATE },	/* u */
   {chm_voice,	0 },			/* v */
   {chm_nosuch,	0 },			/* w */
   {chm_nosuch,	0 },			/* x */
   {chm_ban,     CHFL_QUIET },  		/* y */
-  {chm_simple,	MODE_OPMODERATE },	/* z */
+  {chm_nosuch,	0 },	                /* z */
 
   {chm_nosuch,  0 },			/* 0x7b */
   {chm_nosuch,  0 },			/* 0x7c */
