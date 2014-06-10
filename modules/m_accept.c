@@ -127,6 +127,7 @@ m_accept(struct Client *client_p, struct Client *source_p, int parc, const char 
 		/* why is this here? */
 		/* del_from accept(target_p, source_p); */
 		add_accept(source_p, target_p);
+                sendto_one(target_p, ":%s!%s@%s PRIVMSG %s :You have been accepted. Please resend your message(s).", source_p->name, source_p->username, source_p->host, target_p->name);
 	}
 
 	return 0;

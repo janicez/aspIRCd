@@ -875,9 +875,28 @@ msg_client(int p_or_n, const char *command,
 			else if (IsSetSCallerId(target_p) && !has_common_channel(source_p, target_p))
 			{
 				if (p_or_n != NOTICE)
-					sendto_one_numeric(source_p, ERR_NOCOMMONCHAN,
+				{	sendto_one_numeric(source_p, ERR_NOCOMMONCHAN,
 							form_str(ERR_NOCOMMONCHAN),
 							target_p->name);
+					sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :I am using usermode +G, a variant of +g that allows users on the same channels as I to message me. You are not in any common channels with me. Please stand by for confirmation.",
+						   target_p->name, target_p->username, target_p->host, source_p->name); }
+				if((target_p->localClient->last_caller_id_time +
+				    ConfigFileEntry.caller_id_wait) < rb_current_time())
+				{
+					if(p_or_n != NOTICE)
+						sendto_one_numeric(source_p, RPL_TARGNOTIFY,
+								   form_str(RPL_TARGNOTIFY),
+								   target_p->name);
+
+					add_reply_target(target_p, source_p);
+					sendto_one(target_p, form_str(RPL_UMODEGMSG),
+						   me.name, target_p->name, source_p->name,
+						   source_p->username, source_p->host);
+					sendto_one(target_p, ":%s!%s@%s NOTICE %s :I am messaging you, and you are in caller-ID except-common-channels secure query mode (+G). If you would like to talk to me, please /ACCEPT %s",
+						   source_p->name, source_p->username, source_p->host, target_p->name, source_p->name);
+
+					target_p->localClient->last_caller_id_time = rb_current_time();
+				}
 			}
 			else
 			{
@@ -887,6 +906,8 @@ msg_client(int p_or_n, const char *command,
 					sendto_one_numeric(source_p, ERR_TARGUMODEG,
 							   form_str(ERR_TARGUMODEG),
 							   target_p->name);
+					sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :I am using usermode +g, a server-side secure-queries event system invented by the IRCd-Hybrid developers. Please stand by for confirmation.",
+						   target_p->name, target_p->username, target_p->host, source_p->name);
 				}
 
 				if((target_p->localClient->last_caller_id_time +
@@ -901,6 +922,8 @@ msg_client(int p_or_n, const char *command,
 					sendto_one(target_p, form_str(RPL_UMODEGMSG),
 						   me.name, target_p->name, source_p->name,
 						   source_p->username, source_p->host);
+					sendto_one(target_p, ":%s!%s@%s NOTICE %s :I am messaging you, and you are in caller-ID secure query mode (+g). If you would like to talk to me, please /ACCEPT %s",
+						   source_p->name, source_p->username, source_p->host, target_p->name, source_p->name);
 
 					target_p->localClient->last_caller_id_time = rb_current_time();
 				}
@@ -961,10 +984,6 @@ flood_attack_client(int p_or_n, struct Client *source_p, struct Client *target_p
 						     source_p->name, source_p->username,
 						     source_p->orighost,
 						     source_p->servptr->name, target_p->name);
-				sendto_server(NULL, NULL, CAP_TS6, NOCAPS,
-						     ":%s ENCAP * SNOTE b :Possible Flooder %s[%s@%s] on %s target: %s",
-						      me.id, source_p->name, source_p->username, source_p->orighost,
-						      source_p->servptr->name, target_p->name);
 				target_p->flood_noticed = 1;
 				/* add a bit of penalty */
 				target_p->received_number_of_privmsgs += 2;
