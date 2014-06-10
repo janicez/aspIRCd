@@ -93,7 +93,7 @@ m_part(struct Client *client_p, struct Client *source_p, int parc, const char *p
  * 		- pointer to source client to remove
  *		- char pointer of name of channel to remove from
  * output	- none
- * side effects	- remove ONE client given the channel name 
+ * side effects	- remove ONE client given the channel name
  */
 static void
 part_one_client(struct Client *client_p, struct Client *source_p, char *name, char *reason)
@@ -135,7 +135,7 @@ part_one_client(struct Client *client_p, struct Client *source_p, char *name, ch
 		}
 		sendto_server(client_p, chptr, CAP_TS6, NOCAPS,
 			      ":%s PART %s :%s", use_id(source_p), chptr->chname, reason);
-		sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@%s PART %s :%s",
+		sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@%s PART %s :\"%s\"",
 				     source_p->name, source_p->username,
 				     source_p->host, chptr->chname, reason);
 	}
