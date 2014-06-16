@@ -857,8 +857,8 @@ bt_smalldate(const char *string)
 	lt = gmtime(&t);
 	if(lt == NULL)
 		return NULL;
-	rb_snprintf(buf, sizeof(buf), "%d/%d/%d %02d.%02d",
-		    lt->tm_year + 1900, lt->tm_mon + 1, lt->tm_mday, lt->tm_hour, lt->tm_min);
+	rb_snprintf(buf, sizeof(buf), "%d/%d/%d %02d:%02d",
+		    lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900, lt->tm_hour, lt->tm_min);
 	return buf;
 }
 
