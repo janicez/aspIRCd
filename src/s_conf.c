@@ -294,7 +294,7 @@ check_client(struct Client *client_p, struct Client *source_p, const char *usern
 			break;
 		}
 	case BANNED_CLIENT:
-		exit_client(client_p, client_p, &me, "*** Banned ");
+		exit_client(client_p, client_p, &me, "Banned ");
 		ServerStats.is_ref++;
 		break;
 
