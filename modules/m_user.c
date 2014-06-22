@@ -40,7 +40,7 @@ static int mr_user(struct Client *, struct Client *, int, const char **);
 
 struct Message user_msgtab = {
 	"USER", 0, 0, 0, MFLG_SLOW,
-	{{mr_user, 5}, mg_reg, mg_ignore, mg_ignore, mg_ignore, mg_reg}
+	{{mr_user, 4}, mg_reg, mg_ignore, mg_ignore, mg_ignore, mg_reg}
 };
 
 mapi_clist_av1 user_clist[] = { &user_msgtab, NULL };
@@ -74,7 +74,7 @@ mr_user(struct Client *client_p, struct Client *source_p, int parc, const char *
 	rb_free(source_p->localClient->fullcaps);
 	source_p->localClient->fullcaps = rb_strdup(buf);
 
-	do_local_user(client_p, source_p, parv[1], parv[4]);
+	do_local_user(client_p, source_p, parv[1], EmptyString(parv[4]) ? "-" : parv[4]);
 	return 0;
 }
 
