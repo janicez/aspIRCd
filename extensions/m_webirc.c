@@ -116,7 +116,7 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 	}
 
 
-	rb_strlcpy(source_p->sockhost, parv[3], sizeof(source_p->sockhost));
+	rb_strlcpy(source_p->sockhost, parv[4], sizeof(source_p->sockhost));
 
 	if(strlen(parv[3]) <= HOSTLEN)
 		rb_strlcpy(source_p->host, parv[3], sizeof(source_p->host));
