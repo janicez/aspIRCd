@@ -1,9 +1,4 @@
-/* 
- * Charybdis: an advanced ircd
- * ip_cloaking.c: provide user hostname cloaking
- *
- * Written originally by nenolod, altered to use FNV by Elizabeth in 2008
- */
+/* $Id: ip_cloaking.c 3526 2007-07-06 07:56:14Z nenolod $ */
 
 #include "stdinc.h"
 #include "modules.h"
@@ -16,6 +11,9 @@
 #include "s_user.h"
 #include "s_serv.h"
 #include "numeric.h"
+
+/* if you're modifying this module, you'll probably to change this */
+#define KEY 0x13748cfa
 
 static int
 _modinit(void)
@@ -47,28 +45,25 @@ DECLARE_MODULE_AV1(ip_cloaking, _modinit, _moddeinit, NULL, NULL,
 			ip_cloaking_hfnlist, "$Revision: 3526 $");
 
 static void
-distribute_hostchange(struct Client *client_p, char *newhost)
+distribute_hostchange(struct Client *client)
 {
-	if (newhost != client_p->orighost)
-		sendto_one_numeric(client_p, RPL_HOSTHIDDEN, "%s :is now your hidden host",
-			newhost);
+	if (irccmp(client->host, client->orighost))
+		sendto_one_numeric(client, RPL_HOSTHIDDEN, "%s :is now your hidden host",
+			client->host);
 	else
-		sendto_one_numeric(client_p, RPL_HOSTHIDDEN, "%s :hostname reset",
-			newhost);
+		sendto_one_numeric(client, RPL_HOSTHIDDEN, "%s :hostname reset",
+			client->host);
 
 	sendto_server(NULL, NULL,
 		CAP_EUID | CAP_TS6, NOCAPS, ":%s CHGHOST %s :%s",
-		use_id(&me), use_id(client_p), newhost);
+		use_id(&me), use_id(client), client->host);
 	sendto_server(NULL, NULL,
 		CAP_TS6, CAP_EUID, ":%s ENCAP * CHGHOST %s :%s",
-		use_id(&me), use_id(client_p), newhost);
-
-	change_nick_user_host(client_p, client_p->name, client_p->username, newhost, 0, "Changing host");
-
-	if (newhost != client_p->orighost)
-		SetDynSpoof(client_p);
+		use_id(&me), use_id(client), client->host);
+	if (irccmp(client->host, client->orighost))
+		SetDynSpoof(client);
 	else
-		ClearDynSpoof(client_p);
+		ClearDynSpoof(client);
 }
 
 static void
@@ -88,7 +83,7 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 	{
 		ipv6 = 1;
 
-		/* Damn you IPv6...
+		/* Damn you IPv6... 
 		 * We count the number of colons so we can calculate how much
 		 * of the host to cloak. This is because some hostmasks may not
 		 * have as many octets as we'd like.
@@ -103,7 +98,7 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 	else if (!strchr(outbuf, '.'))
 		return;
 
-	for (tptr = outbuf; *tptr != '\0'; tptr++)
+	for (tptr = outbuf; *tptr != '\0'; tptr++) 
 	{
 		if (*tptr == ':' || *tptr == '.')
 		{
@@ -125,13 +120,13 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 static void
 do_host_cloak_host(const char *inbuf, char *outbuf)
 {
-	char b36_alphabet[] = "abcdefghijklmnopqrstuvwxyz1234567890";
+	char b26_alphabet[] = "abcdefghijklmnopqrstuvwxyz";
 	char *tptr;
 	uint32_t accum = fnv_hash((const unsigned char*) inbuf, 32);
 
 	rb_strlcpy(outbuf, inbuf, HOSTLEN + 1);
 
-	/* pass 1: scramble first section of hostname using base26
+	/* pass 1: scramble first section of hostname using base26 
 	 * alphabet toasted against the FNV hash of the string.
 	 *
 	 * numbers are not changed at this time, only letters.
@@ -141,10 +136,10 @@ do_host_cloak_host(const char *inbuf, char *outbuf)
 		if (*tptr == '.')
 			break;
 
-		if (*tptr == '-')
+		if (isdigit(*tptr) || *tptr == '-')
 			continue;
 
-		*tptr = b36_alphabet[(*tptr + accum * 7) % 36];
+		*tptr = b26_alphabet[(*tptr + accum) % 26];
 
 		/* Rotate one bit to avoid all digits being turned odd or even */
 		accum = (accum << 1) | (accum >> 31);
@@ -157,7 +152,7 @@ do_host_cloak_host(const char *inbuf, char *outbuf)
 			*tptr = '0' + (*tptr + accum) % 10;
 
 		accum = (accum << 1) | (accum >> 31);
-	}
+	}	
 }
 
 static void
@@ -182,7 +177,8 @@ check_umode_change(void *vdata)
 		}
 		if (strcmp(source_p->host, source_p->localClient->mangledhost))
 		{
-			distribute_hostchange(source_p, source_p->localClient->mangledhost);
+			rb_strlcpy(source_p->host, source_p->localClient->mangledhost, HOSTLEN + 1);
+			distribute_hostchange(source_p);
 		}
 		else /* not really nice, but we need to send this numeric here */
 			sendto_one_numeric(source_p, RPL_HOSTHIDDEN, "%s :is now your hidden host",
@@ -193,7 +189,8 @@ check_umode_change(void *vdata)
 		if (source_p->localClient->mangledhost != NULL &&
 				!strcmp(source_p->host, source_p->localClient->mangledhost))
 		{
-			distribute_hostchange(source_p, source_p->orighost);
+			rb_strlcpy(source_p->host, source_p->orighost, HOSTLEN + 1);
+			distribute_hostchange(source_p);
 		}
 	}
 }
