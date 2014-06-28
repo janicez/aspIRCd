@@ -13,7 +13,7 @@
 #include "numeric.h"
 
 /* if you're modifying this module, you'll probably to change this */
-#define KEY 0x13748cfa
+#define KEY 0x13748cfd
 
 static int
 _modinit(void)
@@ -83,7 +83,7 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 	{
 		ipv6 = 1;
 
-		/* Damn you IPv6... 
+		/* Damn you IPv6...
 		 * We count the number of colons so we can calculate how much
 		 * of the host to cloak. This is because some hostmasks may not
 		 * have as many octets as we'd like.
@@ -98,7 +98,7 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 	else if (!strchr(outbuf, '.'))
 		return;
 
-	for (tptr = outbuf; *tptr != '\0'; tptr++) 
+	for (tptr = outbuf; *tptr != '\0'; tptr++)
 	{
 		if (*tptr == ':' || *tptr == '.')
 		{
@@ -120,13 +120,13 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 static void
 do_host_cloak_host(const char *inbuf, char *outbuf)
 {
-	char b26_alphabet[] = "abcdefghijklmnopqrstuvwxyz";
+	char b36_alphabet[] = "abcdefghijklmnopqrstuvwxyz1234567890";
 	char *tptr;
 	uint32_t accum = fnv_hash((const unsigned char*) inbuf, 32);
 
 	rb_strlcpy(outbuf, inbuf, HOSTLEN + 1);
 
-	/* pass 1: scramble first section of hostname using base26 
+	/* pass 1: scramble first section of hostname using base26
 	 * alphabet toasted against the FNV hash of the string.
 	 *
 	 * numbers are not changed at this time, only letters.
@@ -136,10 +136,10 @@ do_host_cloak_host(const char *inbuf, char *outbuf)
 		if (*tptr == '.')
 			break;
 
-		if (isdigit(*tptr) || *tptr == '-')
+		if (*tptr == '-')
 			continue;
 
-		*tptr = b26_alphabet[(*tptr + accum) % 26];
+		*tptr = b36_alphabet[(*tptr + accum) % 36];
 
 		/* Rotate one bit to avoid all digits being turned odd or even */
 		accum = (accum << 1) | (accum >> 31);
@@ -152,7 +152,7 @@ do_host_cloak_host(const char *inbuf, char *outbuf)
 			*tptr = '0' + (*tptr + accum) % 10;
 
 		accum = (accum << 1) | (accum >> 31);
-	}	
+	}
 }
 
 static void
@@ -181,7 +181,7 @@ check_umode_change(void *vdata)
 			distribute_hostchange(source_p);
 		}
 		else /* not really nice, but we need to send this numeric here */
-			sendto_one_numeric(source_p, RPL_HOSTHIDDEN, "%s :is now your hidden host",
+			sendto_one_numeric(source_p, RPL_HOSTHIDDEN, "%s :is now your cloaked host",
 				source_p->host);
 	}
 	else if (!(source_p->umodes & user_modes['x']))
