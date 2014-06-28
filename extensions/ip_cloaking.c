@@ -1,4 +1,10 @@
-/* $Id: ip_cloaking.c 3526 2007-07-06 07:56:14Z nenolod $ */
+/*
+ * Charybdis: an advanced ircd
+ * ip_cloaking.c: provide user hostname cloaking
+ *
+ * Written originally by nenolod, altered to use FNV by Elizabeth in 2008
+ * modified by j4jack - errors fixed and a few changes by Craigory in 2014
+ */
 
 #include "stdinc.h"
 #include "modules.h"
@@ -12,7 +18,8 @@
 #include "s_serv.h"
 #include "numeric.h"
 
-/* if you're modifying this module, you'll probably to change this */
+ /* if you're modifying this module, you'll probably to change this */
+
 #define KEY 0x13748cfd
 
 static int
@@ -45,25 +52,28 @@ DECLARE_MODULE_AV1(ip_cloaking, _modinit, _moddeinit, NULL, NULL,
 			ip_cloaking_hfnlist, "$Revision: 3526 $");
 
 static void
-distribute_hostchange(struct Client *client)
+distribute_hostchange(struct Client *client_p, char *newhost)
 {
-	if (irccmp(client->host, client->orighost))
-		sendto_one_numeric(client, RPL_HOSTHIDDEN, "%s :is now your hidden host",
-			client->host);
+	if (newhost != client_p->orighost)
+		sendto_one_numeric(client_p, RPL_HOSTHIDDEN, "%s :is now your hidden host",
+			newhost);
 	else
-		sendto_one_numeric(client, RPL_HOSTHIDDEN, "%s :hostname reset",
-			client->host);
+		sendto_one_numeric(client_p, RPL_HOSTHIDDEN, "%s :hostname reset",
+			newhost);
 
 	sendto_server(NULL, NULL,
 		CAP_EUID | CAP_TS6, NOCAPS, ":%s CHGHOST %s :%s",
-		use_id(&me), use_id(client), client->host);
+		use_id(&me), use_id(client_p), newhost);
 	sendto_server(NULL, NULL,
 		CAP_TS6, CAP_EUID, ":%s ENCAP * CHGHOST %s :%s",
-		use_id(&me), use_id(client), client->host);
-	if (irccmp(client->host, client->orighost))
-		SetDynSpoof(client);
+		use_id(&me), use_id(client_p), newhost);
+
+	change_nick_user_host(client_p, client_p->name, client_p->username, newhost, 0, "Changing host");
+
+	if (newhost != client_p->orighost)
+		SetDynSpoof(client_p);
 	else
-		ClearDynSpoof(client);
+		ClearDynSpoof(client_p);
 }
 
 static void
@@ -83,7 +93,7 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 	{
 		ipv6 = 1;
 
-		/* Damn you IPv6...
+		/* Damn you IPv6... 
 		 * We count the number of colons so we can calculate how much
 		 * of the host to cloak. This is because some hostmasks may not
 		 * have as many octets as we'd like.
@@ -177,11 +187,10 @@ check_umode_change(void *vdata)
 		}
 		if (strcmp(source_p->host, source_p->localClient->mangledhost))
 		{
-			rb_strlcpy(source_p->host, source_p->localClient->mangledhost, HOSTLEN + 1);
-			distribute_hostchange(source_p);
+			distribute_hostchange(source_p, source_p->localClient->mangledhost);
 		}
 		else /* not really nice, but we need to send this numeric here */
-			sendto_one_numeric(source_p, RPL_HOSTHIDDEN, "%s :is now your cloaked host",
+			sendto_one_numeric(source_p, RPL_HOSTHIDDEN, "%s :is now your hidden host",
 				source_p->host);
 	}
 	else if (!(source_p->umodes & user_modes['x']))
@@ -189,8 +198,7 @@ check_umode_change(void *vdata)
 		if (source_p->localClient->mangledhost != NULL &&
 				!strcmp(source_p->host, source_p->localClient->mangledhost))
 		{
-			rb_strlcpy(source_p->host, source_p->orighost, HOSTLEN + 1);
-			distribute_hostchange(source_p);
+			distribute_hostchange(source_p, source_p->orighost);
 		}
 	}
 }
