@@ -1317,7 +1317,7 @@ expire_prop_bans(void *list)
 			if(ConfigFileEntry.tkline_expire_notices &&
 					!(aconf->status & CONF_ILLEGAL))
 				sendto_realops_snomask(SNO_GENERAL, L_ALL,
-						     "Propagated ban for [%s%s%s] expired",
+						     "Timed K-Line for [%s%s%s] has expired",
 						     aconf->user ? aconf->user : "",
 						     aconf->user ? "@" : "",
 						     aconf->host ? aconf->host : "*");
