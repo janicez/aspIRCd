@@ -477,7 +477,7 @@ register_local_user(struct Client *client_p, struct Client *source_p, const char
 					source_p->name, source_p->username, source_p->sockhost, source_p->preClient->dnsbl_listed->host);
 
 			add_reject(source_p, NULL, NULL);
-			exit_client(client_p, source_p, &me, "*** Banned (DNS blacklist)");
+			exit_client(client_p, source_p, &me, "Banned (DNS blacklist)");
 			return CLIENT_EXITED;
 		}
 	}

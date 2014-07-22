@@ -75,8 +75,8 @@ reject_exit(void *unused)
 {
 	rb_dlink_node *ptr, *ptr_next;
 	delay_t *ddata;
-	static const char *errbuf = "ERROR :Closing Link: (*** Banned (cache))\r\n";
-	
+	static const char *errbuf = "ERROR :Closing Link: (Banned (cache))\r\n";
+
 	RB_DLINK_FOREACH_SAFE(ptr, ptr_next, delay_exit.head)
 	{
 		ddata = ptr->data;
