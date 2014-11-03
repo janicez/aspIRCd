@@ -544,7 +544,7 @@ main(int argc, char *argv[])
 	/* Check to see if the user is running us as root, which is a nono */
 	if(geteuid() == 0)
 	{
-		fprintf(stderr, "Don't run ircd as root!!!\n");
+		fprintf(stderr, "We don't allow IRCd to be run under root. Use a normal user idiot!!\n");
 		return -1;
 	}
 
@@ -553,7 +553,7 @@ main(int argc, char *argv[])
 	ConfigFileEntry.dpath = DPATH;
 	ConfigFileEntry.configfile = CPATH;	/* Server configuration file */
 	ConfigFileEntry.connect_timeout = 30;	/* Default to 30 */
-	
+
 	umask(077);		/* better safe than sorry --SRB */
 
 	myargv = argv;
