@@ -20,7 +20,7 @@ NO PARAMETERS:
      +r     - Registered users only.  Only users identified to services
               may join.
      +c     - No color.  All color codes in messages are stripped.
-     +d     - No nickchanges. People on the channel will not be able to
+     +N     - No nickchanges. People on the channel will not be able to
               change nick.
      +g     - Free invite.  Everyone may invite users.  Significantly
               weakens +i control.
