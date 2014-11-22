@@ -56,6 +56,10 @@ extb_server.so
 matches users connected to a server matching the mask (* and ? wildcards);
 this can only be used with +b and +y
 
+extb_usermode.so
+        $m:<mode>
+matches users with selected user modes ($m:b - would prevent bots)        
+
 Comparisons:
 
 +b $~a is similar to +r but also prevents not logged in users talking or
