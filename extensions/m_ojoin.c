@@ -87,15 +87,15 @@ mo_ojoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 		parv[1]--;
 
 	sendto_wallops_flags(UMODE_WALLOP, &me,
-			     "OJOIN called for %s by %s!%s@%s",
-			     parv[1], source_p->name, source_p->username, source_p->host);
+			     "OJOIN called for %s by %s",
+			     parv[1], source_p->name);
 	ilog(L_MAIN, "OJOIN called for %s by %s",
 	     parv[1], get_oper_name(source_p));
 	/* only sends stuff for #channels remotely */
 	sendto_server(NULL, chptr, NOCAPS, NOCAPS,
-			":%s WALLOPS :OJOIN called for %s by %s!%s@%s",
+			":%s WALLOPS :OJOIN called for %s by %s",
 			me.name, parv[1],
-			source_p->name, source_p->username, source_p->host);
+			source_p->name);
 
         if(*parv[1] == '~' && ConfigChannel.use_owner)
         {
