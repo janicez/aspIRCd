@@ -1,4 +1,5 @@
 # syntaxIRCd
+[![Build Status](https://travis-ci.org/IRCdDev/syntaxIRCd.svg?branch=master)](https://travis-ci.org/IRCdDev/syntaxIRCd)
 
 **syntaxIRCd** is a high performance, lightweight, and scalable
 IRC daemon. It is a fork of the now-defunct ShadowIRCD and seeks to continue in
