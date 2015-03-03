@@ -25,6 +25,6 @@ directions.
 ## Support
 
 The official channel for syntaxIRCd is `#syntaxIRCd` on
-`irc.foxatomic.net`. 
+`irc.letstalkcoding.net`. 
 
 Please use ***GitHub issue tracker*** for any issues
