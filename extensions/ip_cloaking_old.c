@@ -1,4 +1,5 @@
 /* $Id: ip_cloaking_old.c 3522 2007-07-06 07:48:28Z nenolod $ */
+/* Old cloaking with slight changes made by Craigory, change mode +h to +x */
 
 #include "stdinc.h"
 #include "modules.h"
@@ -12,13 +13,13 @@
 #include "numeric.h"
 
 /* if you're modifying this module, you'll probably to change this */
-#define KEY 0x13748cfa
+#define KEY 0x13948cfa
 
 static int
 _modinit(void)
 {
 	/* add the usermode to the available slot */
-	user_modes['h'] = find_umode_slot();
+	user_modes['x'] = find_umode_slot();
 	construct_umodebuf();
 
 	return 0;
@@ -28,7 +29,7 @@ static void
 _moddeinit(void)
 {
 	/* disable the umode and remove it from the available list */
-	user_modes['h'] = 0;
+	user_modes['x'] = 0;
 	construct_umodebuf();
 }
 
@@ -93,8 +94,8 @@ do_host_cloak(const char *inbuf, char *outbuf, int ipmask)
 
 	if (ipmask == 0)
 	{
-		rb_snprintf(outbuf, HOSTLEN, "%s-%X%X",
-			ServerInfo.network_name, hosthash2, hosthash);
+		rb_snprintf(outbuf, HOSTLEN, "cloaked-%x",
+			hosthash2);
 		len1 = strlen(outbuf);
 		rest = strchr(inbuf, '.');
 		if (rest == NULL)
@@ -105,8 +106,8 @@ do_host_cloak(const char *inbuf, char *outbuf, int ipmask)
 		rb_strlcat(outbuf, rest, HOSTLEN);
 	}
 	else
-		rb_snprintf(outbuf, HOSTLEN, "%X%X.%s",
-			hosthash2, hosthash, ServerInfo.network_name);
+		rb_snprintf(outbuf, HOSTLEN, "cloaked-%x.%x.IP",
+			hosthash, hosthash2);
 }
 
 static void
@@ -119,14 +120,14 @@ check_umode_change(void *vdata)
 		return;
 
 	/* didn't change +h umode, we don't need to do anything */
-	if (!((data->oldumodes ^ source_p->umodes) & user_modes['h']))
+	if (!((data->oldumodes ^ source_p->umodes) & user_modes['x']))
 		return;
 
-	if (source_p->umodes & user_modes['h'])
+	if (source_p->umodes & user_modes['x'])
 	{
 		if (IsIPSpoof(source_p) || source_p->localClient->mangledhost == NULL || (IsDynSpoof(source_p) && strcmp(source_p->host, source_p->localClient->mangledhost)))
 		{
-			source_p->umodes &= ~user_modes['h'];
+			source_p->umodes &= ~user_modes['x'];
 			return;
 		}
 		if (strcmp(source_p->host, source_p->localClient->mangledhost))
@@ -137,7 +138,7 @@ check_umode_change(void *vdata)
 			sendto_one_numeric(source_p, RPL_HOSTHIDDEN, "%s :is now your hidden host",
 				source_p->host);
 	}
-	else if (!(source_p->umodes & user_modes['h']))
+	else if (!(source_p->umodes & user_modes['x']))
 	{
 		if (source_p->localClient->mangledhost != NULL &&
 				!strcmp(source_p->host, source_p->localClient->mangledhost))
@@ -154,7 +155,7 @@ check_new_user(void *vdata)
 
 	if (IsIPSpoof(source_p))
 	{
-		source_p->umodes &= ~user_modes['h'];
+		source_p->umodes &= ~user_modes['x'];
 		return;
 	}
 	source_p->localClient->mangledhost = rb_malloc(HOSTLEN);
@@ -163,11 +164,12 @@ check_new_user(void *vdata)
 	else
 		do_host_cloak(source_p->orighost, source_p->localClient->mangledhost, 0);
 	if (IsDynSpoof(source_p))
-		source_p->umodes &= ~user_modes['h'];
-	if (source_p->umodes & user_modes['h'])
+		source_p->umodes &= ~user_modes['x'];
+	if (source_p->umodes & user_modes['x'])
 	{
 		rb_strlcpy(source_p->host, source_p->localClient->mangledhost, sizeof(source_p->host));
 		if (irccmp(source_p->host, source_p->orighost))
 			SetDynSpoof(source_p);
 	}
 }
+ 
