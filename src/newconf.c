@@ -617,7 +617,7 @@ conf_end_oper(struct TopConf *tc)
 						yy_tmpoper->name);
 				return 0;
 			}
-				
+
 			yy_tmpoper->rsa_pubkey =
 				(RSA *) PEM_read_bio_RSA_PUBKEY(file, NULL, 0, NULL);
 
@@ -908,12 +908,12 @@ conf_set_listen_port_both(void *data, int ssl)
 #ifdef RB_IPV6
 			if(strchr(listener_address, ':') != NULL)
 				family = AF_INET6;
-			else 
+			else
 #endif
 				family = AF_INET;
-		
+
 			add_listener(args->v.number, listener_address, family, ssl, yy_defer_accept);
-                
+
                 }
 
 	}
@@ -999,7 +999,7 @@ conf_end_auth(struct TopConf *tc)
 
 		if(yy_aconf->spasswd)
 			yy_tmp->spasswd = rb_strdup(yy_aconf->spasswd);
-		
+
 		/* this will always exist.. */
 		yy_tmp->info.name = rb_strdup(yy_aconf->info.name);
 
@@ -1674,7 +1674,7 @@ conf_set_general_default_umodes(void *data)
 			}
 			break;
 		}
-	}			
+	}
 }
 
 static void
@@ -1909,7 +1909,7 @@ cleanup_bl:
 		yy_blacklist_host = NULL;
 		yy_blacklist_reason = NULL;
 		yy_blacklist_ipv4 = 1;
-		yy_blacklist_ipv6 = 0; 
+		yy_blacklist_ipv6 = 0;
 	}
 }
 
@@ -2295,6 +2295,7 @@ static struct ConfEntry conf_general_table[] =
 	{ "dline_with_reason",	CF_YESNO, NULL, 0, &ConfigFileEntry.dline_with_reason	},
 	{ "kline_with_reason",	CF_YESNO, NULL, 0, &ConfigFileEntry.kline_with_reason	},
 	{ "map_oper_only",	CF_YESNO, NULL, 0, &ConfigFileEntry.map_oper_only	},
+        { "links_oper_only",    CF_YESNO, NULL, 0, &ConfigFileEntry.links_oper_only	},
 	{ "max_accept",		CF_INT,   NULL, 0, &ConfigFileEntry.max_accept		},
 	{ "max_monitor",	CF_INT,   NULL, 0, &ConfigFileEntry.max_monitor		},
 	{ "max_nick_time",	CF_TIME,  NULL, 0, &ConfigFileEntry.max_nick_time	},
