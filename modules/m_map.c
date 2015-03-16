@@ -66,11 +66,6 @@ m_map(struct Client *client_p, struct Client *source_p, int parc, const char *pa
         return 0;
 }
 
-	dump_map(client_p, &me, buf);
-	sendto_one_numeric(client_p, RPL_MAPEND, form_str(RPL_MAPEND));
-	return 0;
-}
-
 /*
 ** mo_map
 */
