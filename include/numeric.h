@@ -301,6 +301,7 @@ extern const char *form_str(int);
 #define ERR_BANNEDNICK       485
 #define ERR_NONONREG         486 /* bahamut; aka ERR_ACCOUNTONLY asuka -- jilles */
 #define ERR_LINKSOP          487
+#define ERR_MAPOP            488
 #define ERR_VOICENEEDED		489
 
 #define ERR_NOOPERHOST       491
