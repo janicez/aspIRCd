@@ -78,7 +78,7 @@ do_host_cloak(const char *inbuf, char *outbuf, int ipmask)
 	int len1;
 	const char *rest, *next;
 
-	for (cyc = 0; cyc < maxcycle - 2; cyc += 2)
+	for (cyc = 0; cyc < maxcycle - 2; cyc += 5)
 		hosthash *= (unsigned int) inbuf[cyc];
 
 	/* safety: decrement ourselves two steps back */
@@ -94,8 +94,8 @@ do_host_cloak(const char *inbuf, char *outbuf, int ipmask)
 
 	if (ipmask == 0)
 	{
-		rb_snprintf(outbuf, HOSTLEN, "cloaked-%x",
-			hosthash2);
+		rb_snprintf(outbuf, HOSTLEN, "%s-%x",
+			ConfigFileEntry.custom_cloak, hosthash);
 		len1 = strlen(outbuf);
 		rest = strchr(inbuf, '.');
 		if (rest == NULL)
@@ -106,8 +106,8 @@ do_host_cloak(const char *inbuf, char *outbuf, int ipmask)
 		rb_strlcat(outbuf, rest, HOSTLEN);
 	}
 	else
-		rb_snprintf(outbuf, HOSTLEN, "cloaked-%x.%x.IP",
-			hosthash, hosthash2);
+		rb_snprintf(outbuf, HOSTLEN, "%s-%x.%x.IP",
+			ConfigFileEntry.custom_cloak, hosthash, hosthash2);
 }
 
 static void

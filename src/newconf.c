@@ -2294,6 +2294,7 @@ static struct ConfEntry conf_general_table[] =
 	{ "hide_spoof_ips",	CF_YESNO, NULL, 0, &ConfigFileEntry.hide_spoof_ips	},
 	{ "dline_with_reason",	CF_YESNO, NULL, 0, &ConfigFileEntry.dline_with_reason	},
 	{ "kline_with_reason",	CF_YESNO, NULL, 0, &ConfigFileEntry.kline_with_reason	},
+        { "custom_cloak",       CF_QSTRING, NULL, 0, &ConfigFileEntry.custom_cloak      },
 	{ "map_oper_only",	CF_YESNO, NULL, 0, &ConfigFileEntry.map_oper_only	},
         { "links_oper_only",    CF_YESNO, NULL, 0, &ConfigFileEntry.links_oper_only	},
 	{ "max_accept",		CF_INT,   NULL, 0, &ConfigFileEntry.max_accept		},
