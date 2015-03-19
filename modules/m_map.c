@@ -51,18 +51,16 @@ static char buf[BUFSIZE];
 static int
 m_map(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-	if(ConfigFileEntry.map_oper_only)
+        if((!IsExemptShide(source_p) && ConfigServerHide.flatten_links) ||
+           ConfigFileEntry.map_oper_only)
         {
                 sendto_one_numeric(source_p, ERR_MAPOP,
                                    form_str(ERR_MAPOP));
                 return 0;
         }
 
-        if(ConfigServerHide.flatten_links && !IsExemptShide(source_p))
-                scache_send_flattened_links(source_p);
-        else
-                m_not_oper(client_p, source_p, parc, parv);
-
+        dump_map(client_p, &me, buf);
+        sendto_one_numeric(client_p, RPL_MAPEND, form_str(RPL_MAPEND));
         return 0;
 }
 
