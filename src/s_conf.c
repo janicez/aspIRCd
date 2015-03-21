@@ -1074,6 +1074,11 @@ validate_conf(void)
                                 cflag_orphan('B');
                                 continue;
                         }
+                        if(*dm == 'u')
+                        {
+                                cflag_orphan('u');
+                                continue;
+                        }
 		}
 	}
 	construct_cflag_param_string();
