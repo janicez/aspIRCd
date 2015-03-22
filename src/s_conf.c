@@ -1001,9 +1001,9 @@ validate_conf(void)
 				cflag_orphan('Q');
 				continue;
 			}
-			if(*dm == 'q')
+			if(*dm == 'y')
 			{
-				cflag_orphan('q');
+				cflag_orphan('y');
 				continue;
 			}
 			if(*dm == 'I')
