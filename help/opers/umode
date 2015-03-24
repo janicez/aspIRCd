@@ -8,6 +8,7 @@ User modes: (* designates that the umode is oper only)
 -----------------------------------------------------------------
          +i     - Designates this client 'invisible'.
          +g     - "caller id" mode only allow accept clients to message you
+         +n     - Is connected via a web client (set only on connection).
          +w     - Can see oper and server wallops.
        ? +x     - Has a cloaked host.
          +o     - Designates that this client is an IRC Operator.
@@ -28,4 +29,3 @@ User modes: (* designates that the umode is oper only)
          +H     - Prevents non-opers from seeing your channel list in
                   a whois query.
          +Z     - Is connected via SSL (set only on connection).
-         +W - Is connected via a web client (set only on connection).

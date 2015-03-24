@@ -9,6 +9,7 @@ User modes: (? designates that the umode is provided by an extension
                   Use the /oper command to attain this.
          +i     - Designates this client 'invisible'.
          +g     - "caller id" mode only allow accept clients to message you
+         +n     - Is connected via a web client (set only on connection).
          +w     - Can see oper wallops.
        ? +x     - Has a cloaked host.
          +B     - Marks you as a bot in /whois.
@@ -22,4 +23,3 @@ User modes: (? designates that the umode is provided by an extension
                   anyone who's in a common channel with you to message you.
          +V     - Prevents you from receiving invites.
          +Z     - Is connected via SSL (set only on connection).
-         +W - Is connected via a web client (set only on connection).
