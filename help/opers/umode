@@ -18,7 +18,7 @@ User modes: (* designates that the umode is oper only)
        * +s     - Can see server notices (see /quote help snomask).
        * +z     - Can see operwalls.
        * +p     - Override - gives you implicit operator access in all channels.
-         +b     - Marks you as a bot in /whois.
+         +B     - Marks you as a bot in /whois.
          +C     - Prevents you from receiving CTCPs other than ACTION.
          +D     - Deaf - ignores all channel messages.
          +Q     - Prevents you from being affected by channel forwarding.

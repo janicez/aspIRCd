@@ -67,7 +67,7 @@ int user_modes[256] = {
 	/* 0x30 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x3F */
 	0,			/* @ */
 	0,			/* A */
-	0,		        /* B */
+	UMODE_BOT,	        /* B */
 	UMODE_NOCTCP,		/* C */
 	UMODE_DEAF,		/* D */
 	0,			/* E */
@@ -94,7 +94,7 @@ int user_modes[256] = {
 	UMODE_SSLCLIENT,	/* Z */
 	/* 0x5B */ 0, 0, 0, 0, 0, 0, /* 0x60 */
 	UMODE_ADMIN,		/* a */
-	UMODE_BOT,       	/* b */
+	0,       	        /* b */
 	0,			/* c */
 	0,			/* d */
 	0,			/* e */
