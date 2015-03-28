@@ -8,9 +8,9 @@ dnl said functions need to be just about as complex as they already are.
 AC_PREREQ(2.57)
 
 dnl Sneaky way to get an Id tag into the configure script
-AC_COPYRIGHT([2014 syntaxIRCd])
+AC_COPYRIGHT([2014 sIRCd])
 
-AC_INIT([syntaxIRCd],[1.0.6])
+AC_INIT([sIRCd],[1.0.6])
 
 AC_CONFIG_HEADER(include/setup.h)
 
@@ -1240,5 +1240,5 @@ Configuration:
 	Nickname length    : $NICKLEN
 	Topic length       : $TOPICLEN
 
-Use (g)make to compile syntaxIRCd, then (g)make install to install it.
+Use (g)make to compile sIRCd, then (g)make install to install it.
 "

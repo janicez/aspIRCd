@@ -28,17 +28,18 @@ def promptYesNo(prompt, default=True):
 configflags = ["./configure"]
 
 art = """
-                     _                ___  ____    ____     _ 
-  ___  _   _  _ __  | |_  __ _ __  __|_ _||  _ \  / ___| __| |
- / __|| | | || '_ \ | __|/ _` |\ \/ / | | | |_) || |    / _` |
- \__ \| |_| || | | || |_| (_| | >  <  | | |  _ < | |___| (_| |
- |___/ \__, ||_| |_| \__|\__,_|/_/\_\|___||_| \_\ \____|\__,_|
-       |___/                                                v4
+     _____ _____   _____    _ 
+    |_   _|  __ \ / ____|  | |
+ ___  | | | |__) | |     __| |
+/ __| | | |  _  /| |    / _` |
+\__ \_| |_| | \ \| |___| (_| |
+|___/_____|_|  \_\\_____\__, _|
+                            v6
 """
 
 welcome ="""
-Welcome to the syntaxIRCd Configuration script. This script will help you choose the
-best compile flags for your installation of syntaxIRCd, whilst install is restricted to /home/<username>/ircd
+Welcome to the sIRCd Configuration script. This script will help you choose the
+best compile flags for your installation of sIRCd, whilst install is restricted to /home/<username>/ircd
 """
 
 print(art)
@@ -98,7 +99,7 @@ print("\nThat should be it for now. Running %s" % " ".join(configflags))
 print("")
 print("")
 print("")
-raw_input("Press enter to install syntaxIRCd...")
+raw_input("Press enter to install sIRCd...")
 
 
 
@@ -115,8 +116,8 @@ sure your install is tailored to your needs. After that, run %s/ircd/bin/ircd
 and start to connect clients and servers as you need.
 
 If you have any problems, please check the documentation in the doc/ folder
-of the source repository. If problems persist please stop by #syntaxIRCD
-on irc.foxatomic.net and ask. Running syntaxIRCd on large networks is not
+of the source repository. If problems persist please stop by #sIRCd
+on irc.letstalkcoding.net and ask. Running sIRCd on large networks is not
 recommended (Not sure how stable it is).""" %\
     (installloc2, installloc2, installloc2))
 

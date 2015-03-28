@@ -1,14 +1,10 @@
 $Id: CREDITS 3133 2007-01-21 15:38:16Z jilles $
  
-syntaxIRCd is a fork of the ShadowIRCD/elemental-ircd project created by Craigory.
+sIRCd is a fork of the ShadowIRCD/elemental-ircd project created by Ryan Blake
  
-The syntaxIRCd team is listed in nick-alphabetical order:
+The sIRCd team is listed in nick-alphabetical order:
  
-Adam, Adam Hockley <adam -at- foxatomic.net>
-Craigory, Craig Saunders <root -at- foxatomic.net>
-Jack, RazeFlame <j4jackj -at- gmx.com>
-
-xnull, James Hillier - for testing syntaxIRCd on syntaxnode (Before the projects parted)
+Ryan, Ryan Blake <ryan.blake182 -at- gmail.com>
 
 The elemental-ircd team is listed in nick-alphabetical order:
  
@@ -60,5 +56,5 @@ ThaPrince, Jon Christopherson <jon -at- vile.com>
 twincest, River Tarnell <river -at- attenuate.org>
 w00t, Robin Burchell <surreal.w00t -at- gmail.com>
  
-Visit the syntaxtIRCd repo at: https://github.com/SyntaxIRCd/CustomIRCd
-Visit us on IRC at: irc.foxatomic.net #syntaxIRCd
+Visit the sIRCd repo at: https://github.com/CustomIRCd/sIRCd
+Visit us on IRC at: irc.letstalkcoding.net #syntaxIRCd

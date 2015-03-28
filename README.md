@@ -1,7 +1,7 @@
-# syntaxIRCd
+# sIRCd
 [![Build Status](https://travis-ci.org/CustomIRCd/sIRCd.svg?branch=master)](https://travis-ci.org/CustomIRCd/sIRCd)
 
-**syntaxIRCd** is a high performance, lightweight, and scalable
+**sIRCd** is a high performance, lightweight, and scalable
 IRC daemon. It is a fork of the now-defunct ShadowIRCD and seeks to continue in
 the direction ShadowIRCD was headed.
 
@@ -24,7 +24,7 @@ directions.
 
 ## Support
 
-The official channel for syntaxIRCd is `#syntaxIRCd` on
+The official channel for sIRCd is `#sIRCd` on
 `irc.letstalkcoding.net`. 
 
 Please use ***GitHub issue tracker*** for any issues

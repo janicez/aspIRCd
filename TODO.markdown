@@ -1,4 +1,4 @@
-# syntaxIRCd TODO
+# sIRCd TODO
 
 ## Version 1.0.5
 
