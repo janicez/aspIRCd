@@ -333,11 +333,6 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 		sendto_one_numeric(source_p, RPL_WHOISSECURE, form_str(RPL_WHOISSECURE),
 				   target_p->name);
 
-    if(!(target_p->umodes & UMODE_HIDECHANS)) {
-        sendto_one_numeric(source_p, RPL_WHOISWEBIRC, form_str(RPL_WHOISWEBIRC),
-                                  target_p->name);
-    }
-
 	if((source_p == target_p || IsOper(source_p)) &&
 			target_p->certfp != NULL)
 		sendto_one_numeric(source_p, RPL_WHOISCERTFP,
@@ -348,7 +343,6 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
                 sendto_one_numeric(source_p, RPL_WHOISWEBIRC,
                                 form_str(RPL_WHOISWEBIRC),
                                 target_p->name);
-
 
 	if(IsSetBot(target_p))
 		sendto_one_numeric(source_p, RPL_WHOISBOT,
