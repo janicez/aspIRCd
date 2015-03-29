@@ -344,6 +344,12 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 				form_str(RPL_WHOISCERTFP),
 				target_p->name, target_p->certfp);
 
+        if(IsWebClient(target_p))
+                sendto_one_numeric(source_p, RPL_WHOISWEBIRC,
+                                form_str(RPL_WHOISWEBIRC),
+                                target_p->name);
+
+
 	if(IsSetBot(target_p))
 		sendto_one_numeric(source_p, RPL_WHOISBOT,
 				form_str(RPL_WHOISBOT),

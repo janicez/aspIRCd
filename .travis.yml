@@ -9,4 +9,4 @@ install:
 script: "./configure && make && make install"
 
 notifications:
-  irc: "irc.letstalkcoding.net#SyntaxIRCd"
+  irc: "irc.letstalkcoding.net#sIRCd"

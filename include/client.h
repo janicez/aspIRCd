@@ -530,7 +530,9 @@ struct ListClient
 #define IsSetNoCTCP(x)		((x)->umodes & UMODE_NOCTCP)
 #define IsSetNoInvite(x)	((x)->umodes & UMODE_NOINVITE)
 #define IsSetBot(x)		((x)->umodes & UMODE_BOT)
+#define IsWebClient(x)          ((x)->umodes & UMODE_WEBCLIENT)
 #define IsSetSCallerId(x)	((x)->umodes & UMODE_SCALLERID)
+
 
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)
 #define IsGotId(x)              (((x)->flags & FLAGS_GOTID) != 0)
