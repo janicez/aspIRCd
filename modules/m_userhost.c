@@ -82,7 +82,7 @@ m_userhost(struct Client *client_p, struct Client *source_p, int parc, const cha
 			{
 				rl = rb_sprintf(response, "%s%s=%c%s@%s ",
 						target_p->name,
-						IsOper(target_p) ? "*" : "",
+						SeesOper(source_p, target_p) ? "*" : "",
 						(target_p->user->away) ? '-' : '+',
 						target_p->username,
 						target_p->sockhost);
@@ -91,7 +91,7 @@ m_userhost(struct Client *client_p, struct Client *source_p, int parc, const cha
 			{
 				rl = rb_sprintf(response, "%s%s=%c%s@%s ",
 						target_p->name,
-						IsOper(target_p) ? "*" : "",
+						SeesOper(source_p, target_p) ? "*" : "",
 						(target_p->user->away) ? '-' : '+',
 						target_p->username, target_p->host);
 			}

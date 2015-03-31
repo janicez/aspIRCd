@@ -334,9 +334,6 @@ struct ListClient
 
 #define IsAnyServer(x)          (IsServer(x) || IsHandshake(x) || IsConnecting(x))
 
-#define IsOper(x)		((x)->umodes & UMODE_OPER)
-#define IsAdmin(x)		((x)->umodes & UMODE_ADMIN)
-
 #define SetReject(x)		{(x)->status = STAT_REJECT; \
 				 (x)->handler = UNREGISTERED_HANDLER; }
 
@@ -436,6 +433,18 @@ struct ListClient
 #define UMODE_OVERRIDE     0x20000      /* able to override */
 
 #define IsOverride(x)      ((x)->umodes & UMODE_OVERRIDE)
+
+/* oper mode macros */
+#define IsOper(x) ((x)->umodes & UMODE_OPER)
+#define IsAdmin(x) ((x)->umodes & UMODE_ADMIN)
+#define IsHelper(x) ((x)->umodes & UMODE_HELPER)
+#define IsAnyOper(x) ((x)->umodes & (UMODE_OPER|UMODE_HELPER))
+
+/* Is t an oper, and is s allowed to know this? */
+#define SeesOpers(s) (IsOper(s) || !ConfigFileEntry.operhide)
+#define SeesOper(s, t) (IsOper(t) && (SeesOpers(s) || ((s) == (t))))
+#define SeesHelper(s, t) (IsHelper(t) && (SeesOpers(s) || ((s) == (t))))
+#define SeesAnyOper(s, t) (IsAnyOper(t) && (SeesOpers(s) || ((s) == (t))))
 
 /* overflow flags */
 /* EARLIER FLAGS ARE IN s_newconf.h */
