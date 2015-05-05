@@ -2330,9 +2330,10 @@ static struct ConfEntry conf_general_table[] =
 	{ "ts_warn_delta",	CF_TIME,  NULL, 0, &ConfigFileEntry.ts_warn_delta	},
 	{ "use_whois_actually", CF_YESNO, NULL, 0, &ConfigFileEntry.use_whois_actually	},
 	{ "warn_no_nline",	CF_YESNO, NULL, 0, &ConfigFileEntry.warn_no_nline	},
-	{ "use_propagated_bans",CF_YESNO, NULL, 0, &ConfigFileEntry.use_propagated_bans	},
+	{ "hide_opers",		CF_YESNO, NULL, 0, &ConfigFileEntry.operhide		},
+        { "use_propagated_bans",CF_YESNO, NULL, 0, &ConfigFileEntry.use_propagated_bans	},
 	{ "expire_override_time",	CF_TIME, NULL, 0, &ConfigFileEntry.expire_override_time},
-    { "away_interval",    CF_INT,   NULL, 0, &ConfigFileEntry.away_interval    },
+        { "away_interval",    CF_INT,   NULL, 0, &ConfigFileEntry.away_interval    },
 	{ "\0", 		0, 	  NULL, 0, NULL }
 };
 
