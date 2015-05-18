@@ -292,7 +292,6 @@ struct server_info
 	char sid[4];
 	char *description;
 	char *network_name;
-	char *network_desc;
 	char *helpchan;
 	char *helpurl;
 	int hub;
