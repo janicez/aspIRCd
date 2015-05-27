@@ -59,6 +59,19 @@ while nicklen > 51:
 
 print("")
 
+
+print("Please specify the maximum topic length. This must be the same across")
+print("all servers in your network or you risk netsplits. The maximum is 780.")
+
+topiclen = 800
+while topiclen > 781:
+    if topiclen != 800:
+        print "Error: you must choose a value under 780."
+
+    topiclen = int(promptUser("Maximum topic length?", "390"))
+
+print("")
+
 print("Would you like to use SSL encryption for client and server links? (Recommended)")
 
 usessl = promptYesNo("SSL? (y/n)")
@@ -78,6 +91,7 @@ IPv6 = promptYesNo("IPv6? (y/n)")
 
 configflags.append("--prefix=%s" % installloc)
 configflags.append("--with-nicklen=%s" % nicklen)
+configflags.append("--with-topiclen=%s" % topiclen)
 
 if usessl:
     configflags.append("--enable-openssl")

@@ -919,17 +919,17 @@ AC_HELP_STRING([--with-nicklen=LENGTH],[Set the nick length to LENGTH (default 3
 ], [NICKLEN=31])
 
 AC_ARG_WITH(topiclen,           
-AC_HELP_STRING([--with-topiclen=NUMBER],[Set the max topic length to NUMBER (default 390, max 390)]),
+AC_HELP_STRING([--with-topiclen=NUMBER],[Set the max topic length to NUMBER (default 390, max 780)]),
 [
- if test $withval -ge 390; then
-	TOPICLEN=390
-	AC_MSG_WARN([TOPICLEN has a hard limit of 390. Setting TOPICLEN=390])
+ if test $withval -ge 780; then
+	TOPICLEN=780
+	AC_MSG_WARN([TOPICLEN has a hard limit of 780. Setting TOPICLEN=390])
  else
  	TOPICLEN=$withval
  fi
 ], [TOPICLEN=390])
 
-AC_DEFINE_UNQUOTED(TOPICLEN, ${TOPICLEN}, [Maximum topic length (<=390)])
+AC_DEFINE_UNQUOTED(TOPICLEN, ${TOPICLEN}, [Maximum topic length (<=780)])
 AC_DEFINE_UNQUOTED(NICKLEN, (${NICKLEN}+1), [Nickname length])
 
 shared_modules="yes"

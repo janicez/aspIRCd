@@ -291,7 +291,7 @@
    modules. */
 #undef SYMBOL_PREFIX
 
-/* Maximum topic length (<=390) */
+/* Maximum topic length (<=780) */
 #undef TOPICLEN
 
 /* Size of the topic heap. */

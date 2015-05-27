@@ -1404,7 +1404,7 @@ Optional Packages:
                           installed with names prefixed by this prefix.
   --with-nicklen=LENGTH   Set the nick length to LENGTH (default 31, max 50)
   --with-topiclen=NUMBER  Set the max topic length to NUMBER (default 390, max
-                          390)
+                          780)
 
 Some influential environment variables:
   CC          C compiler command
@@ -7988,10 +7988,10 @@ fi
 # Check whether --with-topiclen was given.
 if test "${with_topiclen+set}" = set; then :
   withval=$with_topiclen;
- if test $withval -ge 390; then
-	TOPICLEN=390
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: TOPICLEN has a hard limit of 390. Setting TOPICLEN=390" >&5
-$as_echo "$as_me: WARNING: TOPICLEN has a hard limit of 390. Setting TOPICLEN=390" >&2;}
+ if test $withval -ge 780; then
+	TOPICLEN=780
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: TOPICLEN has a hard limit of 780. Setting TOPICLEN=390" >&5
+$as_echo "$as_me: WARNING: TOPICLEN has a hard limit of 780, Setting TOPICLEN=390" >&2;}
  else
  	TOPICLEN=$withval
  fi
