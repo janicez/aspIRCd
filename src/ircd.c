@@ -709,6 +709,11 @@ main(int argc, char *argv[])
 	}
 	rb_strlcpy(me.info, ServerInfo.description, sizeof(me.info));
 
+
+	/* Add in masks */
+	rb_strlcpy(me.mname, ServerInfo.mask_name, sizeof(me.mname));
+
+
 	if(ServerInfo.ssl_cert != NULL && ServerInfo.ssl_private_key != NULL)
 	{
 		/* just do the rb_setup_ssl_server to validate the config */
@@ -736,6 +741,7 @@ main(int argc, char *argv[])
 	add_to_client_hash(me.name, &me);
 	add_to_id_hash(me.id, &me);
 	me.serv->nameinfo = scache_connect(me.name, me.info, 0);
+        me.serv->maskinfo = scache_connect(me.mname, me.info, 0);
 
 	rb_dlinkAddAlloc(&me, &global_serv_list);
 

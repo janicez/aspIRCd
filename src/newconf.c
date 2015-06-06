@@ -2133,13 +2133,16 @@ remove_conf_item(const char *topconf, const char *name)
 static struct ConfEntry conf_serverinfo_table[] =
 {
 	{ "description", 	CF_QSTRING, NULL, 0, &ServerInfo.description	},
+        /* We can get away without checking the masks as they are purely aesthetic. If it looks weird, it's your fault */
+	{ "mask_name", 		CF_QSTRING, NULL, 0, &ServerInfo.mask_name	},
 	{ "helpchan",		CF_QSTRING, NULL, 0, &ServerInfo.helpchan		},
 	{ "helpurl",		CF_QSTRING, NULL, 0, &ServerInfo.helpurl		},
 	{ "hub", 		CF_YESNO,   NULL, 0, &ServerInfo.hub		},
 
 	{ "network_name", 	CF_QSTRING, conf_set_serverinfo_network_name,	0, NULL },
 	{ "name", 		CF_QSTRING, conf_set_serverinfo_name,	0, NULL },
-	{ "sid", 		CF_QSTRING, conf_set_serverinfo_sid,	0, NULL },
+
+        { "sid", 		CF_QSTRING, conf_set_serverinfo_sid,	0, NULL },
 	{ "vhost", 		CF_QSTRING, conf_set_serverinfo_vhost,	0, NULL },
 	{ "vhost6", 		CF_QSTRING, conf_set_serverinfo_vhost6,	0, NULL },
 
@@ -2330,6 +2333,7 @@ static struct ConfEntry conf_general_table[] =
 	{ "use_whois_actually", CF_YESNO, NULL, 0, &ConfigFileEntry.use_whois_actually	},
 	{ "warn_no_nline",	CF_YESNO, NULL, 0, &ConfigFileEntry.warn_no_nline	},
 	{ "hide_opers",		CF_YESNO, NULL, 0, &ConfigFileEntry.operhide		},
+        { "mask_servers",		CF_YESNO, NULL, 0, &ConfigFileEntry.servermask		},
         { "use_propagated_bans",CF_YESNO, NULL, 0, &ConfigFileEntry.use_propagated_bans	},
 	{ "expire_override_time",	CF_TIME, NULL, 0, &ConfigFileEntry.expire_override_time},
         { "away_interval",    CF_INT,   NULL, 0, &ConfigFileEntry.away_interval    },

@@ -118,9 +118,15 @@ m_whowas(struct Client *client_p, struct Client *source_p, int parc, const char 
 				sendto_one_numeric(source_p, RPL_WHOISLOGGEDIN,
 						   "%s %s :was logged in as",
 						   temp->name, temp->suser);
+                        if(SeesServers(source_p))
 			sendto_one_numeric(source_p, RPL_WHOISSERVER,
 					   form_str(RPL_WHOISSERVER),
 					   temp->name, temp->servername,
+					   rb_ctime(temp->logoff, tbuf, sizeof(tbuf)));
+			else
+			sendto_one_numeric(source_p, RPL_WHOISSERVER,
+					   form_str(RPL_WHOISSERVER),
+					   temp->name, source_p->servptr->mname,
 					   rb_ctime(temp->logoff, tbuf, sizeof(tbuf)));
 			cur++;
 			found++;

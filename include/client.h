@@ -97,6 +97,7 @@ struct Server
 	int caps;		/* capabilities bit-field */
 	char *fullcaps;
 	struct scache_entry *nameinfo;
+        char maskinfo;
 };
 
 struct ZipStats
@@ -168,6 +169,9 @@ struct Client
 
 	time_t large_ctcp_sent; /* ctcp to large group sent, relax flood checks */
 	char *certfp; /* client certificate fingerprint */
+
+	/* Masking data */
+	char mname[HOSTLEN + 1];
 };
 
 struct LocalUser
@@ -445,6 +449,9 @@ struct ListClient
 #define SeesOper(s, t) (IsOper(t) && (SeesOpers(s) || ((s) == (t))))
 #define SeesHelper(s, t) (IsHelper(t) && (SeesOpers(s) || ((s) == (t))))
 #define SeesAnyOper(s, t) (IsAnyOper(t) && (SeesOpers(s) || ((s) == (t))))
+
+/*Is this user an oper and can users see servers? */
+#define SeesServers(s)		(IsOper(s) || !ConfigFileEntry.servermask)
 
 /* overflow flags */
 /* EARLIER FLAGS ARE IN s_newconf.h */

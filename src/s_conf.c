@@ -674,6 +674,7 @@ set_default_conf(void)
 	/* ServerInfo.name = ServerInfo.name; */
 	ServerInfo.description = NULL;
 	ServerInfo.network_name = rb_strdup(NETWORK_NAME_DEFAULT);
+      ServerInfo.mask_name = rb_strdup(SERVER_NAME_MASK_DEFAULT);
 	ServerInfo.helpchan = rb_strdup("");
 	ServerInfo.helpurl = rb_strdup("");
 
@@ -823,6 +824,7 @@ set_default_conf(void)
 	ConfigFileEntry.throttle_count = 4;
 	ConfigFileEntry.throttle_duration = 60;
         ConfigFileEntry.operhide = 0;
+        ConfigFileEntry.servermask = 0;
 	ConfigFileEntry.expire_override_time = 300;
 
 	ServerInfo.default_max_clients = MAXCONNECTIONS;
@@ -867,7 +869,10 @@ validate_conf(void)
 	if(ServerInfo.network_name == NULL)
 		ServerInfo.network_name = rb_strdup(NETWORK_NAME_DEFAULT);
 
-	if(ServerInfo.ssld_count < 1)
+	if(ServerInfo.mask_name == NULL)
+		ServerInfo.mask_name = rb_strdup(SERVER_NAME_MASK_DEFAULT);
+
+      if(ServerInfo.ssld_count < 1)
 		ServerInfo.ssld_count = 1;
 
 	if(!rb_setup_ssl_server(ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params))
@@ -1620,6 +1625,8 @@ clear_out_old_conf(void)
 	/* clean out ServerInfo */
 	rb_free(ServerInfo.description);
 	ServerInfo.description = NULL;
+	rb_free(ServerInfo.mask_name);
+	ServerInfo.mask_name = NULL;
 	rb_free(ServerInfo.network_name);
 	ServerInfo.network_name = NULL;
 	rb_free(ServerInfo.helpchan);

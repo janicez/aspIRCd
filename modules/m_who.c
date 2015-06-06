@@ -469,12 +469,20 @@ do_who(struct Client *source_p, struct Client *target_p, struct membership *mspt
 		   target_p->user->away ? 'G' : 'H', SeesOper(source_p, target_p) ? "*" : "", msptr ? find_channel_status(msptr, fmt->fields || IsCapable(source_p, CLICAP_MULTI_PREFIX)) : "");
 
 	if (fmt->fields == 0)
+		if(SeesServers(source_p))
 		sendto_one(source_p, form_str(RPL_WHOREPLY), me.name,
 			   source_p->name, msptr ? msptr->chptr->chname : "*",
 			   target_p->username, target_p->host,
 			   target_p->servptr->name, target_p->name, status,
 			   ConfigServerHide.flatten_links && !IsOper(source_p) && !IsExemptShide(source_p) ? 0 : target_p->hopcount, 
 			   target_p->info);
+		else
+		sendto_one(source_p, form_str(RPL_WHOREPLY), me.name,
+		   source_p->name, msptr ? msptr->chptr->chname : "*",
+		   target_p->username, target_p->host,
+		   source_p->servptr->mname, target_p->name, status,
+		   ConfigServerHide.flatten_links && !IsOper(source_p) && !IsExemptShide(source_p) ? 0 : target_p->hopcount, 
+		   target_p->info);
 	else
 	{
 		str[0] = '\0';
@@ -496,8 +504,12 @@ do_who(struct Client *source_p, struct Client *target_p, struct membership *mspt
 		}
 		if (fmt->fields & FIELD_HOST)
 			append_format(str, sizeof str, &pos, " %s", target_p->host);
+		if(SeesServers(source_p)){
 		if (fmt->fields & FIELD_SERVER)
 			append_format(str, sizeof str, &pos, " %s", target_p->servptr->name);
+		} else {
+			append_format(str, sizeof str, &pos, " %s", source_p->servptr->mname);
+		}
 		if (fmt->fields & FIELD_NICK)
 			append_format(str, sizeof str, &pos, " %s", target_p->name);
 		if (fmt->fields & FIELD_FLAGS)
