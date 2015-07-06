@@ -330,11 +330,17 @@ build_target_list(int p_or_n, const char *command, struct Client *client_p,
 		/*  allow %+@ if someone wants to do that */
 		for(;;)
 		{
-			if(*nick == '@')
-				type |= CHFL_CHANOP;
-			else if(*nick == '+')
-				type |= CHFL_CHANOP | CHFL_VOICE;
-			else
+                       if(*nick == '@')
+                           type |= CHFL_CHANOP | CHFL_ADMIN | CHFL_OWNER;
+                       else if(*nick == '+')
+                           type |= CHFL_CHANOP | CHFL_VOICE | CHFL_HALFOP | CHFL_ADMIN | CHFL_OWNER;
+                       else if(*nick == '%')
+                           type |= CHFL_CHANOP | CHFL_HALFOP | CHFL_ADMIN | CHFL_OWNER;
+                       else if(*nick == '&')
+                           type |= CHFL_ADMIN | CHFL_OWNER;
+                       else if(*nick == '~')
+                       type = CHFL_OWNER;
+                       else
 				break;
 			nick++;
 		}
