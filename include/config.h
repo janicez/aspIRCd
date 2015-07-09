@@ -62,6 +62,7 @@
 #define CPATH    ETCPATH "/ircd.conf"		   /* ircd.conf file */
 #define MPATH    ETCPATH "/ircd.motd"		   /* MOTD file */
 #define LPATH    LOGPATH "/ircd.log"		   /* ircd logfile */
+#define RPATH    ETCPATH "/ircd.rules"             /* RULES file */
 #define PPATH    PKGRUNDIR "/ircd.pid"		   /* pid file */
 #define OPATH    ETCPATH "/opers.motd"		   /* oper MOTD file */
 #define DBPATH   PKGLOCALSTATEDIR "/ban.db"                 /* bandb file */

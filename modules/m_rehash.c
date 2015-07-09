@@ -97,6 +97,19 @@ rehash_motd(struct Client *source_p)
 }
 
 static void
+rehash_rules(struct Client *source_p)
+{
+        sendto_realops_snomask(SNO_GENERAL, L_ALL,
+                             "%s is forcing re-reading of OPER MOTD file",
+                             get_oper_name(source_p));
+        if (!MyConnect(source_p))
+                remote_rehash_oper_p = source_p;
+
+        free_cachefile(user_rules);
+        user_rules = cache_file(RPATH, "ircd.rules", 0);
+}
+
+static void
 rehash_omotd(struct Client *source_p)
 {
 	sendto_realops_snomask(SNO_GENERAL, L_ALL,
@@ -107,19 +120,6 @@ rehash_omotd(struct Client *source_p)
 
 	free_cachefile(oper_motd);
 	oper_motd = cache_file(OPATH, "opers.motd", 0);
-}
-
-static void
-rehash_rules(struct Client *source_p)
-{
-        sendto_realops_snomask(SNO_GENERAL, L_ALL,
-                             "%s is reloading RULES file",
-                             get_oper_name(source_p));
-        if (!MyConnect(source_p))
-                remote_rehash_oper_p = source_p;
-
-        free_cachefile(user_rules);
-        user_rules = cache_file(RPATH, "ircd.rules", 0);
 }
 
 static void
@@ -291,13 +291,14 @@ static struct hash_commands rehash_commands[] =
 	{"BANS",	rehash_bans_loc		},
 	{"DNS", 	rehash_dns		},
 	{"MOTD", 	rehash_motd		},
+        {"RULES",       rehash_rules            },
 	{"OMOTD", 	rehash_omotd		},
 	{"TKLINES", 	rehash_tklines		},
 	{"TDLINES", 	rehash_tdlines		},
 	{"TXLINES",	rehash_txlines		},
 	{"TRESVS",	rehash_tresvs		},
 	{"REJECTCACHE",	rehash_rejectcache	},
-        ("THROTTLES",	rehash_throttles	},
+	{"THROTTLES",	rehash_throttles	},
 	{"HELP", 	rehash_help		},
 	{"NICKDELAY",	rehash_nickdelay        },
 	{NULL, 		NULL 			}
@@ -415,3 +416,4 @@ me_rehash(struct Client *client_p, struct Client *source_p, int parc, const char
 
 	return 0;
 }
+
