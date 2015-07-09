@@ -297,8 +297,7 @@ static struct hash_commands rehash_commands[] =
 	{"TXLINES",	rehash_txlines		},
 	{"TRESVS",	rehash_tresvs		},
 	{"REJECTCACHE",	rehash_rejectcache	},
-        {"RULES",       rehash_rules            },
-	{"THROTTLES",	rehash_throttles	},
+        ("THROTTLES",	rehash_throttles	},
 	{"HELP", 	rehash_help		},
 	{"NICKDELAY",	rehash_nickdelay        },
 	{NULL, 		NULL 			}
