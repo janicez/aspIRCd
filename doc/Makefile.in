@@ -32,7 +32,7 @@ automoduledir	= @moduledir@/autoload
 mandir          = @mandir@/man8
 MANPAGES        = ircd.8
 
-CONFS		= example.conf reference.conf opers.conf
+CONFS		= example.conf reference.conf opers.conf ircd.rules
 
 SSL_LIBS	= @SSL_LIBS@
 SSL_INCLUDES	= @SSL_INCLUDES@

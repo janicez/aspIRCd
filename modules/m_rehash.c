@@ -110,6 +110,19 @@ rehash_omotd(struct Client *source_p)
 }
 
 static void
+rehash_rules(struct Client *source_p)
+{
+        sendto_realops_snomask(SNO_GENERAL, L_ALL,
+                             "%s is reloading RULES file",
+                             get_oper_name(source_p));
+        if (!MyConnect(source_p))
+                remote_rehash_oper_p = source_p;
+
+        free_cachefile(user_rules);
+        user_rules = cache_file(RPATH, "ircd.rules", 0);
+}
+
+static void
 rehash_tklines(struct Client *source_p)
 {
 	struct ConfItem *aconf;
@@ -284,6 +297,7 @@ static struct hash_commands rehash_commands[] =
 	{"TXLINES",	rehash_txlines		},
 	{"TRESVS",	rehash_tresvs		},
 	{"REJECTCACHE",	rehash_rejectcache	},
+        {"RULES",       rehash_rules            },
 	{"THROTTLES",	rehash_throttles	},
 	{"HELP", 	rehash_help		},
 	{"NICKDELAY",	rehash_nickdelay        },

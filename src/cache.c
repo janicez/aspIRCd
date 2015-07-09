@@ -43,9 +43,11 @@
 
 struct cachefile *user_motd = NULL;
 struct cachefile *oper_motd = NULL;
+struct cachefile *user_rules = NULL;
 struct cacheline *emptyline = NULL;
 rb_dlink_list links_cache_list;
 char user_motd_changed[MAX_DATE_STRING];
+char user_rules_changed[MAX_DATE_STRING];
 
 struct Dictionary *help_dict_oper = NULL;
 struct Dictionary *help_dict_user = NULL;
@@ -64,8 +66,10 @@ init_cache(void)
 	emptyline->data[0] = ' ';
 	emptyline->data[1] = '\0';
 	user_motd_changed[0] = '\0';
+        user_rules_changed[0] = '\0';
 
 	user_motd = cache_file(MPATH, "ircd.motd", 0);
+        user_rules = cache_file(RPATH, "ircd.rules", 0);
 	oper_motd = cache_file(OPATH, "opers.motd", 0);
 	memset(&links_cache_list, 0, sizeof(links_cache_list));
 
@@ -332,12 +336,12 @@ cache_user_motd(void)
 {
 	struct stat sb;
 	struct tm *local_tm;
-	
-	if(stat(MPATH, &sb) == 0) 
+
+	if(stat(MPATH, &sb) == 0)
 	{
 		local_tm = localtime(&sb.st_mtime);
 
-		if(local_tm != NULL) 
+		if(local_tm != NULL)
 		{
 			rb_snprintf(user_motd_changed, sizeof(user_motd_changed),
 				 "%d/%d/%d %d:%d",
@@ -345,7 +349,7 @@ cache_user_motd(void)
 				 1900 + local_tm->tm_year, local_tm->tm_hour,
 				 local_tm->tm_min);
 		}
-	} 
+	}
 	free_cachefile(user_motd);
 	user_motd = cache_file(MPATH, "ircd.motd", 0);
 }
@@ -366,7 +370,7 @@ send_oper_motd(struct Client *source_p)
 	if(oper_motd == NULL || rb_dlink_list_length(&oper_motd->contents) == 0)
 		return;
 
-	sendto_one(source_p, form_str(RPL_OMOTDSTART), 
+	sendto_one(source_p, form_str(RPL_OMOTDSTART),
 		   me.name, source_p->name);
 
 	RB_DLINK_FOREACH(ptr, oper_motd->contents.head)
@@ -376,6 +380,53 @@ send_oper_motd(struct Client *source_p)
 			   me.name, source_p->name, lineptr->data);
 	}
 
-	sendto_one(source_p, form_str(RPL_ENDOFOMOTD), 
+	sendto_one(source_p, form_str(RPL_ENDOFOMOTD),
 		   me.name, source_p->name);
 }
+
+
+void
+send_user_rules(struct Client *source_p)
+{
+	struct cacheline *lineptr;
+	rb_dlink_node *ptr;
+	const char *myname = get_id(&me, source_p);
+	const char *nick = get_id(source_p, source_p);
+	if(user_rules == NULL || rb_dlink_list_length(&user_motd->contents) == 0)
+	{
+		sendto_one(source_p, form_str(ERR_NORULES), myname, nick);
+		return;
+	}
+
+	sendto_one(source_p, form_str(RPL_RULESTART), myname, nick, me.name);
+
+	RB_DLINK_FOREACH(ptr, user_rules->contents.head)
+	{
+		lineptr = ptr->data;
+		sendto_one(source_p, form_str(RPL_RULES), myname, nick, lineptr->data);
+	}
+
+void
+cache_user_rules(void)
+{
+	struct stat sb;
+	struct tm *local_tm;
+
+	if(stat(RPATH, &sb) == 0)
+	{
+		local_tm = localtime(&sb.st_mtime);
+
+		if(local_tm != NULL)
+		{
+			rb_snprintf(user_rules_changed, sizeof(user_rules_changed),
+				 "%d/%d/%d %d:%d",
+				 local_tm->tm_mday, local_tm->tm_mon + 1,
+				 1900 + local_tm->tm_year, local_tm->tm_hour,
+				 local_tm->tm_min);
+		}
+	}
+	free_cachefile(user_rules);
+	user_rules = cache_file(RPATH, "ircd.rules", 0);
+}
+}
+

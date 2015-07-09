@@ -86,7 +86,7 @@ extern const char *form_str(int);
 
 #define RPL_STATSFLINE       224
 #define RPL_STATSDLINE       225
-
+#define RPL_RULES            232
 #define RPL_SERVLIST         234
 #define RPL_SERVLISTEND      235
 
@@ -249,6 +249,7 @@ extern const char *form_str(int);
 #define ERR_NONICKNAMEGIVEN  431
 #define ERR_ERRONEUSNICKNAME 432
 #define ERR_NICKNAMEINUSE    433
+#define ERR_NORULES          434
 #define ERR_BANNICKCHANGE    435	/* bahamut's ERR_BANONCHAN -- jilles */
 #define ERR_NICKCOLLISION    436
 #define ERR_UNAVAILRESOURCE  437
@@ -303,7 +304,7 @@ extern const char *form_str(int);
 #define ERR_LINKSOP          487
 #define ERR_MAPOP            488
 #define ERR_VOICENEEDED		489
-
+#define RPL_RULESTART        490
 #define ERR_NOOPERHOST       491
 
 #define ERR_NOCTCP	     492
