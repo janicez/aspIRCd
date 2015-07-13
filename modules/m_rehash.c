@@ -100,7 +100,7 @@ static void
 rehash_rules(struct Client *source_p)
 {
         sendto_realops_snomask(SNO_GENERAL, L_ALL,
-                             "%s is forcing re-reading of OPER MOTD file",
+                             "%s is forcing re-reading of RULES file",
                              get_oper_name(source_p));
         if (!MyConnect(source_p))
                 remote_rehash_oper_p = source_p;
