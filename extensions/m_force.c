@@ -203,7 +203,7 @@ mo_forcejoin(struct Client *client_p, struct Client *source_p, int parc, const c
 		 * are disabled.
 		 */
 		if(!IsChannelName(newch) ||
-			(ConfigChannel.disable_local_channels && newch[0] == '&' ) )
+			(ConfigChannel.use_local_channels && newch[0] == '&' ) )
 		{
 			sendto_one(source_p, form_str(ERR_BADCHANNAME), me.name,
 				   source_p->name, (unsigned char *) newch);
