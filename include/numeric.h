@@ -308,7 +308,7 @@ extern const char *form_str(int);
 #define ERR_NOOPERHOST       491
 
 #define ERR_NOCTCP	     492
-
+#define ERR_NONONSSL         493
 #define ERR_KICKNOREJOIN     495
 
 #define ERR_OWNMODE          494 /* from bahamut -- jilles */
