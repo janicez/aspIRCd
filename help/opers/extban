@@ -16,3 +16,5 @@ EXTBAN - DESCRIPTION
      $r:mask    GECOS extban. Affects anyone with the realname/gecos
                 specified.
      $s:mask    Server extban. Affects anyone on the specified server.
+     $u:mask    Matches unidentified users who match the specified
+              nick!user@host
