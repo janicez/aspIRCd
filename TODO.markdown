@@ -4,5 +4,5 @@
 
  - [X] Allow +U (roleplay) to be disabled via config
  - [X] When a K-lined user connects, snomask +K shows it
- - [X] Channel modes are now shown in /olist.
+ - [X] Channel modes are now shown in /list & /olist.
  - [ ] Add a NetAdmin 
