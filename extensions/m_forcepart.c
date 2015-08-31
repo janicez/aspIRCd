@@ -56,7 +56,7 @@ struct Message forcepart_msgtab = {
 
 mapi_clist_av1 forcepart_clist[] = { &forcepart_msgtab, NULL };
 
-DECLARE_MODULE_AV1(forcepart, NULL, NULL, forcepart_clist, NULL, NULL, "SporksIRCD development team");
+DECLARE_MODULE_AV1(forcepart, NULL, NULL, forcepart_clist, NULL, NULL, "$Revision: 1 $");
 
 /*
  * mo_forcepart
@@ -75,7 +75,7 @@ mo_forcepart(struct Client *client_p, struct Client *source_p, int parc, const c
 	user = parv[1];
 	channels = parv[2];
 
-	if(!IsOperAdmin(source_p))
+	if(!IsOper(source_p))
 	{
 		sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name);
 		return 0;
@@ -110,7 +110,7 @@ mo_forcepart(struct Client *client_p, struct Client *source_p, int parc, const c
 
 	if(!MyClient(target_p) && (!IsOperAdmin(source_p)))
 	{
-		sendto_one_notice(source_p, ":Nick %s is not on your server and you do not have the global_force flag",
+		sendto_one_notice(source_p, ":Nick %s is not on your server and you do not have admin priv",
 				  target_p->name);
 		return 0;
 	}

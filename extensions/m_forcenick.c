@@ -1,5 +1,5 @@
 /*
- * sIRCd: the ircd for discerning transsexual quilting bees.
+ * sIRCd: the ircd for those who like unreal prefixes.
  * m_forcenick.c: Forces a user's nickname to change
  *
  * Copyright (C) 2010 Elizabeth Jennifer Myers. All rights reserved.
@@ -58,7 +58,7 @@ struct Message forcenick_msgtab = {
 
 mapi_clist_av1 forcenick_clist[] = { &forcenick_msgtab, NULL };
 
-DECLARE_MODULE_AV1(forcenick, NULL, NULL, forcenick_clist, NULL, NULL, "SporksNet coding committee");
+DECLARE_MODULE_AV1(forcenick, NULL, NULL, forcenick_clist, NULL, NULL, "$Revision: 1 $");
 
 /*
 ** mo_forcenick
@@ -76,7 +76,7 @@ mo_forcenick(struct Client *client_p, struct Client *source_p, int parc, const c
 	user = parv[1];
 
 	/* You must be this tall to ride the ride */
-	if(!IsOperAdmin(source_p))
+	if(!IsOper(source_p))
 	{
 		sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name);
 		return 0;

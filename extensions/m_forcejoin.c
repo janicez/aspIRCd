@@ -56,7 +56,7 @@ struct Message forcejoin_msgtab = {
 
 mapi_clist_av1 forcejoin_clist[] = { &forcejoin_msgtab, NULL };
 
-DECLARE_MODULE_AV1(forcejoin, NULL, NULL, forcejoin_clist, NULL, NULL, "SporksNet coding committee");
+DECLARE_MODULE_AV1(forcejoin, NULL, NULL, forcejoin_clist, NULL, NULL, "$Revision: 1 $");
 
 /*
 ** mo_forcejoin
@@ -72,7 +72,7 @@ mo_forcejoin(struct Client *client_p, struct Client *source_p, int parc, const c
 
 	user = parv[1];
 
-	if(!IsOperAdmin(source_p))
+	if(!IsOper(source_p))
 	{
 		sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name);
 		return 0;
