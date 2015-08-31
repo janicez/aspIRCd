@@ -30,7 +30,6 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: m_list.c 3372 2007-04-03 10:18:07Z nenolod $
  */
 
 #include "stdinc.h"
@@ -63,7 +62,7 @@ static void safelist_client_release(struct Client *);
 static void safelist_one_channel(struct Client *source_p, struct Channel *chptr);
 static void safelist_iterate_client(struct Client *source_p);
 static void safelist_iterate_clients(void *unused);
-static void safelist_channel_named(struct Client *source_p, const char *name, int operspy);
+static void safelist_channel_named(struct Client *source_p, const char *name);
 
 struct Message list_msgtab = {
 	"LIST", 0, 0, 0, MFLG_SLOW,
@@ -157,10 +156,8 @@ static int m_list(struct Client *client_p, struct Client *source_p, int parc, co
 static int mo_list(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
 	struct ListClient *params;
-	char *p;
-	char *args = NULL;
+	char *p, *args;
 	int i;
-	int operspy = 0;
 
 	if (source_p->localClient->safelist_data != NULL)
 	{
@@ -169,37 +166,27 @@ static int mo_list(struct Client *client_p, struct Client *source_p, int parc, c
 		return 0;
 	}
 
-	if (parc > 1)
-	{
-		args = LOCAL_COPY(parv[1]);
-	}
-
-	if (args && *args == '!' && IsOperSpy(source_p))
-	{
-		args++;
-		report_operspy(source_p, "LIST", args);
-		operspy = 1;
-	}
-
 	/* Single channel. */
-	if (args && IsChannelName(args))
+	if (parc > 1 && IsChannelName(parv[1]))
 	{
-		safelist_channel_named(source_p, args, operspy);
+		safelist_channel_named(source_p, parv[1]);
 		return 0;
 	}
 
 	/* Multiple channels, possibly with parameters. */
 	params = rb_malloc(sizeof(struct ListClient));
 
-	/* XXX rather arbitrary -- jilles */
-	params->users_min = 3;
+	/* Let the user set it */
+	params->users_min = ConfigFileEntry.hide_channel_below_users;
 	params->users_max = INT_MAX;
-	params->operspy = operspy;
+	params->operspy = 0;
 	params->created_min = params->topic_min = 
 		params->created_max = params->topic_max = 0;
 
-	if (args && !EmptyString(args))
+	if (parc > 1 && !EmptyString(parv[1]))
 	{
+		args = LOCAL_COPY(parv[1]);
+
 		/* Cancel out default minimum. */
 		params->users_min = 0;
 
@@ -271,6 +258,12 @@ static int mo_list(struct Client *client_p, struct Client *source_p, int parc, c
 						params->topic_min = rb_current_time() - (60 * atoi(args));
 					}
 				}
+			}
+			/* Only accept operspy as the first option. */
+			else if (*args == '!' && IsOperSpy(source_p) && i == 0)
+			{
+				params->operspy = 1;
+				report_operspy(source_p, "LIST", p);
 			}
 
 			if (EmptyString(p))
@@ -359,52 +352,41 @@ static void safelist_client_release(struct Client *client_p)
 /*
  * safelist_channel_named()
  *
- * inputs       - client pointer, channel name, operspy
+ * inputs       - client pointer, channel name
  * outputs      - none
  * side effects - a named channel is listed
  */
-static void safelist_channel_named(struct Client *source_p, const char *name, int operspy)
+static void safelist_channel_named(struct Client *source_p, const char *name)
 {
 	struct Channel *chptr;
 	char *p;
-	int visible;
+	char *n = LOCAL_COPY(name);
 
 	sendto_one(source_p, form_str(RPL_LISTSTART), me.name, source_p->name);
 
-	if ((p = strchr(name, ',')))
+	if ((p = strchr(n, ',')))
 		*p = '\0';
 
-	if (*name == '\0')
+	if (*n == '\0')
 	{
 		sendto_one_numeric(source_p, ERR_NOSUCHNICK, form_str(ERR_NOSUCHNICK), name);
 		sendto_one(source_p, form_str(RPL_LISTEND), me.name, source_p->name);
 		return;
 	}
 
-	chptr = find_channel(name);
+	chptr = find_channel(n);
 
 	if (chptr == NULL)
 	{
-		sendto_one_numeric(source_p, ERR_NOSUCHNICK, form_str(ERR_NOSUCHNICK), name);
+		sendto_one_numeric(source_p, ERR_NOSUCHNICK, form_str(ERR_NOSUCHNICK), n);
 		sendto_one(source_p, form_str(RPL_LISTEND), me.name, source_p->name);
 		return;
 	}
 
-	visible = !SecretChannel(chptr) || IsMember(source_p, chptr);
-	if (visible || operspy)
-	{
-		// Stores the channel mode and topic into a character array.  Syntax: [+nt] Topic goes here
-		static char modetopic[BUFSIZE];
-		rb_strlcpy(modetopic, "[", sizeof modetopic);
-		rb_strlcat(modetopic, channel_modes(chptr, source_p), sizeof modetopic);
-		rb_strlcat(modetopic, "] ", sizeof modetopic);
-		rb_strlcat(modetopic, chptr->topic == NULL ? "" : chptr->topic, sizeof modetopic);
-		
-		sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name,
-			   visible ? "" : "!",
+	if (!SecretChannel(chptr) || IsMember(source_p, chptr))
+		sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name, "",
 			   chptr->chname, rb_dlink_list_length(&chptr->members),
-			   modetopic);
-	}
+			   chptr->topic == NULL ? "" : chptr->topic);
 
 	sendto_one(source_p, form_str(RPL_LISTEND), me.name, source_p->name);
 	return;
@@ -421,10 +403,8 @@ static void safelist_channel_named(struct Client *source_p, const char *name, in
 static void safelist_one_channel(struct Client *source_p, struct Channel *chptr)
 {
 	struct ListClient *safelist_data = source_p->localClient->safelist_data;
-	int visible;
 
-	visible = !SecretChannel(chptr) || IsMember(source_p, chptr);
-	if (!visible && !safelist_data->operspy)
+	if (SecretChannel(chptr) && !IsMember(source_p, chptr) && !safelist_data->operspy)
 		return;
 
 	if ((unsigned int)chptr->members.length < safelist_data->users_min
@@ -444,18 +424,11 @@ static void safelist_one_channel(struct Client *source_p, struct Channel *chptr)
 
 	if (safelist_data->created_max && chptr->channelts > safelist_data->created_max)
 		return;
-	
-	// Stores the channel mode and topic into a character array.  Syntax: [+nt] Topic goes here
-	static char modetopic[BUFSIZE];
-	rb_strlcpy(modetopic, "[", sizeof modetopic);
-	rb_strlcat(modetopic, channel_modes(chptr, source_p), sizeof modetopic);
-	rb_strlcat(modetopic, "] ", sizeof modetopic);
-	rb_strlcat(modetopic, chptr->topic == NULL ? "" : chptr->topic, sizeof modetopic);
 
 	sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name,
-		   visible ? "" : "!",
+		   (safelist_data->operspy && SecretChannel(chptr)) ? "!" : "",
 		   chptr->chname, rb_dlink_list_length(&chptr->members),
-		   modetopic);
+		   chptr->topic == NULL ? "" : chptr->topic);
 }
 
 /*
