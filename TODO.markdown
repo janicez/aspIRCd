@@ -1,8 +1,5 @@
 # sIRCd TODO
 
-## Version 1.0.7
+## Version 1.0.8
 
- - [X] Allow +U (roleplay) to be disabled via config
- - [X] When a K-lined user connects, snomask +K shows it
- - [X] Channel modes are now shown in /list & /olist.
- - [ ] Add a NetAdmin 
+ - [ ] Add a NetAdmin priv
