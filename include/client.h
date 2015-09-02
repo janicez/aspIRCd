@@ -547,7 +547,7 @@ struct ListClient
 #define IsNoForward(x)		((x)->umodes & UMODE_NOFORWARD)
 #define IsSetRegOnlyMsg(x)	((x)->umodes & UMODE_REGONLYMSG)
 #define IsSetSslOnlyMsg(x)	((x)->umodes & UMODE_SSLONLYMSG)
-#define IsSetSslOnlyMsg(x)      ((x)->umodes & UMODE_SSLONLYMSG)
+#define IsSetOPOnlyMsg(x)       ((x)->umodes & UMODE_OPONLYMSG)
 #define IsSetNoCTCP(x)		((x)->umodes & UMODE_NOCTCP)
 #define IsSetNoInvite(x)	((x)->umodes & UMODE_NOINVITE)
 #define IsSetBot(x)		((x)->umodes & UMODE_BOT)
