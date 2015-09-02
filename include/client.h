@@ -435,6 +435,7 @@ struct ListClient
 #define UMODE_ADMIN        0x2000	/* Admin on server */
 #define UMODE_SSLCLIENT    0x4000	/* using SSL */
 #define UMODE_WEBCLIENT    0x100000     /* user is connected via a web client */
+#define UMODE_OPONLYMSG    0x180000000  /* only allow IRC OPS to msg */
 #define UMODE_OVERRIDE     0x20000      /* able to override */
 
 #define IsOverride(x)      ((x)->umodes & UMODE_OVERRIDE)
@@ -546,6 +547,7 @@ struct ListClient
 #define IsNoForward(x)		((x)->umodes & UMODE_NOFORWARD)
 #define IsSetRegOnlyMsg(x)	((x)->umodes & UMODE_REGONLYMSG)
 #define IsSetSslOnlyMsg(x)	((x)->umodes & UMODE_SSLONLYMSG)
+#define IsSetSslOnlyMsg(x)      ((x)->umodes & UMODE_SSLONLYMSG)
 #define IsSetNoCTCP(x)		((x)->umodes & UMODE_NOCTCP)
 #define IsSetNoInvite(x)	((x)->umodes & UMODE_NOINVITE)
 #define IsSetBot(x)		((x)->umodes & UMODE_BOT)

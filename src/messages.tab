@@ -514,7 +514,7 @@ static  const char *  replies[] = {
 /* 490 RPL_RULESTART, */        ":%s 490 %s :- %s Server Rules - ",
 /* 491 ERR_NOOPERHOST, */       ":Operator authentication failed",
 /* 492 ERR_NOCTCP */		":Can't send CTCP to %s (+C set)",
-/* 493 ERR_NONONSSL */		"%s :You must be connected using SSL/TLS to message this user",
+/* 493 ERR_NONONSSL */		":You must be connected using SSL/TLS to message %s",
 /* 494 ERR_OWNMODE, */          "%s :cannot answer you while you are %s, your message was not sent",
 /* 495 ERR_KICKNOREJOIN */       ":%s 495 %s %s :Cannot rejoin channel so soon after being kicked (+J set)",
 /* 496 */       NULL,

@@ -1,11 +1,11 @@
 MODE <nick> <+|-><modes>
-
 User modes: (* designates that the umode is oper only)
             (? designates that the umode is provided by an extension
              and may not be present on this server)
 
      USERMODE     DESCRIPTION
 -----------------------------------------------------------------
+         +b     - Prevents non IRCOPs from messaging you.
          +i     - Designates this client 'invisible'.
          +g     - "caller id" mode only allow accept clients to message you
          +t     - Prevents non-SSL users you have not accepted from

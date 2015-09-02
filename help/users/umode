@@ -5,6 +5,7 @@ User modes: (? designates that the umode is provided by an extension
 
      USERMODE     DESCRIPTION
 -----------------------------------------------------------------
+         +b     - Prevents non IRCOPs from messaging you.
          +o     - Designates that this client is an IRC Operator.
                   Use the /oper command to attain this.
          +i     - Designates this client 'invisible'.

@@ -94,7 +94,7 @@ int user_modes[256] = {
         UMODE_SSLCLIENT,	/* Z */
         /* 0x5B */ 0, 0, 0, 0, 0, 0, /* 0x60 */
         UMODE_ADMIN,		/* a */
-        0,       	        /* b */
+        UMODE_OPONLYMSG,       	/* b */
         0,			/* c */
         0,			/* d */
         0,			/* e */
