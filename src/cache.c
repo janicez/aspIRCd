@@ -407,8 +407,7 @@ send_user_rules(struct Client *source_p)
 	}
 
 void
-cache_user_rules(void)
-{
+cache_user_rules(void);
 	struct stat sb;
 	struct tm *local_tm;
 
@@ -427,6 +426,5 @@ cache_user_rules(void)
 	}
 	free_cachefile(user_rules);
 	user_rules = cache_file(RPATH, "ircd.rules", 0);
-}
-}
+};
 
