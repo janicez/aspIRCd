@@ -228,8 +228,9 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
 			}
                         if (IsSetOPOnlyMsg(target_p) && !IsOper(source_p))
                         {
-                                sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :I am not accepting invites from non IRCOPS.",
-                                                   target_p->name, target_p->username, target_p->host, source_p->name);
+                                sendto_one_numeric(source_p, ERR_NONONOP,
+                                                form_str(ERR_NONONOP),
+                                                target_p->name);
                                return 0;
 
                         }

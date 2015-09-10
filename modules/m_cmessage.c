@@ -151,8 +151,9 @@ m_cmessage(int p_or_n, const char *command,
                 if (IsSetOPOnlyMsg(target_p) && !IsOper(source_p))
                 {
                         if (p_or_n != NOTICE)
-                                sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :I am not accepting messages from non IRCOPS.",
-                                                   target_p->name, target_p->username, target_p->host, source_p->name);
+                                sendto_one_numeric(source_p, ERR_NONONOP,
+                                                form_str(ERR_NONONOP),
+                                                target_p->name);
                         return 0;
                 }
 		if(p_or_n != NOTICE)
