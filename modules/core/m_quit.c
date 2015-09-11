@@ -76,7 +76,7 @@ m_quit(struct Client *client_p, struct Client *source_p, int parc, const char *p
 		return 0;
 	}
 
-	if(!IsOper(source_p) &&
+	if(!IsOper(source_p) && !ConfigFileEntry.static_quit &&
 	   (source_p->localClient->firsttime + ConfigFileEntry.anti_spam_exit_message_time) >
 	   rb_current_time())
 	{
