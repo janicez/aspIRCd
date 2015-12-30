@@ -1607,7 +1607,7 @@ check_forward(struct Client *source_p, struct Channel *chptr,
         i = can_join(source_p, chptr, key);
         if (i == 0)
             return chptr;
-        if (i != ERR_INVITEONLYCHAN && i != ERR_NEEDREGGEDNICK && i != ERR_THROTTLE && i != ERR_CHANNELISFULL && i != ERR_BANNEDFROMCHAN)
+        if (i != ERR_INVITEONLYCHAN && i != ERR_THROTTLE && i != ERR_CHANNELISFULL && i != ERR_BANNEDFROMCHAN)
             return NULL;
         depth++;
     }
@@ -1837,7 +1837,7 @@ void user_join(struct Client * client_p, struct Client * source_p, const char * 
                 sendto_server(NULL, chptr, NOCAPS, NOCAPS,
                               ":%s WALLOPS :%s is overriding JOIN to [%s]",
                               me.name, get_oper_name(source_p), chptr->chname);
-            } else if ((i != ERR_NEEDREGGEDNICK && i != ERR_THROTTLE && i != ERR_INVITEONLYCHAN && i != ERR_CHANNELISFULL && i != ERR_BANNEDFROMCHAN) ||
+            } else if ((i != ERR_THROTTLE && i != ERR_INVITEONLYCHAN && i != ERR_CHANNELISFULL && i != ERR_BANNEDFROMCHAN) ||
                        (!ConfigChannel.use_forward || (chptr = check_forward(source_p, chptr, key)) == NULL)) {
                 /* might be wrong, but is there any other better location for such?
                  * see extensions/chm_operonly.c for other comments on this
