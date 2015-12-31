@@ -5,6 +5,9 @@
 IRC daemon. It is a fork of the now-defunct ShadowIRCD and seeks to continue in
 the direction ShadowIRCD was headed.
 
+**ChatIRCd**
+some of the coding from ChatIRCd has been used on sIRCd. Credit to Ben (www.chatlounge.net)
+
 ## Supported Platforms
 
 All modern \*NIX systems should work. You need the equivalent of the following
