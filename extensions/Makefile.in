@@ -40,6 +40,7 @@ SRCS =                          \
   chm_quietunreg_compat.c	\
   chm_sslonly.c			\
   chm_sslonly_compat.c		\
+  chm_operpeace.c               \
   createauthonly.c		\
   createoperonly.c		\
   extb_account.c		\
