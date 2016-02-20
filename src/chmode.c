@@ -1476,11 +1476,12 @@ chm_voice(struct Client *source_p, struct Channel *chptr,
 	{
 		if(IsOverride(source_p))
 			override = 1;
-		else
+		else if(!IsService(source_p))
 			return;
 	}
 
-	if(!(alevel & CHFL_CHANOP) && !(alevel & CHFL_HALFOP) &&
+	if(!IsService(source_p) && !IsServer(source_p) &&
+		!(alevel & CHFL_CHANOP) && !(alevel & CHFL_HALFOP) &&
 		!(alevel & CHFL_ADMIN) && !(alevel & CHFL_OWNER) &&
 		!(msptr != NULL && ConfigChannel.can_self_devoice && msptr->flags & CHFL_VOICE))
 	{
@@ -1551,6 +1552,9 @@ chm_voice(struct Client *source_p, struct Channel *chptr,
 		if(targ_p == source_p && mstptr->flags & CHFL_VOICE)
 			return;
 
+		if(!IsServer(source_p) && mstptr->flags & CHFL_VOICE)
+			return;
+
 		mode_changes[mode_count].letter = c;
 		mode_changes[mode_count].dir = MODE_ADD;
 		mode_changes[mode_count].mems = ALL_MEMBERS;
@@ -1562,7 +1566,10 @@ chm_voice(struct Client *source_p, struct Channel *chptr,
 	}
 	else
 	{
-		mode_changes[mode_count].letter = 'v';
+		if(!IsServer(source_p) && !(mstptr->flags & CHFL_VOICE))
+			return;
+
+		mode_changes[mode_count].letter = c;
 		mode_changes[mode_count].dir = MODE_DEL;
 		mode_changes[mode_count].mems = ALL_MEMBERS;
 		mode_changes[mode_count].override = override;
