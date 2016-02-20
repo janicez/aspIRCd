@@ -38,7 +38,6 @@ SRCS =                          \
   chm_operonly.c		\
   chm_operonly_compat.c		\
   chm_quietunreg_compat.c	\
-  chm_sslonly.c			\
   chm_sslonly_compat.c		\
   chm_operpeace.c               \
   createauthonly.c		\
@@ -80,8 +79,7 @@ SRCS =                          \
   m_partall.c                   \
   m_oquit.c                     \
   m_sendbans.c			\
-  m_webirc.c			\
-  no_locops.c			\
+    no_locops.c			\
   no_oper_invis.c		\
   sno_globalnickchange.c        \
   spy_admin_notice.c		\
