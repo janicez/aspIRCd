@@ -2,7 +2,7 @@
 
 ## Version 1.0.8
 
- - [ ] change who can set selected channel modes
+ - [X] change who can set selected channel modes
  - [X] remove NOKICKOPER(Channel mode +M) from core and make a module
  - [ ] allow self-devoicing (enbaled/disabled via config)
  - [ ] moved selected extensions to modules   
