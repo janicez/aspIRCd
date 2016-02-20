@@ -8,4 +8,7 @@
  - [ ] moved selected extensions to modules   
  - [ ] fix halfop permissions (Allow self-dehalfop)
  - [ ] show a client's unique ID on connect & whois
- - [ ] Add and implement halfops_can_dehalfop_others.
+ - [ ] add and implement halfops_can_dehalfop_others.
+ - [ ] add static parts
+ - [ ] remove m_roleplay
+ - [ ] add sasl_usercloak
