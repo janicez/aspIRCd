@@ -1966,7 +1966,7 @@ struct ChannelMode chmode_table[256] =
   {chm_simple,	MODE_NOREJOIN },	/* J */
   {chm_simple,	MODE_NOREPEAT },	/* K */
   {chm_staff,	MODE_EXLIMIT },		/* L */
-  {chm_hidden,	MODE_NOOPERKICK },	/* M */
+  {chm_nosuch,	0 },	                /* M */
   {chm_simple,	MODE_NONICK },		/* N */
   {chm_nosuch,	0 },			/* O */
   {chm_staff,	MODE_PERMANENT },	/* P */

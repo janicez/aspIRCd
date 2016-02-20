@@ -1,5 +1,5 @@
 /*
- * Do not allow operators to be kicked from +V channels.
+ * Do not allow operators to be kicked from +M channels.
  *     -- kaniini
  */
 
@@ -30,7 +30,7 @@ static unsigned int mymode;
 static int
 _modinit(void)
 {
-	mymode = cflag_add('V', chm_hidden);
+	mymode = cflag_add('M', chm_hidden);
 	if (mymode == 0)
 		return -1;
 
@@ -40,7 +40,7 @@ _modinit(void)
 static void
 _moddeinit(void)
 {
-	cflag_orphan('V');
+	cflag_orphan('M');
 }
 
 DECLARE_MODULE_AV1(chm_operpeace, _modinit, _moddeinit, NULL, NULL, chm_operpeace_hfnlist, "$Revision$");
