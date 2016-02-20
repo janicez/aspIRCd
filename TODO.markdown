@@ -2,4 +2,7 @@
 
 ## Version 1.0.8
 
- - [ ] Add a NetAdmin priv
+ - [ ] Change who can set selected channel modes
+ - [X] Remove NOKICKOPER(Channel mode +M) from core and make a module
+ - [ ] Allow self-devoicing
+ - [ ] Moved selected extensions to modules   
