@@ -778,7 +778,8 @@ set_default_conf(void)
 	ConfigChannel.use_halfop = YES;
 	ConfigChannel.use_admin = YES;
         ConfigChannel.use_owner = YES;
-	ConfigChannel.use_except = YES;
+	ConfigChannel.can_self_devoice = YES;
+        ConfigChannel.use_except = YES;
 	ConfigChannel.use_invex = YES;
 	ConfigChannel.use_knock = YES;
 	ConfigChannel.use_forward = YES;

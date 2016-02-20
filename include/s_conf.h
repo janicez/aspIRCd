@@ -249,7 +249,8 @@ struct config_channel_entry
 	int use_halfop;
 	int use_admin;
         int use_owner;
-	int use_except;
+        int can_self_devoice;
+        int use_except;
 	int use_invex;
 	int use_knock;
 	int use_forward;
