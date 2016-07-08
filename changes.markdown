@@ -1,6 +1,6 @@
-# sIRCd TODO
+# sIRCd Changes
 
-## Version 1.0.8
+## Changes since Version 1.0.7
 
  - [X] change who can set selected channel modes
  - [X] remove NOKICKOPER(Channel mode +M) from core and make a module
