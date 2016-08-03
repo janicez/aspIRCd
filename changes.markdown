@@ -7,7 +7,7 @@
  - [X] allow self-devoicing (enbaled/disabled via config)
  - [X] moved selected extensions to modules   
  - [X] fix halfop permissions (Allow self-dehalfop)
- - [ ] show a client's unique ID on connect & whois
- - [ ] add static parts
+ - [X] show a client's unique ID on connect & whois
+ - [X] add static parts
  - [X] remove m_roleplay
  - [ ] add sasl_usercloak

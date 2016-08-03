@@ -187,6 +187,18 @@ static struct InfoStruct info_table[] = {
 		"String shown in whois for opered services.",
 	},
 	{
+		"static_parts",
+		OUTPUT_BOOLEAN_YN,
+		&ConfigFileEntry.static_parts,
+		"If enabled, all clients will part channels with static_part_reason.",
+	},
+	{
+		"static_part_reason",
+		OUTPUT_STRING,
+		&ConfigFileEntry.static_part_reason,
+		"The reason clients will part with, if static_parts is enabled.",
+	},
+	{
 		"disable_auth",
 		OUTPUT_BOOLEAN_YN,
 		&ConfigFileEntry.disable_auth,

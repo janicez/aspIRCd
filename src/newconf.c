@@ -2274,7 +2274,9 @@ static struct ConfEntry conf_general_table[] =
 	{ "identify_service",	CF_QSTRING, NULL, REALLEN, &ConfigFileEntry.identifyservice },
 	{ "identify_command",	CF_QSTRING, NULL, REALLEN, &ConfigFileEntry.identifycommand },
 
-	{ "anti_spam_exit_message_time", CF_TIME,  NULL, 0, &ConfigFileEntry.anti_spam_exit_message_time },
+	{ "static_parts", CF_YESNO, NULL, 0, &ConfigFileEntry.static_parts },
+	{ "static_part_reason", CF_QSTRING, NULL, REALLEN, &ConfigFileEntry.static_part_reason },
+        { "anti_spam_exit_message_time", CF_TIME,  NULL, 0, &ConfigFileEntry.anti_spam_exit_message_time },
 	{ "use_part_messages",		CF_YESNO, NULL, 0, &ConfigFileEntry.use_part_messages	},
 	{ "disable_fake_channels",	 CF_YESNO, NULL, 0, &ConfigFileEntry.disable_fake_channels },
 	{ "hide_channel_below_users", CF_INT, NULL, 0, &ConfigFileEntry.hide_channel_below_users },

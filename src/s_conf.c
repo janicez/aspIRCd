@@ -698,6 +698,8 @@ set_default_conf(void)
 	ConfigFileEntry.default_operhost = rb_strdup("");
 	ConfigFileEntry.static_quit = rb_strdup("");
 	ConfigFileEntry.servicestring = rb_strdup("is a Network Service");
+        ConfigFileEntry.static_parts = NO;
+	ConfigFileEntry.static_part_reason = NULL;
 
 	ConfigFileEntry.default_umodes = UMODE_INVISIBLE;	
 	ConfigFileEntry.failed_oper_notice = YES;
@@ -876,6 +878,9 @@ validate_conf(void)
 	if(ServerInfo.mask_name == NULL)
 		ServerInfo.mask_name = rb_strdup(SERVER_NAME_MASK_DEFAULT);
 
+	if (ConfigFileEntry.static_part_reason == NULL)
+		ConfigFileEntry.static_part_reason = rb_strdup("");
+
       if(ServerInfo.ssld_count < 1)
 		ServerInfo.ssld_count = 1;
 
@@ -893,7 +898,7 @@ validate_conf(void)
 		int start = ServerInfo.ssld_count - get_ssld_count();
 		/* start up additional ssld if needed */
 		start_ssldaemon(start, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params);
-				
+
 	}
 
 	if((ConfigFileEntry.client_flood < CLIENT_FLOOD_MIN) ||

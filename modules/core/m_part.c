@@ -83,7 +83,14 @@ m_part(struct Client *client_p, struct Client *source_p, int parc, const char *p
 
 	while(name)
 	{
-		part_one_client(client_p, source_p, name, reason);
+		/* If static_parts is enabled, set the reason to static_part_reason. - Ben */
+		if(ConfigFileEntry.static_parts)
+
+		{
+			part_one_client(client_p, source_p, name, ConfigFileEntry.static_part_reason);
+		}
+		else
+			part_one_client(client_p, source_p, name, reason);
 		name = rb_strtok_r(NULL, ",", &p);
 	}
 	return 0;
