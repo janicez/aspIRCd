@@ -122,6 +122,7 @@ TSRCS =                          \
   m_whowas.c \
   m_unreject.c \
   m_xline.c \
+  m_yourid.c \
   sno_routing.c
 
 SRCS = ${TSRCS}
