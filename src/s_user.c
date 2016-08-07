@@ -427,7 +427,7 @@ register_local_user(struct Client *client_p, struct Client *source_p, const char
         /* dnsbl check */
         if (source_p->preClient->dnsbl_listed != NULL) {
                 if (IsExemptKline(source_p) || IsConfExemptDNSBL(aconf))
-                        sendto_one_notice(source_p, ":*** Your IP address %s is listed in %s, but you are exempt",
+                        sendto_one_notice(source_p, ":*** Your IP address %s is blacklisted, but you are exempt",
                                           source_p->sockhost, source_p->preClient->dnsbl_listed->host);
                 else {
                         sendto_realops_snomask(SNO_REJ, L_NETWIDE,
@@ -451,11 +451,11 @@ register_local_user(struct Client *client_p, struct Client *source_p, const char
 
                         substitution_free(&varlist);
 
-                        sendto_one_notice(source_p, ":*** Your IP address %s is listed in %s",
+                        sendto_one_notice(source_p, ":*** Your IP address %s is blacklisted refusing connection",
                                           source_p->sockhost, source_p->preClient->dnsbl_listed->host);
                         source_p->preClient->dnsbl_listed->hits++;
                         add_reject(source_p, NULL, NULL);
-                        exit_client(client_p, source_p, &me, "Banned (DNS blacklisted)");
+                        exit_client(client_p, source_p, &me, "Banned - DNS blacklisted");
                         return CLIENT_EXITED;
                 }
         }
