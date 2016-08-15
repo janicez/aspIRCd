@@ -11,3 +11,4 @@
  - [X] add static parts
  - [X] remove m_roleplay
  - [ ] add sasl_usercloak
+ - [X] added m_forcequit (Allows admins to /forcequit users remote/locally and IRCOP's locally only)

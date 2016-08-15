@@ -1,6 +1,6 @@
 /*
  * SporksIRCD: the ircd for discerning transsexual quilting bees.
- * m_forcequit.c: Forces a user to quit IRC.
+ * m_forcequit.c: Forces a user to quit IRC. (debugged and fixed for sIRCd)
  *
  * Copyright (C) 2010 Elizabeth Jennifer Myers. All rights reserved.
  *
@@ -104,9 +104,6 @@ mo_forcequit(struct Client *client_p, struct Client *source_p, int parc, const c
 
         target_p->flags |= FLAGS_NORMALEX;
         exit_client(client_p, target_p, target_p, reason);
-        /* sendto_match_servs(source_p, "*", CAP_ENCAP, NOCAPS,
-                            "ENCAP * FORCEQUIT %s :%s",
-                            get_id(target_p, target_p), reason);*/
 
         return 0;
 }
