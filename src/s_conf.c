@@ -698,10 +698,11 @@ set_default_conf(void)
 	ConfigFileEntry.default_operhost = rb_strdup("");
 	ConfigFileEntry.static_quit = rb_strdup("");
 	ConfigFileEntry.servicestring = rb_strdup("is a Network Service");
+        ConfigFileEntry.sasl_service = rb_strdup("SaslServ");
         ConfigFileEntry.static_parts = NO;
 	ConfigFileEntry.static_part_reason = NULL;
 
-	ConfigFileEntry.default_umodes = UMODE_INVISIBLE;	
+	ConfigFileEntry.default_umodes = UMODE_INVISIBLE;
 	ConfigFileEntry.failed_oper_notice = YES;
 	ConfigFileEntry.anti_nick_flood = NO;
 	ConfigFileEntry.disable_fake_channels = NO;
@@ -1671,6 +1672,8 @@ clear_out_old_conf(void)
 	ConfigFileEntry.kline_reason = NULL;
         rb_free(ConfigFileEntry.custom_cloak);
         ConfigFileEntry.custom_cloak = NULL;
+        rb_free(ConfigFileEntry.sasl_service);
+	ConfigFileEntry.sasl_service = NULL;
 
 
 	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, service_list.head)
