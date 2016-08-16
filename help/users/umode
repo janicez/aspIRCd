@@ -24,5 +24,5 @@ User modes: (? designates that the umode is provided by an extension
          +G     - "soft caller id" mode - same as +g but automatically allows
                   anyone who's in a common channel with you to message you.
          +V     - Prevents you from receiving invites.
-         +W     - Is connected via a web client (set only on connection).
+         +X     - Is connected via a web client (set only on connection).
          +Z     - Is connected via SSL (set only on connection).
