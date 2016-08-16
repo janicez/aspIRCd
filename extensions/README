@@ -13,6 +13,8 @@ createauthonly.c - Only allow authenticated (identified) users to create
 
 ip_cloaking.c  - Cloak (spoof) the host for users that have umode +x.
 
+show_whois.c      - Spy on clients who WHOIS you seeing idle time (usermode +W).
+
 ip_cloaking_old.c - Cloak (spoof) the host for users that have umode +h.
 
 m_42.c         - The Answer to Life, the Universe, and Everything.
@@ -91,7 +93,6 @@ Snomask Modules
 sno_farconnect.c  - Remote client connect/exit notices (snomask +F)
 sno_globalkline.c - Global K/D/X-line activation notices
 sno_globaloper.c  - Global oper-up notices
-sno_whois.c       - Spy on clients who WHOIS you seeing idle time (snomask +W).
 
 Extban Modules
 --------------

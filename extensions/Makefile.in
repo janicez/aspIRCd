@@ -60,7 +60,6 @@ SRCS =                          \
   sno_farconnect.c		\
   sno_globalkline.c		\
   sno_globaloper.c		\
-  sno_whois.c			\
   m_42.c			\
   m_adminwall.c			\
   m_cycle.c			\
