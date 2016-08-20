@@ -237,6 +237,7 @@ struct config_file_entry
 	int operhide;
         int servermask;
         int use_propagated_bans;
+        int stats_p_maxidle;
 	int secret_channels_in_whois;
 	int expire_override_time;
     int away_interval;
