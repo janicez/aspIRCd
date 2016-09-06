@@ -3,7 +3,6 @@
  * ip_cloaking.c: provide user hostname cloaking
  *
  * Written originally by nenolod, altered to use FNV by Elizabeth in 2008
- * modified by j4jack - errors fixed and a few changes by Craigory in 2014
  */
 
 #include "stdinc.h"
@@ -17,10 +16,6 @@
 #include "s_user.h"
 #include "s_serv.h"
 #include "numeric.h"
-
-/* if you're modifying this module, you'll probably to change this */
-
-#define KEY 0x13748cfd
 
 static int
 _modinit(void)
@@ -49,7 +44,7 @@ mapi_hfn_list_av1 ip_cloaking_hfnlist[] = {
 };
 
 DECLARE_MODULE_AV1(ip_cloaking, _modinit, _moddeinit, NULL, NULL,
-                   ip_cloaking_hfnlist, "$Revision: 3526 $");
+                   ip_cloaking_hfnlist, "$Revision$");
 
 static void
 distribute_hostchange(struct Client *client_p, char *newhost)
@@ -126,7 +121,7 @@ do_host_cloak_ip(const char *inbuf, char *outbuf)
 static void
 do_host_cloak_host(const char *inbuf, char *outbuf)
 {
-    char b36_alphabet[] = "abcdefghijklmnopqrstuvwxyz1234567890";
+    char b26_alphabet[] = "abcdefghijklmnopqrstuvwxyz";
     char *tptr;
     uint32_t accum = fnv_hash((const unsigned char*) inbuf, 32);
 
@@ -141,10 +136,10 @@ do_host_cloak_host(const char *inbuf, char *outbuf)
         if (*tptr == '.')
             break;
 
-        if (*tptr == '-')
+        if (isdigit(*tptr) || *tptr == '-')
             continue;
 
-        *tptr = b36_alphabet[(*tptr + accum) % 36];
+        *tptr = b26_alphabet[(*tptr + accum) % 26];
 
         /* Rotate one bit to avoid all digits being turned odd or even */
         accum = (accum << 1) | (accum >> 31);
@@ -212,4 +207,5 @@ check_new_user(void *vdata)
             SetDynSpoof(source_p);
     }
 }
+
 
