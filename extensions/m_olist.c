@@ -47,8 +47,8 @@ static int mo_olist(struct Client *, struct Client *, int parc, const char *parv
 #ifndef STATIC_MODULES
 
 struct Message olist_msgtab = {
-	"OLIST", 0, 0, 0, MFLG_SLOW,
-	{mg_unreg, mg_not_oper, mg_ignore, mg_ignore, mg_ignore, {mo_olist, 1}}
+    "OLIST", 0, 0, 0, MFLG_SLOW,
+    {mg_unreg, mg_not_oper, mg_ignore, mg_ignore, mg_ignore, {mo_olist, 1}}
 };
 
 mapi_clist_av1 olist_clist[] = { &olist_msgtab, NULL };
@@ -67,23 +67,22 @@ static void list_named_channel(struct Client *source_p, const char *name);
 static int
 mo_olist(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-	if(!IsOperSpy(source_p))
-	{
-		sendto_one(source_p, form_str(ERR_NOPRIVS),
-				me.name, source_p->name, "oper_spy");
-		sendto_one(source_p, form_str(RPL_LISTEND),
-				me.name, source_p->name);
-		return 0;
-	}
+    if(!IsOperSpy(source_p)) {
+        sendto_one(source_p, form_str(ERR_NOPRIVS),
+                   me.name, source_p->name, "oper_spy");
+        sendto_one(source_p, form_str(RPL_LISTEND),
+                   me.name, source_p->name);
+        return 0;
+    }
 
-	/* If no arg, do all channels *whee*, else just one channel */
-	if(parc < 2 || EmptyString(parv[1]))
-		list_all_channels(source_p);
-	else
-		list_named_channel(source_p, parv[1]);
+    /* If no arg, do all channels *whee*, else just one channel */
+    if(parc < 2 || EmptyString(parv[1]))
+        list_all_channels(source_p);
+    else
+        list_named_channel(source_p, parv[1]);
 
-	sendto_one(source_p, form_str(RPL_LISTEND), me.name, source_p->name);
-	return 0;
+    sendto_one(source_p, form_str(RPL_LISTEND), me.name, source_p->name);
+    return 0;
 }
 
 
@@ -96,30 +95,29 @@ mo_olist(struct Client *client_p, struct Client *source_p, int parc, const char 
 static void
 list_all_channels(struct Client *source_p)
 {
-	struct Channel *chptr;
-	rb_dlink_node *ptr;
+    struct Channel *chptr;
+    rb_dlink_node *ptr;
 
-	report_operspy(source_p, "LIST", NULL);
-	sendto_one(source_p, form_str(RPL_LISTSTART), me.name, source_p->name);
+    report_operspy(source_p, "LIST", NULL);
+    sendto_one(source_p, form_str(RPL_LISTSTART), me.name, source_p->name);
 
-	RB_DLINK_FOREACH(ptr, global_channel_list.head)
-	{
-		chptr = ptr->data;
+    RB_DLINK_FOREACH(ptr, global_channel_list.head) {
+        chptr = ptr->data;
 
-		// Stores the channel mode and topic into a character array.  Syntax: [+nt] Topic goes here
-		static char modetopic[BUFSIZE];
-		rb_strlcpy(modetopic, "[", sizeof modetopic);
-		rb_strlcat(modetopic, channel_modes(chptr, source_p), sizeof modetopic);
-		rb_strlcat(modetopic, "] ", sizeof modetopic);
-		rb_strlcat(modetopic, chptr->topic == NULL ? "" : chptr->topic, sizeof modetopic);
-		
-		sendto_one(source_p, form_str(RPL_LIST),
-				me.name, source_p->name, "", chptr->chname,
-				rb_dlink_list_length(&chptr->members),
-				modetopic);
-	}
+        // Stores the channel mode and topic into a character array.  Syntax: [+nt] Topic goes here
+        static char modetopic[BUFSIZE];
+        rb_strlcpy(modetopic, "[", sizeof modetopic);
+        rb_strlcat(modetopic, channel_modes(chptr, source_p), sizeof modetopic);
+        rb_strlcat(modetopic, "] ", sizeof modetopic);
+        rb_strlcat(modetopic, chptr->topic == NULL ? "" : chptr->topic, sizeof modetopic);
 
-	return;
+        sendto_one(source_p, form_str(RPL_LIST),
+                   me.name, source_p->name, "", chptr->chname,
+                   rb_dlink_list_length(&chptr->members),
+                   modetopic);
+    }
+
+    return;
 }
 
 /*
@@ -131,37 +129,36 @@ list_all_channels(struct Client *source_p)
 static void
 list_named_channel(struct Client *source_p, const char *name)
 {
-	struct Channel *chptr;
-	char *p;
-	char *n = LOCAL_COPY(name);
+    struct Channel *chptr;
+    char *p;
+    char *n = LOCAL_COPY(name);
 
-	if((p = strchr(n, ',')))
-		*p = '\0';
+    if((p = strchr(n, ',')))
+        *p = '\0';
 
-	/* Put operspy notice before any output, but only if channel exists */
-	chptr = EmptyString(n) ? NULL : find_channel(n);
-	if(chptr != NULL)
-		report_operspy(source_p, "LIST", chptr->chname);
+    /* Put operspy notice before any output, but only if channel exists */
+    chptr = EmptyString(n) ? NULL : find_channel(n);
+    if(chptr != NULL)
+        report_operspy(source_p, "LIST", chptr->chname);
 
-	sendto_one(source_p, form_str(RPL_LISTSTART), me.name, source_p->name);
+    sendto_one(source_p, form_str(RPL_LISTSTART), me.name, source_p->name);
 
-	if(EmptyString(n))
-		return;
+    if(EmptyString(n))
+        return;
 
-	if(chptr == NULL)
-		sendto_one_numeric(source_p, ERR_NOSUCHCHANNEL,
-				form_str(ERR_NOSUCHCHANNEL), n);
-	else
-	{
-		// Stores the channel mode and topic into a character array.  Syntax: [+nt] Topic goes here
-		static char modetopic[BUFSIZE];
-		rb_strlcpy(modetopic, "[", sizeof modetopic);
-		rb_strlcat(modetopic, channel_modes(chptr, source_p), sizeof modetopic);
-		rb_strlcat(modetopic, "] ", sizeof modetopic);
-		rb_strlcat(modetopic, chptr->topic == NULL ? "" : chptr->topic, sizeof modetopic);
-		
-		sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name, "",
-			chptr->chname, rb_dlink_list_length(&chptr->members),
-			modetopic);
-	}
+    if(chptr == NULL)
+        sendto_one_numeric(source_p, ERR_NOSUCHCHANNEL,
+                           form_str(ERR_NOSUCHCHANNEL), n);
+    else {
+        // Stores the channel mode and topic into a character array.  Syntax: [+nt] Topic goes here
+        static char modetopic[BUFSIZE];
+        rb_strlcpy(modetopic, "[", sizeof modetopic);
+        rb_strlcat(modetopic, channel_modes(chptr, source_p), sizeof modetopic);
+        rb_strlcat(modetopic, "] ", sizeof modetopic);
+        rb_strlcat(modetopic, chptr->topic == NULL ? "" : chptr->topic, sizeof modetopic);
+
+        sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name, "",
+                   chptr->chname, rb_dlink_list_length(&chptr->members),
+                   modetopic);
+    }
 }

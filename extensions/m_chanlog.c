@@ -19,8 +19,8 @@ static const char channel[] = "#logs";
 static void h_cl_snomask(hook_data_snomask *);
 
 mapi_hfn_list_av1 nl_clnlist[] = {
-        { "on_snomask", (hookfn)h_cl_snomask },
-        { NULL, NULL }
+    { "on_snomask", (hookfn)h_cl_snomask },
+    { NULL, NULL }
 };
 
 DECLARE_MODULE_AV1(m_chanlog, NULL, NULL, NULL, NULL, nl_clnlist, "$Revision$");
@@ -28,27 +28,27 @@ DECLARE_MODULE_AV1(m_chanlog, NULL, NULL, NULL, NULL, nl_clnlist, "$Revision$");
 static void
 h_cl_snomask(hook_data_snomask *hd)
 {
-        struct Channel *chan;
-        buf_head_t linebuf;
-        rb_dlink_node *ptr;
+    struct Channel *chan;
+    buf_head_t linebuf;
+    rb_dlink_node *ptr;
 
-        if (!*snomasks || strchr(snomasks, hd->flag))
-                return;
+    if (!*snomasks || strchr(snomasks, hd->flag))
+        return;
 
-        chan = find_channel(channel);
-        if (!chan)
-                return;
+    chan = find_channel(channel);
+    if (!chan)
+        return;
 
-        if (findmodule_byname("chm_operonly.so") && !(chan->mode.mode & chmode_flags['O']))
-                return;
+    if (findmodule_byname("chm_operonly.so") && !(chan->mode.mode & chmode_flags['O']))
+        return;
 
-        rb_linebuf_newbuf(&linebuf);
-        rb_linebuf_putmsg(&linebuf, "%s", NULL,
-                          ":%s PRIVMSG %s :%s",
-                          me.name, chan->chname, hd->buf);
+    rb_linebuf_newbuf(&linebuf);
+    rb_linebuf_putmsg(&linebuf, "%s", NULL,
+                      ":%s PRIVMSG %s :%s",
+                      me.name, chan->chname, hd->buf);
 
-        RB_DLINK_FOREACH(ptr, linebuf.list.head) {
-                sendto_channel_local(ALL_MEMBERS, chan, ptr->data);
-        }
-        rb_linebuf_donebuf(&linebuf);
+    RB_DLINK_FOREACH(ptr, linebuf.list.head) {
+        sendto_channel_local(ALL_MEMBERS, chan, ptr->data);
+    }
+    rb_linebuf_donebuf(&linebuf);
 }

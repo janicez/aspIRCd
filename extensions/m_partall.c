@@ -12,11 +12,11 @@
 #include "modules.h"
 
 static int m_partall(struct Client *client_p, struct Client *source_p,
-	int parc, const char *parv[]);
+                     int parc, const char *parv[]);
 
 struct Message partall_msgtab = {
-	"PARTALL", 0, 0, 0, MFLG_SLOW,
-	{mg_unreg, {m_partall, 0}, mg_ignore, mg_ignore, mg_ignore, {m_partall, 0}}
+    "PARTALL", 0, 0, 0, MFLG_SLOW,
+    {mg_unreg, {m_partall, 0}, mg_ignore, mg_ignore, mg_ignore, {m_partall, 0}}
 };
 
 mapi_clist_av1 partall_clist[] = { &partall_msgtab, NULL };
@@ -26,6 +26,6 @@ DECLARE_MODULE_AV1(partall, NULL, NULL, partall_clist, NULL, NULL, "Provides PAR
 static int
 m_partall(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-	do_join_0(client_p, source_p);
-	return 0;
+    do_join_0(client_p, source_p);
+    return 0;
 }

@@ -18,42 +18,37 @@ DECLARE_MODULE_AV1(extb_unidentified, _modinit, _moddeinit, NULL, NULL, NULL, "B
 static int
 _modinit(void)
 {
-	extban_table['u'] = eb_unidentified;
+    extban_table['u'] = eb_unidentified;
 
-	return 0;
+    return 0;
 }
 
 static void
 _moddeinit(void)
 {
-	extban_table['u'] = NULL;
+    extban_table['u'] = NULL;
 }
 
 static int eb_unidentified(const char *data, struct Client *client_p,
-		struct Channel *chptr, long mode_type)
+                           struct Channel *chptr, long mode_type)
 {
 
-	(void)chptr;
-	// $u alone should match all unidentified users.
-	if (data == NULL)
-	{
-		return EXTBAN_INVALID;
-	}
-	// $u has an argument, check it.  It should be n!u@h .
-	else
-	{
-		char buf[BUFSIZE];
+    (void)chptr;
+    // $u alone should match all unidentified users.
+    if (data == NULL) {
+        return EXTBAN_INVALID;
+    }
+    // $u has an argument, check it.  It should be n!u@h .
+    else {
+        char buf[BUFSIZE];
 
-		rb_snprintf(buf, BUFSIZE, "%s!%s@%s",
-			client_p->name, client_p->username, client_p->host);
+        rb_snprintf(buf, BUFSIZE, "%s!%s@%s",
+                    client_p->name, client_p->username, client_p->host);
 
-		if ((match(data, buf) != 0) && EmptyString(client_p->user->suser))
-		{
-			return EXTBAN_MATCH;
-		}
-		else
-		{
-			return EXTBAN_NOMATCH;
-		}
-	}
+        if ((match(data, buf) != 0) && EmptyString(client_p->user->suser)) {
+            return EXTBAN_MATCH;
+        } else {
+            return EXTBAN_NOMATCH;
+        }
+    }
 }

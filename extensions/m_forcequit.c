@@ -47,8 +47,8 @@ static int me_forcequit(struct Client *, struct Client *, int, const char **);
 static int mo_forcequit(struct Client *, struct Client *, int, const char **);
 
 struct Message forcequit_msgtab = {
-        "FORCEQUIT", 0, 0, 0, MFLG_SLOW,
-        {mg_unreg, mg_not_oper, mg_ignore, mg_ignore, {me_forcequit, 2}, {mo_forcequit, 2}}
+    "FORCEQUIT", 0, 0, 0, MFLG_SLOW,
+    {mg_unreg, mg_not_oper, mg_ignore, mg_ignore, {me_forcequit, 2}, {mo_forcequit, 2}}
 };
 
 mapi_clist_av1 forcequit_clist[] = { &forcequit_msgtab, NULL };
@@ -63,49 +63,49 @@ DECLARE_MODULE_AV1(forcequit, NULL, NULL, forcequit_clist, NULL, NULL, "SporksNe
 static int
 mo_forcequit(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-        struct Client *target_p;
-        const char *user;
-        const char *reason;
-        int chasing = 0;
+    struct Client *target_p;
+    const char *user;
+    const char *reason;
+    int chasing = 0;
 
-        user = parv[1];
+    user = parv[1];
 
-        if(!IsOperAdmin(source_p)) {
-                sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name);
-                return 0;
-        }
-
-        if(!EmptyString(parv[2])) {
-                char *s;
-                s = LOCAL_COPY(parv[2]);
-                if(strlen(s) > (size_t) REASONLEN)
-                        s[REASONLEN] = '\0';
-                reason = s;
-        } else
-                reason = "Ping timeout: 245 seconds";
-
-        if((target_p = find_chasing(source_p, user, &chasing)) == NULL)
-                return 0;
-
-        if(!MyConnect(target_p) && (!IsOper(source_p))) {
-                sendto_one_notice(source_p, ":Nick %s is not on your server and you are not an Admin",
-                                  target_p->name);
-                return 0;
-        }
-
-        sendto_realops_snomask(SNO_GENERAL, L_NETWIDE,
-                               "Received FORCEQUIT message for %s!%s@%s. From %s (Reason: %s)",
-                               target_p->name, target_p->username, target_p->orighost,
-                               source_p->name, reason);
-        /* Log it as a kill (a forcequit is just a kill with the reason hidden) */
-        ilog(L_KILL, "FORCEQUIT called for [%s] by %s!%s@%s",
-             target_p->name, source_p->name, source_p->username, source_p->host);
-
-
-        target_p->flags |= FLAGS_NORMALEX;
-        exit_client(client_p, target_p, target_p, reason);
-
+    if(!IsOperAdmin(source_p)) {
+        sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name);
         return 0;
+    }
+
+    if(!EmptyString(parv[2])) {
+        char *s;
+        s = LOCAL_COPY(parv[2]);
+        if(strlen(s) > (size_t) REASONLEN)
+            s[REASONLEN] = '\0';
+        reason = s;
+    } else
+        reason = "Ping timeout: 245 seconds";
+
+    if((target_p = find_chasing(source_p, user, &chasing)) == NULL)
+        return 0;
+
+    if(!MyConnect(target_p) && (!IsOper(source_p))) {
+        sendto_one_notice(source_p, ":Nick %s is not on your server and you are not an Admin",
+                          target_p->name);
+        return 0;
+    }
+
+    sendto_realops_snomask(SNO_GENERAL, L_NETWIDE,
+                           "Received FORCEQUIT message for %s!%s@%s. From %s (Reason: %s)",
+                           target_p->name, target_p->username, target_p->orighost,
+                           source_p->name, reason);
+    /* Log it as a kill (a forcequit is just a kill with the reason hidden) */
+    ilog(L_KILL, "FORCEQUIT called for [%s] by %s!%s@%s",
+         target_p->name, source_p->name, source_p->username, source_p->host);
+
+
+    target_p->flags |= FLAGS_NORMALEX;
+    exit_client(client_p, target_p, target_p, reason);
+
+    return 0;
 }
 
 /*
@@ -116,37 +116,37 @@ mo_forcequit(struct Client *client_p, struct Client *source_p, int parc, const c
 static int
 me_forcequit(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-        struct Client *target_p;
-        const char *user;
-        const char *reason;
-        int chasing = 0;
+    struct Client *target_p;
+    const char *user;
+    const char *reason;
+    int chasing = 0;
 
-        user = parv[1];
+    user = parv[1];
 
-        if(EmptyString(parv[2]))
-                reason = "Exiting";
-        else {
-                char *s;
-                s = LOCAL_COPY(parv[2]);
-                if(strlen(s) > (size_t) REASONLEN)
-                        s[REASONLEN] = '\0';
-                reason = s;
-        }
+    if(EmptyString(parv[2]))
+        reason = "Exiting";
+    else {
+        char *s;
+        s = LOCAL_COPY(parv[2]);
+        if(strlen(s) > (size_t) REASONLEN)
+            s[REASONLEN] = '\0';
+        reason = s;
+    }
 
-        if((target_p = find_chasing(source_p, user, &chasing)) == NULL)
-                return 0;
-
-        if(IsServer(target_p) || IsMe(target_p))
-                return 0;
-
-        /* Log it as a kill (a forcequit is just a kill with the reason hidden) */
-        ilog(L_KILL, "FORCEQUIT called for [%s] by %s!%s@%s",
-             target_p->name, source_p->name, source_p->username, source_p->host);
-
-        target_p->flags |= FLAGS_NORMALEX;
-        exit_client(client_p, target_p, target_p, reason);
-
+    if((target_p = find_chasing(source_p, user, &chasing)) == NULL)
         return 0;
+
+    if(IsServer(target_p) || IsMe(target_p))
+        return 0;
+
+    /* Log it as a kill (a forcequit is just a kill with the reason hidden) */
+    ilog(L_KILL, "FORCEQUIT called for [%s] by %s!%s@%s",
+         target_p->name, source_p->name, source_p->username, source_p->host);
+
+    target_p->flags |= FLAGS_NORMALEX;
+    exit_client(client_p, target_p, target_p, reason);
+
+    return 0;
 }
 
 

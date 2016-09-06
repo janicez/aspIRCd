@@ -21,8 +21,8 @@
 static void hdl_can_kick(hook_data_channel_approval *);
 
 mapi_hfn_list_av1 chm_operpeace_hfnlist[] = {
-	{ "can_kick", (hookfn) hdl_can_kick },
-	{ NULL, NULL }
+    { "can_kick", (hookfn) hdl_can_kick },
+    { NULL, NULL }
 };
 
 static unsigned int mymode;
@@ -30,17 +30,17 @@ static unsigned int mymode;
 static int
 _modinit(void)
 {
-	mymode = cflag_add('M', chm_hidden);
-	if (mymode == 0)
-		return -1;
+    mymode = cflag_add('M', chm_hidden);
+    if (mymode == 0)
+        return -1;
 
-	return 0;
+    return 0;
 }
 
 static void
 _moddeinit(void)
 {
-	cflag_orphan('M');
+    cflag_orphan('M');
 }
 
 DECLARE_MODULE_AV1(chm_operpeace, _modinit, _moddeinit, NULL, NULL, chm_operpeace_hfnlist, "$Revision$");
@@ -48,19 +48,18 @@ DECLARE_MODULE_AV1(chm_operpeace, _modinit, _moddeinit, NULL, NULL, chm_operpeac
 static void
 hdl_can_kick(hook_data_channel_approval *data)
 {
-	struct Client *source_p = data->client;
-	struct Client *who = data->target;
-	struct Channel *chptr = data->chptr;
+    struct Client *source_p = data->client;
+    struct Client *who = data->target;
+    struct Channel *chptr = data->chptr;
 
-	if(IsOper(source_p))
-		return;
+    if(IsOper(source_p))
+        return;
 
-	if((chptr->mode.mode & mymode) && IsOper(who))
-	{
-		sendto_realops_snomask(SNO_GENERAL, L_NETWIDE, "%s attempted to kick %s from %s",
-			source_p->name, who->name, chptr->chname);
-		sendto_one_numeric(source_p, ERR_ISCHANSERVICE, "%s %s :Cannot kick IRC operators from that channel.",
-			who->name, chptr->chname);
-		data->approved = 0;
-	}
+    if((chptr->mode.mode & mymode) && IsOper(who)) {
+        sendto_realops_snomask(SNO_GENERAL, L_NETWIDE, "%s attempted to kick %s from %s",
+                               source_p->name, who->name, chptr->chname);
+        sendto_one_numeric(source_p, ERR_ISCHANSERVICE, "%s %s :Cannot kick IRC operators from that channel.",
+                           who->name, chptr->chname);
+        data->approved = 0;
+    }
 }
