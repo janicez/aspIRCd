@@ -56,8 +56,6 @@ m_okick.c      - OKICK - Allows an oper to kick a user from a channel
                          regardless of if they have ops or not.
                  Syntax: OKICK <channel> <nick> :<message>
 
-m_roleplay.c	- ROLEPLAY - Allows a variety of roleplaying commands.
-
 no_oper_invis.c - Disallow opers setting marking themselves as invisible
                   (+i) unless they have the hidden_oper flag.
 
@@ -104,3 +102,4 @@ extb_extgecos.so - Extended ban (+b $x:mask)
 extb_oper.so     - Oper bans (+b $o)
 extb_realname.so - Realname (gecos) bans (+b $r:mask)
 extb_server.so   - Server bans (+b $s:mask)
+extb_hostmask.so - Host bans (+b $h:mask)
