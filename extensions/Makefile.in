@@ -81,8 +81,9 @@ SRCS =                          \
   m_partall.c                   \
   m_oquit.c                     \
   m_sendbans.c			\
-    no_locops.c			\
+  no_locops.c			\
   no_oper_invis.c		\
+  sasl_usercloak.c              \
   sno_globalnickchange.c        \
   spy_admin_notice.c		\
   spy_info_notice.c		\
