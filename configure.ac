@@ -1,3 +1,4 @@
+
 dnl $Id: configure.ac 3516 2007-06-10 16:14:03Z jilles $
 dnl Process this file with autoconf to produce a configure script.
 
@@ -10,7 +11,7 @@ AC_PREREQ(2.57)
 dnl Sneaky way to get an Id tag into the configure script
 AC_COPYRIGHT([2014 sIRCd])
 
-AC_INIT([sIRCd],[1.0.8])
+AC_INIT([sIRCd],[1.0.9])
 
 AC_CONFIG_HEADER(include/setup.h)
 

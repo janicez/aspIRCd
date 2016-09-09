@@ -722,7 +722,7 @@ stats_operedup (struct Client *source_p)
 {
 	struct Client *target_p;
 	rb_dlink_node *oper_ptr;
-	unsigned int count = 0, idlecount = 0;;
+	unsigned int count = 0;
 
 	RB_DLINK_FOREACH (oper_ptr, oper_list.head)
 	{
@@ -734,21 +734,7 @@ stats_operedup (struct Client *source_p)
 		if(target_p->user->away)
 			continue;
 
-                /* Away or idle */
-                if(target_p->user->away)
-                {
-                        idlecount++;
-                        continue;
-                }
-
-                if(ConfigFileEntry.stats_p_maxidle > 0 &&
-                   (rb_current_time() - target_p->localClient->last) > ConfigFileEntry.stats_p_maxidle)
-                {
-                        idlecount++;
-                        continue;
-                }
-
-		count++;
+               	count++;
 
 		sendto_one_numeric(source_p, RPL_STATSDEBUG,
 				   "p :%s (%s@%s)",

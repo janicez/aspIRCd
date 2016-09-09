@@ -833,8 +833,7 @@ set_default_conf(void)
         ConfigFileEntry.operhide = 0;
         ConfigFileEntry.servermask = 0;
 	ConfigFileEntry.expire_override_time = 300;
-        ConfigFileEntry.stats_p_maxidle = 7200; /* 2h seems sane */
-	ServerInfo.default_max_clients = MAXCONNECTIONS;
+        ServerInfo.default_max_clients = MAXCONNECTIONS;
 
 	if (!alias_dict)
 		alias_dict = irc_dictionary_create(strcasecmp);
