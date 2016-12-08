@@ -669,7 +669,7 @@ const unsigned int CharAttrs[] = {
 /* 12 \f */ CNTRL_C | SPACE_C | CHAN_C | NONEOS_C,
 /* 13 \r */ CNTRL_C | SPACE_C | CHAN_C | NONEOS_C | EOL_C,
 /* 14 */ CNTRL_C | CHAN_C | NONEOS_C,
-/* 15 */ CNTRL_C | CHAN_C | NONEOS_C,
+/* 15 */ CNTRL_C | CHAN_C | NONEOS_C | HOST_C,
 /* 16 */ CNTRL_C | CHAN_C | NONEOS_C,
 /* 17 */ CNTRL_C | CHAN_C | NONEOS_C,
 /* 18 */ CNTRL_C | CHAN_C | NONEOS_C,
