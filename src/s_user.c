@@ -428,7 +428,7 @@ register_local_user(struct Client *client_p, struct Client *source_p, const char
         if (source_p->preClient->dnsbl_listed != NULL) {
                 if (IsExemptKline(source_p) || IsConfExemptDNSBL(aconf))
                         sendto_one_notice(source_p, ":*** Your IP address %s is blacklisted, but you are exempt",
-                                          source_p->sockhost, source_p->preClient->dnsbl_listed->host);
+                              source_p->sockhost);
                 else {
                         sendto_realops_snomask(SNO_REJ, L_NETWIDE,
                                                "DNSBL listed: %s!%s@%s{%s} - (%s)", source_p->name,
@@ -452,7 +452,7 @@ register_local_user(struct Client *client_p, struct Client *source_p, const char
                         substitution_free(&varlist);
 
                         sendto_one_notice(source_p, ":*** Your IP address %s is blacklisted refusing connection",
-                                          source_p->sockhost, source_p->preClient->dnsbl_listed->host);
+                                          source_p->sockhost);
                         source_p->preClient->dnsbl_listed->hits++;
                         add_reject(source_p, NULL, NULL);
                         exit_client(client_p, source_p, &me, "Banned - DNS blacklisted");
@@ -1256,7 +1256,6 @@ oper_up(struct Client *source_p, struct oper_conf *oper_p)
 {
         unsigned int old = source_p->umodes, oldsnomask = source_p->snomask;
         hook_data_umode_changed hdata;
-        struct ConfItem *aconf;
 
         SetOper(source_p);
 
@@ -1341,8 +1340,6 @@ oper_up(struct Client *source_p, struct oper_conf *oper_p)
         sendto_one_notice(source_p, ":*** Oper privilege set is %s", oper_p->privset->name);
         sendto_one_notice(source_p, ":*** Oper privs are %s", oper_p->privset->privs);
         send_oper_motd(source_p);
-
-        aconf = source_p->localClient->att_conf;
 
         /* If we're setting +p, expire it */
         if (ConfigFileEntry.expire_override_time && MyClient(source_p) && source_p->umodes & UMODE_OVERRIDE) {

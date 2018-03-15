@@ -741,7 +741,6 @@ main(int argc, char *argv[])
 	add_to_client_hash(me.name, &me);
 	add_to_id_hash(me.id, &me);
 	me.serv->nameinfo = scache_connect(me.name, me.info, 0);
-        me.serv->maskinfo = scache_connect(me.mname, me.info, 0);
 
 	rb_dlinkAddAlloc(&me, &global_serv_list);
 
