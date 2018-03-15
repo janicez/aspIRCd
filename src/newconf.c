@@ -320,6 +320,7 @@ static struct mode_table umode_table[] = {
 
 static struct mode_table oper_table[] = {
 	{"encrypted",		OPER_ENCRYPTED		},
+        {"vhost_auth",		OPER_VHOSTAUTH		},
 	{"need_ssl",		OPER_NEEDSSL		},
 	{NULL, 0}
 };

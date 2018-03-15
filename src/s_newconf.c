@@ -280,7 +280,7 @@ free_oper_conf(struct oper_conf *oper_p)
 }
 
 struct oper_conf *
-find_oper_conf(const char *username, const char *host, const char *locip, const char *name)
+find_oper_conf(const char *username, const char *host, const char *vhost, const char *locip, const char *name)
 {
 	struct oper_conf *oper_p;
 	struct rb_sockaddr_storage ip, cip;
@@ -313,7 +313,9 @@ find_oper_conf(const char *username, const char *host, const char *locip, const 
 		 */
 		if(match(oper_p->host, host))
 			return oper_p;
-	}
+
+	}       if((oper_p->flags & OPER_VHOSTAUTH) && !EmptyString(vhost) && match(oper_p->host, vhost))
+			return oper_p;
 
 	return NULL;
 }

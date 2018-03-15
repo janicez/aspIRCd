@@ -77,7 +77,7 @@ m_oper(struct Client *client_p, struct Client *source_p, int parc, const char *p
     if(!IsFloodDone(source_p))
         flood_endgrace(source_p);
 
-    oper_p = find_oper_conf(source_p->username, source_p->orighost,
+    oper_p = find_oper_conf(source_p->username, source_p->orighost, source_p->host,
                             source_p->sockhost, name);
 
     if(oper_p == NULL) {
