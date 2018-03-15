@@ -81,22 +81,20 @@ m_oper(struct Client *client_p, struct Client *source_p, int parc, const char *p
 	oper_p = find_oper_conf(source_p->username, source_p->orighost, 
 				source_p->sockhost, name);
 
-	if(oper_p == NULL)
-	{
-		sendto_one_numeric(source_p, ERR_NOOPERHOST, form_str(ERR_NOOPERHOST));
-		ilog(L_FOPER, "FAILED OPER (%s) by (%s!%s@%s) (%s)",
-		     name, source_p->name,
-		     source_p->username, source_p->host, source_p->sockhost);
+        if(oper_p == NULL) {
+        sendto_one_numeric(source_p, ERR_NOOPERHOST, form_str(ERR_NOOPERHOST));
+        ilog(L_FOPER, "FAILED OPER (%s) by (%s!%s@%s) (%s)",
+             name, source_p->name,
+             source_p->username, source_p->host, source_p->sockhost);
 
-		if(ConfigFileEntry.failed_oper_notice)
-		{
-			sendto_realops_snomask(SNO_GENERAL, L_NETWIDE,
-					     "Failed OPER attempt - host mismatch by %s (%s@%s)",
-					     source_p->name, source_p->username, source_p->host);
-		}
+        if(ConfigFileEntry.failed_oper_notice) {
+            sendto_realops_snomask(SNO_GENERAL, L_NETWIDE,
+                                   "Failed OPER attempt - host mismatch by %s (%s@%s)",
+                                   source_p->name, source_p->username, source_p->host);
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
 	if(IsOperConfNeedSSL(oper_p) && !IsSSLClient(source_p))
 	{
