@@ -39,8 +39,6 @@
 #include "s_serv.h"
 #include "s_stats.h"
 #include "string.h"
-#include "s_newconf.h"
-#include "s_conf.h"
 
 static int mr_authenticate(struct Client *, struct Client *, int, const char **);
 static int me_sasl(struct Client *, struct Client *, int, const char **);
@@ -67,14 +65,13 @@ mapi_hfn_list_av1 sasl_hfnlist[] = {
     { NULL, NULL }
 };
 
-DECLARE_MODULE_AV1(sasl, NULL, NULL, sasl_clist, NULL, sasl_hfnlist, "$Revision: 1409 $");
+DECLARE_MODULE_AV1(sasl, NULL, NULL, sasl_clist, NULL, sasl_hfnlist, "$Revision$");
 
 static int
 mr_authenticate(struct Client *client_p, struct Client *source_p,
                 int parc, const char *parv[])
 {
     struct Client *agent_p = NULL;
-    struct Client *saslserv_p = NULL;
 
     /* They really should use CAP for their own sake. */
     if(!IsCapable(source_p, CLICAP_SASL))
@@ -82,12 +79,6 @@ mr_authenticate(struct Client *client_p, struct Client *source_p,
 
     if (strlen(client_p->id) == 3) {
         exit_client(client_p, client_p, client_p, "Mixing client and server protocol");
-        return 0;
-    }
-
-    saslserv_p = find_named_client(ConfigFileEntry.sasl_service);
-    if (saslserv_p == NULL || !IsService(saslserv_p)) {
-        sendto_one(source_p, form_str(ERR_SASLABORTED), me.name, EmptyString(source_p->name) ? "*" : source_p->name);
         return 0;
     }
 
@@ -112,19 +103,15 @@ mr_authenticate(struct Client *client_p, struct Client *source_p,
 
     if(agent_p == NULL) {
         if (!strcmp(parv[1], "EXTERNAL") && source_p->certfp != NULL)
-            sendto_one(saslserv_p, ":%s ENCAP %s SASL %s %s S %s %s", me.id, saslserv_p->servptr->name,
-                       source_p->id, saslserv_p->id,
-                       parv[1], source_p->certfp);
+            sendto_server(NULL, NULL, CAP_TS6|CAP_ENCAP, NOCAPS, ":%s ENCAP * SASL %s * S %s %s", me.id,
+                          source_p->id, parv[1],
+                          source_p->certfp);
         else
-            sendto_one(saslserv_p, ":%s ENCAP %s SASL %s %s S %s", me.id, saslserv_p->servptr->name,
-                       source_p->id, saslserv_p->id,
-                       parv[1]);
-
-        rb_strlcpy(source_p->preClient->sasl_agent, saslserv_p->id, IDLEN);
+            sendto_server(NULL, NULL, CAP_TS6|CAP_ENCAP, NOCAPS, ":%s ENCAP * SASL %s * S %s", me.id,
+                          source_p->id, parv[1]);
     } else
         sendto_one(agent_p, ":%s ENCAP %s SASL %s %s C %s", me.id, agent_p->servptr->name,
-                   source_p->id, agent_p->id,
-                   parv[1]);
+                   source_p->id, agent_p->id, parv[1]);
     source_p->preClient->sasl_out++;
 
     return 0;
@@ -175,7 +162,7 @@ me_sasl(struct Client *client_p, struct Client *source_p,
             sendto_one(target_p, form_str(RPL_SASLSUCCESS), me.name, EmptyString(target_p->name) ? "*" : target_p->name);
             target_p->preClient->sasl_complete = 1;
             ServerStats.is_ssuc++;
-            //server_auth_sasl(target_p);
+            server_auth_sasl(target_p);
         }
         *target_p->preClient->sasl_agent = '\0'; /* Blank the stored agent so someone else can answer */
     }
@@ -185,8 +172,6 @@ me_sasl(struct Client *client_p, struct Client *source_p,
 
 static int server_auth_sasl(struct Client *client_p)
 {
-    char *auth_user = NULL;
-
     if (client_p->localClient->auth_user != NULL) {
         memset(client_p->localClient->auth_user, 0,
                strlen(client_p->localClient->auth_user));
@@ -195,10 +180,7 @@ static int server_auth_sasl(struct Client *client_p)
     }
 
     if (client_p->user != NULL && client_p->user->suser != NULL)
-        auth_user = rb_strndup(client_p->user->suser, PASSWDLEN);
-
-    if (auth_user != NULL)
-        client_p->localClient->auth_user = rb_strndup(auth_user, PASSWDLEN);
+        client_p->localClient->auth_user = rb_strndup(client_p->user->suser, PASSWDLEN);
 
     return 0;
 }
