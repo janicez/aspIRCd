@@ -9,4 +9,7 @@ install:
 script: "./configure && make && make install"
 
 notifications:
-  irc: "irc.letstalkcoding.net#sIRCd"
+  irc: "ircs://irc.chatfreedom.us:6697#sIRCd"
+  template:
+      - "%{repository_slug} - %{commit} : %{author}): %{message}"
+      - "Build details : %{build_url}"

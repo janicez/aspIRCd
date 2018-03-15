@@ -3,11 +3,14 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 sysconfdir="@sysconfdir@"
 
-echo "Generating self-signed certificate .. "
-openssl req -x509 -nodes -newkey rsa:2048 -keyout "${sysconfdir}"/ssl.key -out "${sysconfdir}"/ssl.cert -days 3652
+echo "Generating private key and CSR... "
+openssl req -new -newkey rsa:4096 -nodes -sha512 -out "${sysconfdir}"/ssl.csr -keyout "${sysconfdir}"/ssl.key
+
+echo "Self-signing certificate..."
+openssl x509 -req -sha512 -days 730 -in "${sysconfdir}"/ssl.csr -signkey "${sysconfdir}"/ssl.key -out "${sysconfdir}"/ssl.pem
 
 echo "Generating Diffie-Hellman file for secure SSL/TLS negotiation .. "
-openssl dhparam -out "${sysconfdir}"/dh.pem 2048
+openssl dhparam -out "${sysconfdir}"/dh.pem 4096
 
 # If sysconfdir is relative to prefix, make the path relative. I.e.,
 # prefix=/usr and sysconfdir=/etc -> relative_sysconfdir=/etc,
@@ -22,7 +25,7 @@ cat <<EOF
 Now change these lines in the IRCd config file:
 
     ssl_private_key = "${relative_sysconfdir}/ssl.key";
-    ssl_cert = "${relative_sysconfdir}/ssl.cert";
+    ssl_cert = "${relative_sysconfdir}/ssl.pem";
     ssl_dh_params = "${relative_sysconfdir}/dh.pem";
 
 Enjoy using ssl.
