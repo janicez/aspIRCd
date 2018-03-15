@@ -40,16 +40,16 @@ static int m_rules(struct Client *, struct Client *, int, const char **);
 static int mo_rules(struct Client *, struct Client *, int, const char **);
 
 struct Message rules_msgtab = {
-	"RULES", 0, 0, 0, MFLG_SLOW,
-	{mg_unreg, {m_rules, 0}, {mo_rules, 0}, mg_ignore, mg_ignore, {mo_rules, 0}}
+    "RULES", 0, 0, 0, MFLG_SLOW,
+    {mg_unreg, {m_rules, 0}, {mo_rules, 0}, mg_ignore, mg_ignore, {mo_rules, 0}}
 };
 
 int doing_rules_hook;
 
 mapi_clist_av1 rules_clist[] = { &rules_msgtab, NULL };
 mapi_hlist_av1 rules_hlist[] = {
-        { "doing_rules", &doing_rules_hook },
-        { NULL, NULL }
+    { "doing_rules", &doing_rules_hook },
+    { NULL, NULL }
 };
 
 
@@ -62,24 +62,22 @@ DECLARE_MODULE_AV1(rules, NULL, NULL, rules_clist, rules_hlist, NULL, "$Revision
 static int
 m_rules(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-	static time_t last_used = 0;
+    static time_t last_used = 0;
 
-	if((last_used + ConfigFileEntry.pace_wait) > rb_current_time())
-	{
-		/* safe enough to give this on a local connect only */
-		sendto_one(source_p, form_str(RPL_LOAD2HI),
-			   me.name, source_p->name, "RULES");
-		return 0;
-	}
-	else
-		last_used = rb_current_time();
+    if((last_used + ConfigFileEntry.pace_wait) > rb_current_time()) {
+        /* safe enough to give this on a local connect only */
+        sendto_one(source_p, form_str(RPL_LOAD2HI),
+                   me.name, source_p->name, "RULES");
+        return 0;
+    } else
+        last_used = rb_current_time();
 
-	if(hunt_server(client_p, source_p, ":%s RULES :%s", 1, parc, parv) != HUNTED_ISME)
-		return 0;
+    if(hunt_server(client_p, source_p, ":%s RULES :%s", 1, parc, parv) != HUNTED_ISME)
+        return 0;
 
-	send_user_rules(source_p);
+    send_user_rules(source_p);
 
-	return 0;
+    return 0;
 }
 
 /*
@@ -89,11 +87,11 @@ m_rules(struct Client *client_p, struct Client *source_p, int parc, const char *
 static int
 mo_rules(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-	if(hunt_server(client_p, source_p, ":%s RULES :%s", 1, parc, parv) != HUNTED_ISME)
-		return 0;
+    if(hunt_server(client_p, source_p, ":%s RULES :%s", 1, parc, parv) != HUNTED_ISME)
+        return 0;
 
-	send_user_rules(source_p);
+    send_user_rules(source_p);
 
-	return 0;
+    return 0;
 }
 

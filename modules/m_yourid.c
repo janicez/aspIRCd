@@ -17,8 +17,8 @@
 static void check_new_user(void *data);
 
 mapi_hfn_list_av1 m_yourip_hfnlist[] = {
-        { "new_local_user", (hookfn) check_new_user },
-        { NULL, NULL }
+    { "new_local_user", (hookfn) check_new_user },
+    { NULL, NULL }
 };
 
 DECLARE_MODULE_AV1(m_yourip, NULL, NULL, NULL, NULL,
@@ -27,6 +27,6 @@ DECLARE_MODULE_AV1(m_yourip, NULL, NULL, NULL, NULL,
 static void
 check_new_user(void *vdata)
 {
-        struct Client *source_p = (void *)vdata;
-        sendto_one_numeric(source_p, RPL_YOURID, form_str(RPL_YOURID), source_p->id);
+    struct Client *source_p = (void *)vdata;
+    sendto_one_numeric(source_p, RPL_YOURID, form_str(RPL_YOURID), source_p->id);
 }
