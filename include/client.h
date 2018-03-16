@@ -417,6 +417,7 @@ struct ListClient
 #define UMODE_SCALLERID    0x40000	/* soft caller id */
 #define UMODE_HIDECHANS    0x80000	/* hide channels in whois +H */
 #define UMODE_SSLONLYMSG   0x200000     /* only allow users using SSL to msg */
+#define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
 
 /* user information flags, only settable by remote mode or local oper */
 #define UMODE_OPER         0x1000	/* Operator */
@@ -539,6 +540,7 @@ struct ListClient
 #define IsSetBot(x)		((x)->umodes & UMODE_BOT)
 #define IsWebClient(x)          ((x)->umodes & UMODE_WEBCLIENT)
 #define IsSetSCallerId(x)	((x)->umodes & UMODE_SCALLERID)
+#define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
 
 
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)

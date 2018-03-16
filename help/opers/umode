@@ -15,6 +15,7 @@ User modes: (* designates that the umode is oper only)
                   Use the /oper command to attain this.
        * +a     - Is marked as a server admin in whois.
        * +l     - Can see oper locops (local wallops).
+         +m     - Prevents non IRCOPs from messaging you.
        * +s     - Can see server notices (see /quote help snomask).
        * +z     - Can see operwalls.
        * +p     - Override - gives you implicit operator access in all channels.

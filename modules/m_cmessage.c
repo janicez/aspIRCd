@@ -121,14 +121,24 @@ m_cmessage(int p_or_n, const char *command,
         return 0;
     }
 
-    if((MyClient(target_p) && (IsSetCallerId(target_p) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
-                               (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))) &&
-        !accept_message(source_p, target_p) && !IsOper(source_p))
-      ) {
-        if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) {
+    else if(!IsServer(source_p) && !IsService(source_p) && (IsSetCallerId(target_p) ||
+                                        (IsSetSCallerId(target_p) && !has_common_channel(source_p, target_p)) ||
+                                        (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
+                                        (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
+                        (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
+                        )
+                {
+    if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) {
             if (p_or_n != NOTICE)
                 sendto_one_numeric(source_p, ERR_NONONREG,
                                    form_str(ERR_NONONREG),
+                                   target_p->name);
+            return 0;
+        }
+        if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) {
+            if (p_or_n != NOTICE)
+                sendto_one_numeric(source_p, ERR_NONONOP,
+                                   form_str(ERR_NONONOP),
                                    target_p->name);
             return 0;
         }
@@ -161,8 +171,8 @@ m_cmessage(int p_or_n, const char *command,
     }
 
     if(p_or_n != NOTICE)
-        source_p->localClient->last = rb_current_time();
+    source_p->localClient->last = rb_current_time();
 
-    sendto_anywhere(target_p, source_p, command, ":%s", parv[3]);
-    return 0;
+                                  sendto_anywhere(target_p, source_p, command, ":%s", parv[3]);
+                                  return 0;
 }

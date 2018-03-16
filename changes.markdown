@@ -5,7 +5,7 @@
 - [X] - add vhost for opers support, requiring opers to identify with nickserv firstly
 - [X] - remove zip linking support
 - [X] - fix Compile errors
-- []  - remove/fix opmsg only (umode +b)
+- [X] - removed oponlymsg and named staffonly (mode +m prevents none IRCops messaging you)
 - [X] - use sha-512 for SSL
 - [X] - remove DES support for mkpasswd
 - [X] - upgrade sqlite to 3.8.10

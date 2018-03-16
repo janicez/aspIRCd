@@ -191,6 +191,7 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
 
     if(MyConnect(target_p)) {
         if(!IsOper(source_p) && (IsSetCallerId(target_p) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
+                                 (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
                                  (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
           ) {
             if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) {
@@ -204,6 +205,13 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
                                    form_str(ERR_NONONSSL),
                                    target_p->name);
                 return 0;
+            }
+            if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) {
+                sendto_one_numeric(source_p, ERR_NONONOP,
+                                   form_str(ERR_NONONOP),
+                                   target_p->name);
+                return 0;
+
             }
             else {
                 /* instead of sending RPL_UMODEGMSG,

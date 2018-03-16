@@ -11,6 +11,7 @@ User modes: (? designates that the umode is provided by an extension
          +t     - Prevents non-SSL users you have not accepted from
                   messaging you.
          +g     - "caller id" mode only allow accept clients to message you
+         +m     - Prevents non IRCOPs from messaging you.
          +w     - Can see oper wallops.
        ? +x     - Has a cloaked host.
          +B     - Marks you as a bot in /whois.
