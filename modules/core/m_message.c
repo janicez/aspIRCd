@@ -773,7 +773,6 @@ msg_client(int p_or_n, const char *command,
         else if(!IsServer(source_p) && !IsService(source_p) && (IsSetCallerId(target_p) ||
                 (IsSetSCallerId(target_p) && !has_common_channel(source_p, target_p)) ||
                 (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
-                (IsSetOPOnlyMsg(target_p) && !IsOper(source_p)) ||
                 (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
                ) {
             if (IsOper(source_p)) {
@@ -801,11 +800,6 @@ msg_client(int p_or_n, const char *command,
                 if (p_or_n != NOTICE)
                     sendto_one_numeric(source_p, ERR_NONONSSL,
                                        form_str(ERR_NONONSSL),
-                                       target_p->name);
-            } else if (IsSetOPOnlyMsg(target_p) && !IsOper(source_p)) {
-                if (p_or_n != NOTICE)
-                    sendto_one_numeric(source_p, ERR_NONONOP,
-                                       form_str(ERR_NONONOP),
                                        target_p->name);
             } else if (IsSetSCallerId(target_p) && !has_common_channel(source_p, target_p)) {
                 if (p_or_n != NOTICE) {

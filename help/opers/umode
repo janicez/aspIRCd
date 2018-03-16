@@ -5,7 +5,6 @@ User modes: (* designates that the umode is oper only)
 
      USERMODE     DESCRIPTION
 -----------------------------------------------------------------
-         +b     - Prevents non IRCOPs from messaging you.
          +i     - Designates this client 'invisible'.
          +g     - "caller id" mode only allow accept clients to message you
          +t     - Prevents non-SSL users you have not accepted from

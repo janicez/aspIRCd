@@ -122,8 +122,7 @@ m_cmessage(int p_or_n, const char *command,
     }
 
     if((MyClient(target_p) && (IsSetCallerId(target_p) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
-                               (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) ||
-                               (IsSetOPOnlyMsg(target_p) && !IsOper(source_p))) &&
+                               (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))) &&
         !accept_message(source_p, target_p) && !IsOper(source_p))
       ) {
         if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) {
@@ -137,13 +136,6 @@ m_cmessage(int p_or_n, const char *command,
             if (p_or_n != NOTICE)
                 sendto_one_numeric(source_p, ERR_NONONSSL,
                                    form_str(ERR_NONONSSL),
-                                   target_p->name);
-            return 0;
-        }
-        if (IsSetOPOnlyMsg(target_p) && !IsOper(source_p)) {
-            if (p_or_n != NOTICE)
-                sendto_one_numeric(source_p, ERR_NONONOP,
-                                   form_str(ERR_NONONOP),
                                    target_p->name);
             return 0;
         }

@@ -334,6 +334,7 @@ extern const char *form_str(int);
 
 #define RPL_WHOISSECURE      671 /* Unreal3.2 --nenolod */
 #define RPL_WHOISWEBIRC      672 /* plexus -- XE */
+#define RPL_WHOISYOURID      674 /* Show EUID in WHOIS */
 #define RPL_MODLIST          702
 #define RPL_ENDOFMODLIST     703
 
