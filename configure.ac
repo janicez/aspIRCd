@@ -11,7 +11,7 @@ AC_PREREQ(2.57)
 dnl Sneaky way to get an Id tag into the configure script
 AC_COPYRIGHT([2014 sIRCd])
 
-AC_INIT([sIRCd],[1.0.9])
+AC_INIT([sIRCd],[1.0.9-1])
 
 AC_CONFIG_HEADER(include/setup.h)
 
