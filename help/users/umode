@@ -19,6 +19,7 @@ User modes: (? designates that the umode is provided by an extension
          +D     - Deaf - ignores all channel messages.
          +H     - Prevents non-opers from seeing your channel list in
                   a whois query.
+         +I     - Hide idle from WHOIS
          +Q     - Prevents you from being affected by channel forwarding.
          +R     - Prevents non accept unidentified users from messaging you.
          +G     - "soft caller id" mode - same as +g but automatically allows

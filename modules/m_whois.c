@@ -391,6 +391,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
                                form_str(RPL_WHOISACTUALLY),
                                target_p->name, target_p->sockhost);
 
+        if (!IsService(target_p) && (!(target_p->umodes & UMODE_HIDEIDLE) || IsOper(source_p)))
         sendto_one_numeric(source_p, RPL_WHOISIDLE, form_str(RPL_WHOISIDLE),
                            target_p->name,
                            rb_current_time() - target_p->localClient->last,
