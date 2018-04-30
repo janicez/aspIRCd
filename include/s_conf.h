@@ -150,7 +150,6 @@ struct config_file_entry
 	char *static_quit;
 	char *servicestring;
 	char *kline_reason;
-        char *custom_cloak; /* used with old_cloaking */
         int static_parts;
 	char *static_part_reason;
 
