@@ -1729,6 +1729,7 @@ chm_forward(struct Client *source_p, struct Channel *chptr,
 	struct Channel *targptr = NULL;
 	struct membership *msptr;
 	const char *forward;
+        struct ConfItem *aconf = NULL;
 	int override = 0;
 
 	/* if +f is disabled, ignore local attempts to set it */
@@ -1783,17 +1784,29 @@ chm_forward(struct Client *source_p, struct Channel *chptr,
 
 		if(EmptyString(forward))
 			return;
-		if(!check_channel_name(forward) ||
-				(MyClient(source_p) && (strlen(forward) > LOC_CHANNELLEN || hash_find_resv(forward))))
+		if(!check_channel_name(forward) || (MyClient(source_p) && strlen(forward) > LOC_CHANNELLEN))
 		{
-			sendto_one_numeric(source_p, ERR_BADCHANNAME, form_str(ERR_BADCHANNAME), forward);
+			sendto_one_numeric(source_p, ERR_BADCHANNAME, form_str(ERR_BADCHANNAME), forward, "invalid or too long");
+                return;
+        }
+	else if (MyClient(source_p) && (aconf = hash_find_resv(forward)))
+	{
+		/* like klines, resvs have a user visible reason and an oper-visible reason
+		 * delimited by a pipe character.  If we find a pipe in the reason, swap it
+		 * out for a null before sending it out, and swap the pipe back in after
+		 * faster and less verbose than using a temporary buffer or other method
+		 */
+		char *reason_break = strstr(aconf->passwd, "|");
+		if (reason_break != NULL) *reason_break = '\0';
+		sendto_one_numeric(source_p, ERR_BADCHANNAME, form_str(ERR_BADCHANNAME), forward, aconf->passwd);
+		if (reason_break != NULL) *reason_break = '|';
 			return;
 		}
 		/* don't forward to inconsistent target -- jilles */
 		if(chptr->chname[0] == '#' && forward[0] == '&')
 		{
 			sendto_one_numeric(source_p, ERR_BADCHANNAME,
-					   form_str(ERR_BADCHANNAME), forward);
+					   form_str(ERR_BADCHANNAME), forward, "inconsistent target");
 			return;
 		}
 		if(MyClient(source_p) && (targptr = find_channel(forward)) == NULL)

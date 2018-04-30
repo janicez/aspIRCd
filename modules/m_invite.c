@@ -85,7 +85,7 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
     if(check_channel_name(parv[2]) == 0) {
         sendto_one_numeric(source_p, ERR_BADCHANNAME,
                            form_str(ERR_BADCHANNAME),
-                           parv[2]);
+                           parv[2], "invalid or too long");
         return 0;
     }
 
@@ -110,7 +110,7 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
        hash_find_resv(parv[2])) {
         sendto_one_numeric(source_p, ERR_BADCHANNAME,
                            form_str(ERR_BADCHANNAME),
-                           parv[2]);
+                           parv[2], "invalid or too long");
         return 0;
     }
 

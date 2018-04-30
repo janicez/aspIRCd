@@ -74,7 +74,7 @@ mo_omode(struct Client *client_p, struct Client *source_p, int parc, const char 
     /* Now, try to find the channel in question */
     if(!IsChanPrefix(parv[1][0]) || !check_channel_name(parv[1])) {
         sendto_one_numeric(source_p, ERR_BADCHANNAME,
-                           form_str(ERR_BADCHANNAME), parv[1]);
+                           form_str(ERR_BADCHANNAME), parv[1], "invalid or too long");
         return 0;
     }
 
