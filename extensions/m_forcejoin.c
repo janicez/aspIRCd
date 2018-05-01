@@ -191,9 +191,8 @@ void user_join_override(struct Client * client_p, struct Client * source_p, stru
             continue;
         }
 
-        /* check it begins with # or &, and local chans are disabled */
-        else if(!IsChannelName(name) ||
-                (!ConfigChannel.use_local_channels && name[0] == '&')) {
+        /* check it begins with # */
+        else if(!IsChannelName(name)) {
             sendto_one_numeric(source_p, ERR_NOSUCHCHANNEL,
                                form_str(ERR_NOSUCHCHANNEL), name);
             continue;
@@ -213,8 +212,7 @@ void user_join_override(struct Client * client_p, struct Client * source_p, stru
             continue;
         }
 
-        if(splitmode && !IsOper(target_p) && (*name != '&') &&
-           ConfigChannel.no_join_on_split) {
+        if(splitmode && !IsOper(target_p) && ConfigChannel.no_join_on_split) {
             sendto_one(source_p, form_str(ERR_UNAVAILRESOURCE),
                        me.name, source_p->name, name);
             continue;

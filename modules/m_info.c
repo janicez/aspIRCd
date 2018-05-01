@@ -697,12 +697,6 @@ static struct InfoStruct info_table[] = {
         "Enable /KNOCK",
     },
     {
-        "use_local_channels",
-        OUTPUT_BOOLEAN_YN,
-        &ConfigChannel.use_local_channels,
-        "Enable local channels (&channels)"
-    },
-    {
         "resv_forcepart",
         OUTPUT_BOOLEAN_YN,
         &ConfigChannel.resv_forcepart,
