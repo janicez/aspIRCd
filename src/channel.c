@@ -1726,21 +1726,20 @@ void user_join(struct Client * client_p, struct Client * source_p, const char * 
             continue;
         }
 
-if(!IsExemptResv(source_p) && (aconf = hash_find_resv(name)))
- 		{
+        if(!IsExemptResv(source_p) && (aconf = hash_find_resv(name))) {
 
-        /* see if its resv'd */
-        /* like klines, resvs have a user visible reason and an oper-visible reason
-			 * delimited by a pipe character.  If we find a pipe in the reason, swap it
-			 * out for a null before sending it out, and swap the pipe back in after
-			 * faster and less verbose than using a temporary buffer or other method
-			 */
-			char *reason_break = strstr(aconf->passwd, "|");
-			if (reason_break != NULL) *reason_break = '\0';
- 			sendto_one_numeric(source_p, ERR_BADCHANNAME,
-					   form_str(ERR_BADCHANNAME), name,
-					   aconf->passwd);
-			if (reason_break != NULL) *reason_break = '|';
+            /* see if its resv'd */
+            /* like klines, resvs have a user visible reason and an oper-visible reason
+            	 * delimited by a pipe character.  If we find a pipe in the reason, swap it
+            	 * out for a null before sending it out, and swap the pipe back in after
+            	 * faster and less verbose than using a temporary buffer or other method
+            	 */
+            char *reason_break = strstr(aconf->passwd, "|");
+            if (reason_break != NULL) *reason_break = '\0';
+            sendto_one_numeric(source_p, ERR_BADCHANNAME,
+                               form_str(ERR_BADCHANNAME), name,
+                               aconf->passwd);
+            if (reason_break != NULL) *reason_break = '|';
 
             /* dont warn for opers */
             if(!IsExemptJupe(source_p) && !IsOper(source_p))

@@ -139,13 +139,12 @@ mr_nick(struct Client *client_p, struct Client *source_p, int parc, const char *
     }
 
     /* check if the nick is resv'd */
-    if(!IsExemptResv(source_p) && (aconf = find_nick_resv(nick)))
-        {
+    if(!IsExemptResv(source_p) && (aconf = find_nick_resv(nick))) {
         char *reason_break = strstr(aconf->passwd, "|");
-	if (reason_break != NULL) *reason_break = '\0';
+        if (reason_break != NULL) *reason_break = '\0';
         sendto_one(source_p, form_str(ERR_ERRONEUSNICKNAME),
                    me.name, EmptyString(source_p->name) ? "*" : source_p->name, nick, aconf->passwd);
-		if (reason_break != NULL) *reason_break = '|';
+        if (reason_break != NULL) *reason_break = '|';
         return 0;
     }
 
@@ -193,13 +192,12 @@ m_nick(struct Client *client_p, struct Client *source_p, int parc, const char *p
         return 0;
     }
 
-    if(!IsExemptResv(source_p) && (aconf = find_nick_resv(nick)))
- 	{
-		/* resvs, like klines, have oper-only reason delimited by a pipe char */
-		char *reason_break = strstr(aconf->passwd, "|");
-		if (reason_break != NULL) *reason_break = '\0';
-		sendto_one(source_p, form_str(ERR_ERRONEUSNICKNAME), me.name, source_p->name, nick, aconf->passwd);
-		if (reason_break != NULL) *reason_break = '|';
+    if(!IsExemptResv(source_p) && (aconf = find_nick_resv(nick))) {
+        /* resvs, like klines, have oper-only reason delimited by a pipe char */
+        char *reason_break = strstr(aconf->passwd, "|");
+        if (reason_break != NULL) *reason_break = '\0';
+        sendto_one(source_p, form_str(ERR_ERRONEUSNICKNAME), me.name, source_p->name, nick, aconf->passwd);
+        if (reason_break != NULL) *reason_break = '|';
         return 0;
     }
 
