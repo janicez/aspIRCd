@@ -893,6 +893,8 @@ can_join(struct Client *source_p, struct Channel *chptr, char *key)
         i = ERR_CHANNELISFULL;
     if(chptr->mode.mode & MODE_REGONLY && EmptyString(source_p->user->suser))
         i = ERR_NEEDREGGEDNICK;
+    if(chptr->mode.mode & MODE_SSLONLY && !IsSSLClient(source_p))
+        i = ERR_NOSSL;
     /* join throttling stuff --nenolod */
     else if(chptr->mode.join_num > 0 && chptr->mode.join_time > 0) {
         if ((rb_current_time() - chptr->join_delta <=
