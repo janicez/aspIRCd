@@ -236,11 +236,11 @@ me_svslogin(struct Client *client_p, struct Client *source_p,
 
         rb_strlcpy(user_p->suser, login, NICKLEN + 1);
     } else {
-        char note[NICKLEN + 10];
+        char note[NAMELEN + 10];
 
         send_signon(NULL, target_p, nick, user, host, rb_current_time(), login);
 
-        rb_snprintf(note, NICKLEN + 10, "Nick: %s", target_p->name);
+        rb_snprintf(note, sizeof(note), "Nick: %s", target_p->name);
         rb_note(target_p->localClient->F, note);
     }
 

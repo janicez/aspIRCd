@@ -123,12 +123,12 @@ struct Client
 	unsigned long serial;	/* used to enforce 1 send per nick */
 
 	/* client->name is the unique name for a client nick or host */
-	char name[HOSTLEN + 1];
+	char name[NAMELEN + 1];
 
-	/* 
-	 * client->username is the username from ident or the USER message, 
-	 * If the client is idented the USER message is ignored, otherwise 
-	 * the username part of the USER message is put here prefixed with a 
+	/*
+	 * client->username is the username from ident or the USER message,
+	 * If the client is idented the USER message is ignored, otherwise
+	 * the username part of the USER message is put here prefixed with a
 	 * tilde depending on the I:line, Once a client has registered, this
 	 * field should be considered read-only.
 	 */

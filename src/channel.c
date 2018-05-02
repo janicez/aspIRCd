@@ -635,9 +635,9 @@ int
 is_banned(struct Channel *chptr, struct Client *who, struct membership *msptr,
           const char *s, const char *s2)
 {
-    char src_host[NICKLEN + USERLEN + HOSTLEN + 6];
-    char src_iphost[NICKLEN + USERLEN + HOSTLEN + 6];
-    char src_althost[NICKLEN + USERLEN + HOSTLEN + 6];
+    char src_host[NAMELEN + USERLEN + HOSTLEN + 6];
+    char src_iphost[NAMELEN + USERLEN + HOSTLEN + 6];
+    char src_althost[NAMELEN + USERLEN + HOSTLEN + 6];
     char *s3 = NULL;
     rb_dlink_node *ptr;
     struct Ban *actualBan = NULL;
@@ -822,9 +822,9 @@ can_join(struct Client *source_p, struct Channel *chptr, char *key)
     rb_dlink_node *invite = NULL;
     rb_dlink_node *ptr;
     struct Ban *invex = NULL;
-    char src_host[NICKLEN + USERLEN + HOSTLEN + 6];
-    char src_iphost[NICKLEN + USERLEN + HOSTLEN + 6];
-    char src_althost[NICKLEN + USERLEN + HOSTLEN + 6];
+    char src_host[NAMELEN + USERLEN + HOSTLEN + 6];
+    char src_iphost[NAMELEN + USERLEN + HOSTLEN + 6];
+    char src_althost[NAMELEN + USERLEN + HOSTLEN + 6];
     char text[10];
     int use_althost = 0;
     int i = 0;
@@ -1032,8 +1032,8 @@ find_bannickchange_channel(struct Client *client_p)
     struct Channel *chptr;
     struct membership *msptr;
     rb_dlink_node *ptr;
-    char src_host[NICKLEN + USERLEN + HOSTLEN + 6];
-    char src_iphost[NICKLEN + USERLEN + HOSTLEN + 6];
+    char src_host[NAMELEN + USERLEN + HOSTLEN + 6];
+    char src_iphost[NAMELEN + USERLEN + HOSTLEN + 6];
 
     if (!MyClient(client_p) || IsOverride(client_p))
         return NULL;
