@@ -80,7 +80,7 @@ int user_modes[256] = {
     0,			/* L */
     0,			/* M */
     0,			/* N */
-    0,			/* O */
+    UMODE_HIDEOPER,	/* O */
     0,			/* P */
     UMODE_NOFORWARD,	/* Q */
     UMODE_REGONLYMSG,	/* R */
@@ -1103,6 +1103,13 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
     if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsSSLClient(source_p)))  {
         sendto_one_notice(source_p, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
         source_p->umodes &= ~UMODE_SSLONLYMSG;
+    }
+
+    /* preventing anyone setting UMODE_HIDEOPER because not everyone will be IRC operator */
+
+    if (MyConnect(source_p) && (source_p->umodes & UMODE_HIDEOPER) && (!IsOper(source_p))) {
+        sendto_one_numeric(source_p, 481, ":Permission Denied - You're not an IRC operator");
+        source_p->umodes &= ~UMODE_HIDEOPER;
     }
 
     /* let modules providing usermodes know that we've changed our usermode --nenolod */

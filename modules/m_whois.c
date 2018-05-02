@@ -305,7 +305,12 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
         sendto_one_numeric(source_p, RPL_AWAY, form_str(RPL_AWAY),
                            target_p->name, target_p->user->away);
 
-    if(IsOper(target_p)) {
+    /* added UMODE_HIDEOPER, idea suggested by Matt on irc.thudsnet.us
+     * rather than the config hide oper option which would hide all IRC operators.
+     * each irc operator can decide if they wish to hide rather than forced
+     */
+
+    if (IsOper(target_p) && (!(target_p->umodes & UMODE_HIDEOPER) || IsOper(source_p))) {
         if((md = user_metadata_find(target_p, "OPERSTRING")) != NULL)
             sendto_one_numeric(source_p, 313, "%s :%s", target_p->name, md->value);
         else

@@ -299,6 +299,7 @@ static struct mode_table umode_table[] = {
 	{"bot",		UMODE_BOT	},
 	{"override",	UMODE_OVERRIDE	},
         {"hidechans",   UMODE_HIDECHANS },
+        {"hideoper",    UMODE_HIDEOPER  },
 	{NULL, 0}
 };
 

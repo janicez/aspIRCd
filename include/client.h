@@ -426,6 +426,8 @@ struct ListClient
 #define UMODE_SSLCLIENT    0x4000	/* using SSL */
 #define UMODE_WEBCLIENT    0x100000     /* user is connected via a web client */
 #define UMODE_OVERRIDE     0x20000      /* able to override */
+#define UMODE_HIDEOPER     0x1000000    /* Hide oper from /whois */
+
 
 #define IsOverride(x)      ((x)->umodes & UMODE_OVERRIDE)
 
@@ -536,7 +538,7 @@ struct ListClient
 #define IsWebClient(x)          ((x)->umodes & UMODE_WEBCLIENT)
 #define IsSetSCallerId(x)	((x)->umodes & UMODE_SCALLERID)
 #define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
-
+#define IsHideOper(x)           ((x)->umodes & UMODE_HIDEOPER)
 
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)
 #define IsGotId(x)              (((x)->flags & FLAGS_GOTID) != 0)
