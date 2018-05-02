@@ -435,12 +435,6 @@ struct ListClient
 #define IsHelper(x) ((x)->umodes & UMODE_HELPER)
 #define IsAnyOper(x) ((x)->umodes & (UMODE_OPER|UMODE_HELPER))
 
-/* Is t an oper, and is s allowed to know this? */
-#define SeesOpers(s) (IsOper(s) || !ConfigFileEntry.operhide)
-#define SeesOper(s, t) (IsOper(t) && (SeesOpers(s) || ((s) == (t))))
-#define SeesHelper(s, t) (IsHelper(t) && (SeesOpers(s) || ((s) == (t))))
-#define SeesAnyOper(s, t) (IsAnyOper(t) && (SeesOpers(s) || ((s) == (t))))
-
 /*Is this user an oper and can users see servers? */
 #define SeesServers(s)		(IsOper(s) || !ConfigFileEntry.servermask)
 

@@ -79,14 +79,14 @@ m_userhost(struct Client *client_p, struct Client *source_p, int parc, const cha
             if(MyClient(target_p) && (target_p == source_p)) {
                 rl = rb_sprintf(response, "%s%s=%c%s@%s ",
                                 target_p->name,
-                                SeesOper(source_p, target_p) ? "*" : "",
+                                IsOper(target_p) ? "*" : "",
                                 (target_p->user->away) ? '-' : '+',
                                 target_p->username,
                                 target_p->sockhost);
             } else {
                 rl = rb_sprintf(response, "%s%s=%c%s@%s ",
                                 target_p->name,
-                                SeesOper(source_p, target_p) ? "*" : "",
+                                IsOper(target_p) ? "*" : "",
                                 (target_p->user->away) ? '-' : '+',
                                 target_p->username, target_p->host);
             }
