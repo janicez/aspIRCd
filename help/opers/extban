@@ -10,11 +10,11 @@ EXTBAN - DESCRIPTION
                 who is logged into services.
      $j:mask    Banned from another channel extban. Affects anyone who
                 is banned from the specified channel.
-     $c:mask    Other channel extban. Affects anyone who is on the 
-                specified channel.
+     $h:mask    bans all users matching a given hostmask, used for stacked extbans
+     $c:mask    Matches users who are on the given channel
      $x:mask    Extended extban. Matches a user's entire n!u@h gecos.
      $r:mask    GECOS extban. Affects anyone with the realname/gecos
                 specified.
      $s:mask    Server extban. Affects anyone on the specified server.
-     $u:mask    Matches unidentified users who match the specified
-              nick!user@host
+     $u:mask    Matches unidentified users who match the specified nick!user@host
+     $m:mask    bans all users with a specific usermode
