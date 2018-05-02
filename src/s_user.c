@@ -1100,6 +1100,11 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
         source_p->umodes &= ~UMODE_OVERRIDE;
     }
 
+    if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsSSLClient(source_p)))  {
+        sendto_one_notice(source_p, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
+        source_p->umodes &= ~UMODE_SSLONLYMSG;
+    }
+
     /* let modules providing usermodes know that we've changed our usermode --nenolod */
     hdata.client = source_p;
     hdata.oldumodes = setflags;
