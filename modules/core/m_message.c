@@ -884,9 +884,8 @@ msg_client(int p_or_n, const char *command,
 			else if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))
 			{
 				if (p_or_n != NOTICE)
-					sendto_one_numeric(source_p, ERR_NONONSSL,
-							form_str(ERR_NONONSSL),
-							target_p->name);
+                                {       sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send this message again once connected via SSL/TLS",
+                                                   target_p->name, target_p->username, target_p->host, source_p->name); }
 			}
                         else if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p))
                         {
