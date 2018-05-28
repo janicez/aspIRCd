@@ -5,6 +5,9 @@
 - [X] - Move m_locops module to extensions.
 - [X] - Added usermode +O which will hide oper from /whois for non oper accounts
 - [ ] - Add delayjoin channel mode
+- [X] - Added module chm_insecure, which requires users to use SSL to join channels unless mode +U is set
+- [ ] - Move show_whois into core
+- [ ] - Remove unused modules/extensions
 
 
 
