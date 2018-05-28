@@ -80,7 +80,6 @@ TSRCS =                          \
   m_knock.c \
   m_links.c \
   m_list.c \
-  m_locops.c \
   m_lusers.c \
   m_map.c \
   m_monitor.c \

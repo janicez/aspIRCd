@@ -66,6 +66,7 @@ SRCS =                          \
   m_forcepart.c			\
   m_forcequit.c                 \
   m_identify.c			\
+  m_locops.c                    \
   m_mkpasswd.c                  \
   m_oaccept.c			\
   m_ojoin.c			\
