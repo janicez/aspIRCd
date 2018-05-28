@@ -11,11 +11,7 @@ Modules
 createauthonly.c - Only allow authenticated (identified) users to create
                    channels.
 
-ip_cloaking.c  - Cloak (spoof) the host for users that have umode +x.
-
 show_whois.c      - Spy on clients who WHOIS you seeing idle time (usermode +W).
-
-ip_cloaking_old.c - Cloak (spoof) the host for users that have umode +h.
 
 m_42.c         - The Answer to Life, the Universe, and Everything.
                  Syntax: 42

@@ -35,6 +35,7 @@ CPPFLAGS	= ${INCLUDES} @CPPFLAGS@
 
 SRCS =                          \
   chm_adminonly.c		\
+  chm_insecure.c                \
   chm_quietunreg_compat.c	\
   chm_operpeace.c               \
   createauthonly.c		\
