@@ -281,6 +281,7 @@ extern const char *form_str(int);
 #define ERR_YOUREBANNEDCREEP 465
 #define ERR_YOUWILLBEBANNED  466
 #define ERR_KEYSET           467
+#define ERR_NOOPER           468
 #define ERR_NOSSL            469
 #define ERR_LINKCHANNEL      470
 #define ERR_CHANNELISFULL    471

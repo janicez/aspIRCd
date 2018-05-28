@@ -104,6 +104,7 @@ construct_cflags_strings(void)
         switch (chmode_flags[i]) {
         case MODE_EXLIMIT:
         case MODE_SSLONLY:
+        case MODE_OPERONLY:
         case MODE_DISFORWARD:
             if(ConfigChannel.use_forward) {
                 *ptr++ = (char) i;
@@ -1869,7 +1870,7 @@ struct ChannelMode chmode_table[256] =
   {chm_staff,	MODE_EXLIMIT },		/* L */
   {chm_nosuch,	0 },	                /* M */
   {chm_simple,	MODE_NONICK },		/* N */
-  {chm_nosuch,	0 },			/* O */
+  {chm_staff,	MODE_OPERONLY },	/* O */
   {chm_staff,	MODE_PERMANENT },	/* P */
   {chm_simple,	MODE_DISFORWARD },	/* Q */
   {chm_nosuch,	0 },			/* R */

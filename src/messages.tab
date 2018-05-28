@@ -489,7 +489,7 @@ static  const char *  replies[] = {
 /* 465 ERR_YOUREBANNEDCREEP, */ ":%s 465 %s :You are banned from this server - %s",
 /* 466 ERR_YOUWILLBEBANNED, */  NULL,
 /* 467 ERR_KEYSET, */		NULL,
-/* 468 */       NULL,
+/* 468 ERR_NOOPER,      */      ":%s 468 %s :Cannot join channel (+O) - you are not an IRC operator",
 /* 469 ERR_NOSSL       */       ":%s 469 %s %s :Cannot join channel (+S) - SSL/TLS required",
 /* 470 ERR_LINKCHANNEL */       ":unable to join %s forwarding you to %s",
 /* 471 ERR_CHANNELISFULL, */    ":%s 471 %s %s :Cannot join channel (+l) - channel is full, try again later",
