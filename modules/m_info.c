@@ -801,8 +801,6 @@ send_info_text(struct Client *source_p)
     while (*text) {
         sendto_one_numeric(source_p, RPL_INFO, form_str(RPL_INFO), *text++);
     }
-
-    sendto_one_numeric(source_p, RPL_INFO, form_str(RPL_INFO), "");
 }
 
 /*
