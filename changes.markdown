@@ -13,3 +13,4 @@
 - [X] - hard coded chm_sslonly into the core
 - [X] - fixed extb_channel bug where if banned target channel has +s or +p set it wouldn't work
 - [X] - Use NAMELEN instead of NICKLEN when accessing Client->name because it could in theory be a HOSTLEN length string.
+- [X] - added usermode +O which will hide oper from /whois for non oper accounts
