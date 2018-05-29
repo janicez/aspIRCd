@@ -412,6 +412,25 @@ m_chghost.so: m_chghost.c ../include/stdinc.h \
  ../include/parse.h ../include/irc_dictionary.h ../include/modules.h \
  ../include/parse.h ../include/msg.h ../include/hook.h \
  ../include/whowas.h ../include/monitor.h
+m_clearchan.so: m_clearchan.c ../include/stdinc.h \
+ ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
+ ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
+ ../libratbox/include/rb_commio.h ../libratbox/include/rb_balloc.h \
+ ../libratbox/include/rb_linebuf.h ../libratbox/include/rb_snprintf.h \
+ ../libratbox/include/rb_event.h ../libratbox/include/rb_helper.h \
+ ../libratbox/include/rb_rawbuf.h ../libratbox/include/rb_patricia.h \
+ ../include/config.h ../include/setup.h ../include/defaults.h \
+ ../include/ircd_defs.h ../include/logger.h ../include/send.h \
+ ../include/channel.h ../include/client.h ../include/channel.h \
+ ../include/res.h ../include/common.h ../include/reslib.h \
+ ../include/match.h ../include/ircd.h ../include/snomask.h \
+ ../include/client.h ../include/privilege.h ../include/stdinc.h \
+ ../include/hash.h ../include/match.h ../include/ircd.h \
+ ../include/numeric.h ../include/s_user.h ../include/s_conf.h \
+ ../include/class.h ../include/s_newconf.h ../include/send.h \
+ ../include/msg.h ../include/parse.h ../include/irc_dictionary.h \
+ ../include/modules.h ../include/parse.h ../include/msg.h \
+ ../include/hook.h ../include/packet.h
 m_close.so: m_close.c ../include/stdinc.h \
  ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
  ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
@@ -445,6 +464,23 @@ m_cmessage.so: m_cmessage.c ../include/stdinc.h \
  ../include/parse.h ../include/irc_dictionary.h ../include/msg.h \
  ../include/hook.h ../include/hash.h ../include/send.h \
  ../include/s_conf.h ../include/class.h ../include/packet.h
+m_cloaking.so: m_cloaking.c ../include/stdinc.h \
+ ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
+ ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
+ ../libratbox/include/rb_commio.h ../libratbox/include/rb_balloc.h \
+ ../libratbox/include/rb_linebuf.h ../libratbox/include/rb_snprintf.h \
+ ../libratbox/include/rb_event.h ../libratbox/include/rb_helper.h \
+ ../libratbox/include/rb_rawbuf.h ../libratbox/include/rb_patricia.h \
+ ../include/config.h ../include/setup.h ../include/defaults.h \
+ ../include/ircd_defs.h ../include/logger.h ../include/send.h \
+ ../include/modules.h ../include/parse.h ../include/irc_dictionary.h \
+ ../include/msg.h ../include/hook.h ../include/hook.h ../include/client.h \
+ ../include/channel.h ../include/res.h ../include/common.h \
+ ../include/reslib.h ../include/match.h ../include/ircd.h \
+ ../include/snomask.h ../include/client.h ../include/privilege.h \
+ ../include/stdinc.h ../include/ircd.h ../include/send.h \
+ ../include/hash.h ../include/s_conf.h ../include/class.h \
+ ../include/s_user.h ../include/s_serv.h ../include/numeric.h
 m_connect.so: m_connect.c ../include/stdinc.h \
  ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
  ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
@@ -672,25 +708,6 @@ m_list.so: m_list.c ../include/stdinc.h ../libratbox/include/ratbox_lib.h \
  ../include/msg.h ../include/parse.h ../include/irc_dictionary.h \
  ../include/modules.h ../include/parse.h ../include/msg.h \
  ../include/hook.h
-m_locops.so: m_locops.c ../include/stdinc.h \
- ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
- ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
- ../libratbox/include/rb_commio.h ../libratbox/include/rb_balloc.h \
- ../libratbox/include/rb_linebuf.h ../libratbox/include/rb_snprintf.h \
- ../libratbox/include/rb_event.h ../libratbox/include/rb_helper.h \
- ../libratbox/include/rb_rawbuf.h ../libratbox/include/rb_patricia.h \
- ../include/config.h ../include/setup.h ../include/defaults.h \
- ../include/ircd_defs.h ../include/logger.h ../include/send.h \
- ../include/client.h ../include/channel.h ../include/res.h \
- ../include/common.h ../include/reslib.h ../include/match.h \
- ../include/ircd.h ../include/snomask.h ../include/client.h \
- ../include/privilege.h ../include/stdinc.h ../include/ircd.h \
- ../include/match.h ../include/numeric.h ../include/send.h \
- ../include/s_user.h ../include/s_conf.h ../include/class.h \
- ../include/s_newconf.h ../include/hash.h ../include/msg.h \
- ../include/parse.h ../include/irc_dictionary.h ../include/modules.h \
- ../include/parse.h ../include/msg.h ../include/hook.h \
- ../include/s_serv.h
 m_lusers.so: m_lusers.c ../include/stdinc.h \
  ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
  ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
@@ -962,6 +979,24 @@ m_resv.so: m_resv.c ../include/stdinc.h ../libratbox/include/ratbox_lib.h \
  ../include/hook.h ../include/s_conf.h ../include/class.h \
  ../include/s_newconf.h ../include/hash.h ../include/logger.h \
  ../include/bandbi.h ../include/operhash.h
+m_rules.so: m_rules.c ../include/stdinc.h \
+ ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
+ ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
+ ../libratbox/include/rb_commio.h ../libratbox/include/rb_balloc.h \
+ ../libratbox/include/rb_linebuf.h ../libratbox/include/rb_snprintf.h \
+ ../libratbox/include/rb_event.h ../libratbox/include/rb_helper.h \
+ ../libratbox/include/rb_rawbuf.h ../libratbox/include/rb_patricia.h \
+ ../include/config.h ../include/setup.h ../include/defaults.h \
+ ../include/ircd_defs.h ../include/logger.h ../include/send.h \
+ ../include/client.h ../include/channel.h ../include/res.h \
+ ../include/common.h ../include/reslib.h ../include/match.h \
+ ../include/ircd.h ../include/snomask.h ../include/client.h \
+ ../include/privilege.h ../include/stdinc.h ../include/ircd.h \
+ ../include/send.h ../include/numeric.h ../include/hook.h \
+ ../include/msg.h ../include/s_serv.h ../include/parse.h \
+ ../include/irc_dictionary.h ../include/modules.h ../include/parse.h \
+ ../include/msg.h ../include/hook.h ../include/s_conf.h \
+ ../include/class.h ../include/cache.h
 m_sasl.so: m_sasl.c ../include/stdinc.h ../libratbox/include/ratbox_lib.h \
  ../libratbox/include/librb-config.h ../libratbox/include/rb_tools.h \
  ../libratbox/include/rb_memory.h ../libratbox/include/rb_commio.h \
@@ -977,7 +1012,8 @@ m_sasl.so: m_sasl.c ../include/stdinc.h ../libratbox/include/ratbox_lib.h \
  ../include/stdinc.h ../include/hash.h ../include/send.h ../include/msg.h \
  ../include/modules.h ../include/parse.h ../include/irc_dictionary.h \
  ../include/msg.h ../include/hook.h ../include/numeric.h \
- ../include/s_serv.h ../include/s_stats.h
+ ../include/s_serv.h ../include/s_stats.h ../include/s_newconf.h \
+ ../include/s_conf.h ../include/class.h
 m_scan.so: m_scan.c ../include/stdinc.h ../libratbox/include/ratbox_lib.h \
  ../libratbox/include/librb-config.h ../libratbox/include/rb_tools.h \
  ../libratbox/include/rb_memory.h ../libratbox/include/rb_commio.h \
@@ -1314,6 +1350,24 @@ m_wallops.so: m_wallops.c ../include/stdinc.h \
  ../include/s_newconf.h ../include/msg.h ../include/parse.h \
  ../include/irc_dictionary.h ../include/modules.h ../include/parse.h \
  ../include/msg.h ../include/hook.h ../include/s_serv.h
+m_webirc.so: m_webirc.c ../include/stdinc.h \
+ ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
+ ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
+ ../libratbox/include/rb_commio.h ../libratbox/include/rb_balloc.h \
+ ../libratbox/include/rb_linebuf.h ../libratbox/include/rb_snprintf.h \
+ ../libratbox/include/rb_event.h ../libratbox/include/rb_helper.h \
+ ../libratbox/include/rb_rawbuf.h ../libratbox/include/rb_patricia.h \
+ ../include/config.h ../include/setup.h ../include/defaults.h \
+ ../include/ircd_defs.h ../include/logger.h ../include/send.h \
+ ../include/client.h ../include/channel.h ../include/res.h \
+ ../include/common.h ../include/reslib.h ../include/match.h \
+ ../include/ircd.h ../include/snomask.h ../include/client.h \
+ ../include/privilege.h ../include/stdinc.h ../include/match.h \
+ ../include/hostmask.h ../include/send.h ../include/numeric.h \
+ ../include/ircd.h ../include/msg.h ../include/parse.h \
+ ../include/irc_dictionary.h ../include/modules.h ../include/parse.h \
+ ../include/msg.h ../include/hook.h ../include/s_serv.h ../include/hash.h \
+ ../include/s_conf.h ../include/class.h ../include/reject.h
 m_who.so: m_who.c ../include/stdinc.h ../libratbox/include/ratbox_lib.h \
  ../libratbox/include/librb-config.h ../libratbox/include/rb_tools.h \
  ../libratbox/include/rb_memory.h ../libratbox/include/rb_commio.h \
@@ -1410,6 +1464,23 @@ m_xline.so: m_xline.c ../include/stdinc.h \
  ../include/msg.h ../include/hook.h ../include/s_conf.h \
  ../include/class.h ../include/s_newconf.h ../include/reject.h \
  ../include/bandbi.h ../include/operhash.h
+m_yourid.so: m_yourid.c ../include/stdinc.h \
+ ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
+ ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
+ ../libratbox/include/rb_commio.h ../libratbox/include/rb_balloc.h \
+ ../libratbox/include/rb_linebuf.h ../libratbox/include/rb_snprintf.h \
+ ../libratbox/include/rb_event.h ../libratbox/include/rb_helper.h \
+ ../libratbox/include/rb_rawbuf.h ../libratbox/include/rb_patricia.h \
+ ../include/config.h ../include/setup.h ../include/defaults.h \
+ ../include/ircd_defs.h ../include/logger.h ../include/send.h \
+ ../include/modules.h ../include/parse.h ../include/irc_dictionary.h \
+ ../include/msg.h ../include/hook.h ../include/hook.h ../include/client.h \
+ ../include/channel.h ../include/res.h ../include/common.h \
+ ../include/reslib.h ../include/match.h ../include/ircd.h \
+ ../include/snomask.h ../include/client.h ../include/privilege.h \
+ ../include/stdinc.h ../include/ircd.h ../include/send.h \
+ ../include/hash.h ../include/s_conf.h ../include/class.h \
+ ../include/s_user.h ../include/s_serv.h ../include/numeric.h
 sno_routing.so: sno_routing.c ../include/stdinc.h \
  ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
  ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \
