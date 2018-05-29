@@ -6,7 +6,7 @@ before-install:
 - sudo apt-get update
 install:
 - sudo apt-get install build-essential libssl-dev flex bison
-script: "./configure && make && make install"
+script: "./configure --with-shared-sqlite && make && make install"
 
 notifications:
   template:
