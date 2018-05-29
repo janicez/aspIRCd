@@ -22,8 +22,9 @@ exec_prefix	= @exec_prefix@
 exec_suffix	= @exec_suffix@
 bindir		= @bindir@
 libexecdir	= @libexecdir@
-sysconfdir		= @sysconfdir@
+sysconfdir	= @sysconfdir@
 localstatedir	= @localstatedir@
+datarootdir     = @datarootdir@
 # Change this later! -- adrian
 moduledir	= @moduledir@
 automoduledir	= @moduledir@/autoload

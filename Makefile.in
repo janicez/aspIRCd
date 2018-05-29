@@ -23,6 +23,7 @@ RM=@RM@
 prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
+datarootdir     = @datarootdir@
 mandir		= @mandir@
 libdir          = @libdir@
 pkglibdir       = @pkglibdir@
