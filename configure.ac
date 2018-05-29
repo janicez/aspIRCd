@@ -6,13 +6,14 @@ dnl TODO: clean up all the OpenSSL and shared module checking stuff;
 dnl the most major changes have already been made and it looks like
 dnl said functions need to be just about as complex as they already are.
 
-AC_PREREQ(2.57)
+AC_PREREQ(2.60)
 
 dnl Sneaky way to get an Id tag into the configure script
 AC_COPYRIGHT([2018 sIRCd <ryan.blake182 -at- gmail.com>])
 
 AC_INIT([sIRCd],[1.0.9-2])
 
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER(include/setup.h)
 
 AC_PREFIX_DEFAULT($HOME/ircd)
@@ -541,6 +542,26 @@ LIBS="$save_LIBS"
 
 dnl End OpenSSL detection
 
+dnl Check for shared sqlite
+dnl ======================
+AC_ARG_WITH(shared-sqlite,
+AC_HELP_STRING([--with-shared-sqlite],[Use shared sqlite]),
+[shared_sqlite=$withval],[shared_sqlite=no])
+
+if test "$shared_sqlite" = yes; then
+	PKG_CHECK_MODULES(SQLITE, [sqlite3],
+	[
+		shared_sqlite=yes
+	], shared_sqlite=no)
+fi
+
+if test "$shared_sqlite" = no; then
+	SQLITE_SRC="sqlite3.c"
+fi
+
+AC_SUBST(SQLITE_LD, "$SQLITE_LIBS")
+AC_SUBST(SQLITE_INCLUDES, "$SQLITE_CFLAGS")
+AC_SUBST(SQLITE_SRC)
 
 dnl IO Loop Selection
 dnl =================
