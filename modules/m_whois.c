@@ -401,6 +401,13 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
                            target_p->name,
                            rb_current_time() - target_p->localClient->last,
                            target_p->localClient->firsttime);
+
+        if (MyClient(target_p) && (source_p != target_p) && (target_p->umodes & UMODE_WHO)) {
+        sendto_one_notice(target_p,
+                          ":*** Notice -- %s (%s@%s) is doing a whois on you",
+                          source_p->name,
+                          source_p->username, source_p->host);
+    }
     } else {
         if (IsOper(source_p) || source_p == target_p) {
             int isDynSpoof = 0;

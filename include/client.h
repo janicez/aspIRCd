@@ -419,6 +419,7 @@ struct ListClient
 #define UMODE_SSLONLYMSG   0x200000     /* only allow users using SSL to msg */
 #define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
 #define UMODE_HIDEIDLE     0x800000     /* Hide idle from /whois */
+#define UMODE_WHO        0x2000000    /* Send notification when someone /whois */
 
 /* user information flags, only settable by remote mode or local oper */
 #define UMODE_OPER         0x1000	/* Operator */
