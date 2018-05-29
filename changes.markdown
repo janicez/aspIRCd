@@ -6,8 +6,12 @@
 - [X] - Added usermode +O which will hide oper from /whois for non oper accounts
 - [ ] - Add delayjoin channel mode
 - [X] - Added module chm_insecure, which requires users to use SSL to join channels unless mode +U is set
-- [ ] - Move show_whois into core
+- [X] - Move show_whois into core
 - [ ] - Remove unused modules/extensions
+- [X] - Added --with-shared-sqlite option for low end vps and Raspberry Pi style boards (requires package libsqlite3-dev)
+- [X] - Added datarootdir that was missing
+- [X] - Allow exact PID file prefix to be specified
+- [X] - Removed smallnet option as never used
 
 
 

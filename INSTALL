@@ -73,13 +73,6 @@
 
           * 
 
-            --enable-small-net - Tunes the server for smaller networks by
-            reducing the startup memory footprint. This should really only be
-            used for *small* networks, as this tends to be a performance hit
-            on larger networks.
-
-          * 
-
             --with-nicklen=LENGTH - Sets the maximum NICK length. Note that
             this must be consistent across your entire network.
    3. 

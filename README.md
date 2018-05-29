@@ -17,10 +17,11 @@ Debian packages:
  - `flex`
  - `bison`
  - `build-essential`
+ - `libsqlite3-dev`
 
 ## Debian/ubuntu Users
 
-You should run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential`
+You should run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential libsqlite3-dev`
 
 Read the included documentation for detailed compilation and install
 directions.
@@ -28,6 +29,6 @@ directions.
 ## Support
 
 The official channel for sIRCd is `#sIRCd` on
-`irc.letstalkcoding.net`. 
+`irc.chatfreedom.us`. 
 
 Please use ***GitHub issue tracker*** for any issues
