@@ -78,10 +78,10 @@ usessl = promptYesNo("SSL? (y/n)")
 
 print("")
 
-print("Would you like to disable small network support? This increases the size")
-print("of a few buffers in the code and can increase performance on large networks.")
+print("Would you like to enable shared sqlite?")
+print("ideal for low-power ARM boards and budget VPSes)")
 
-smallnet = promptYesNo("Small network? (y/n)")
+sqlite = promptYesNo("Shared sqlite? (y/n)")
 
 print("")
 
@@ -98,10 +98,10 @@ if usessl:
 else:
     configflags.append("--disable-openssl")
 
-if not smallnet:
-    configflags.append("--enable-small-net")
+if not sqlite:
+    configflags.append("")
 else:
-    configflags.append("--disable-small-net")
+    configflags.append("--with-shared-sqlite")
 
 if IPv6:
     configflags.append("--enable-ipv6")

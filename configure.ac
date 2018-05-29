@@ -88,9 +88,9 @@ case "$OSNAME" in
         HP-UX*)
 	dnl only do this if we haven't already detected the newer one
 	dnl and we're not already using gcc
-	
+
 		if test "$HPUX" != yes -a "$ac_cv_c_compiler_gnu" = no; then
-        	        AC_MSG_RESULT(assuming old HPUX with its own cc)  
+        	        AC_MSG_RESULT(assuming old HPUX with its own cc)
 			IRC_CFLAGS="$IRC_CFLAGS +e"
 			HPUX=yes
 		else
@@ -324,7 +324,7 @@ gcc_cv_header_string,
 [
 	AC_COMPILE_IFELSE(
 	[#include <string.h>
-	#include <strings.h>], 
+	#include <strings.h>],
 	[gcc_cv_header_string=yes],
 	[gcc_cv_header_string=no])
 ])
@@ -428,15 +428,15 @@ AC_FUNC_ALLOCA
 dnl Specialized functions checks
 dnl ============================
 
-dnl check for nanosleep          
+dnl check for nanosleep
 AC_CHECK_FUNC(nanosleep,,[AC_CHECK_LIB(rt,nanosleep,
                  LIBS="${LIBS} -lrt",
                  [AC_CHECK_LIB(posix4,nanosleep, LIBS="${LIBS} -lposix4"
                  )])])
 if test x$ac_cv_func_nanosleep = xno && test x$ac_cv_lib_posix4_nanosleep = xno  && test x$ac_cv_lib_rt_nanosleep = xno
-then     
+then
          AC_MSG_RESULT("nanosleep not found..using select for delay")
-else     
+else
 	 AC_DEFINE([HAVE_NANOSLEEP], 1, [Define if nanosleep exists])
 fi
 
@@ -524,7 +524,7 @@ if test "$cf_enable_openssl" != no; then
 
 		dnl Work around pmake/gmake conditional incompatibilities
 		AC_SUBST(ENCSPEED, encspeed)
-		
+
 		dnl Do all the HAVE_LIBCRYPTO magic -- and check for ciphers
 		CPPFLAGS="$CPPFLAGS $SSL_LIBS"
 		AC_CHECK_LIB(crypto, RSA_free)
@@ -565,7 +565,7 @@ dnl IO Loop Selection
 dnl =================
 
 AC_ARG_ENABLE(ports, AC_HELP_STRING([--enable-ports],[Force solaris I/O ports subsystem usage.]),
-[ if test $enableval = yes; then 
+[ if test $enableval = yes; then
 	SELECT_TYPE_EXPLICIT="ports"
   else
   	use_ports=no
@@ -573,7 +573,7 @@ AC_ARG_ENABLE(ports, AC_HELP_STRING([--enable-ports],[Force solaris I/O ports su
 ],)
 
 AC_ARG_ENABLE(poll, AC_HELP_STRING([--enable-poll],[Force poll() usage.]),
-[ if test $enableval = yes; then 
+[ if test $enableval = yes; then
 	SELECT_TYPE_EXPLICIT="poll"
   else
   	use_poll=no
@@ -581,15 +581,15 @@ AC_ARG_ENABLE(poll, AC_HELP_STRING([--enable-poll],[Force poll() usage.]),
 ],)
 
 AC_ARG_ENABLE(select, AC_HELP_STRING([--enable-select],[Force select() usage.]),
-[ if test $enableval = yes; then 
-	SELECT_TYPE_EXPLICIT="select" 
+[ if test $enableval = yes; then
+	SELECT_TYPE_EXPLICIT="select"
   else
   	use_select=no
   fi
 ],)
 
 AC_ARG_ENABLE(kqueue, AC_HELP_STRING([--enable-kqueue],[Force kqueue() usage.]),
-[ if test $enableval = yes; then 
+[ if test $enableval = yes; then
 	SELECT_TYPE_EXPLICIT="kqueue"
   else
   	use_kqueue=no
@@ -597,7 +597,7 @@ AC_ARG_ENABLE(kqueue, AC_HELP_STRING([--enable-kqueue],[Force kqueue() usage.]),
 ],)
 
 AC_ARG_ENABLE(epoll, AC_HELP_STRING([--enable-epoll],[Force sys_epoll usage (Linux only).]),
-[ if test $enableval = yes; then 
+[ if test $enableval = yes; then
 	SELECT_TYPE_EXPLICIT="epoll"
 	AC_CHECK_FUNCS(epoll_ctl, [haveepoll=yes], [haveepoll=no])
   else
@@ -621,7 +621,7 @@ dnl Check for --with-logdir
 dnl **********************************************************************
 
 AC_MSG_CHECKING([whether to modify logdir])
-AC_ARG_WITH(logdir, 
+AC_ARG_WITH(logdir,
 AC_HELP_STRING([--with-logdir=DIR],
 	       [Directory where to write logfiles.]),
 	       [ logdir=`echo $withval | sed 's/\/$//'`
@@ -638,7 +638,7 @@ dnl Check for --with-helpdir
 dnl **********************************************************************
 
 AC_MSG_CHECKING([whether to modify helpdir])
-AC_ARG_WITH(helpdir, 
+AC_ARG_WITH(helpdir,
 AC_HELP_STRING([--with-helpdir=DIR],
 	       [Directory to install help files.]),
 	       [ helpdir=`echo $withval | sed 's/\/$//'`
@@ -655,7 +655,7 @@ dnl Check for --with-moduledir
 dnl **********************************************************************
 
 AC_MSG_CHECKING([whether to modify moduledir])
-AC_ARG_WITH(moduledir, 
+AC_ARG_WITH(moduledir,
 	[AC_HELP_STRING([--with-moduledir=DIR],
 	       [Directory to install modules.])],
 	       [ moduledir=`echo $withval | sed 's/\/$//'`
@@ -756,7 +756,7 @@ if test ! "x$use_epoll" = "xno"; then
 #include <sys/types.h>
 #include <sys/epoll.h>
 #include <sys/syscall.h>
-#include <unistd.h>     
+#include <unistd.h>
 
 int
 main(int argc, char **argv)
@@ -768,7 +768,7 @@ main(int argc, char **argv)
 }, [AC_MSG_RESULT(yes)
 	    AC_DEFINE(HAVE_EPOLL, 1,
 	        [Define if your system supports the epoll system calls])
-	    SELECT_TYPE="epoll"], 
+	    SELECT_TYPE="epoll"],
 	    AC_MSG_RESULT(no), AC_MSG_RESULT(no))
 		fi
 	fi
@@ -784,14 +784,14 @@ if test "x$ac_cv_header_sys_epoll_h" = "xyes"; then
 #include <sys/types.h>
 #include <sys/epoll.h>
 #include <sys/syscall.h>
-#include <unistd.h>     
+#include <unistd.h>
 
 int
 epoll_create(int size)
 {
         return (syscall(__NR_epoll_create, size));
 }
- 
+
 int
 main(int argc, char **argv)
 {
@@ -802,7 +802,7 @@ main(int argc, char **argv)
 }, [AC_MSG_RESULT(yes)
     AC_DEFINE(HAVE_EPOLL, 1,
         [Define if your system supports the epoll system calls])
-    SELECT_TYPE="epoll"], 
+    SELECT_TYPE="epoll"],
     AC_MSG_RESULT(no), AC_MSG_RESULT(no))
 	fi
 fi
@@ -875,53 +875,27 @@ if test "$balloc" = no; then
 	AC_DEFINE([NOBALLOC], 1, [Define to 1 if you wish to disable the block allocator.])
 fi
 
-AC_ARG_ENABLE(small-net,
-AC_HELP_STRING([--disable-small-net],[Disable small network support.]),
-[small_net=$enableval], [small_net=yes])
-
-if test "$small_net" = yes; then
-dnl	AC_DEFINE([HASHSIZE], 4096, [Max number of buckets in hash tables.])
-	AC_DEFINE([NICKNAMEHISTORYLENGTH], 1500, [Size of the WHOWAS array.])
-	AC_DEFINE([CHANNEL_HEAP_SIZE], 256, [Size of the channel heap.])
-	AC_DEFINE([BAN_HEAP_SIZE], 128, [Size of the ban heap.])
-	AC_DEFINE([CLIENT_HEAP_SIZE], 256, [Size of the client heap.])
-	AC_DEFINE([LCLIENT_HEAP_SIZE], 128, [Size of the local client heap.])
-	AC_DEFINE([PCLIENT_HEAP_SIZE], 32, [Size of the pre-client heap.])
-	AC_DEFINE([USER_HEAP_SIZE], 128, [Size of the user heap.])
-	AC_DEFINE([DNODE_HEAP_SIZE], 256, [Size of the dlink_node heap.])
-	AC_DEFINE([TOPIC_HEAP_SIZE], 256, [Size of the topic heap.])
-	AC_DEFINE([LINEBUF_HEAP_SIZE], 128, [Size of the linebuf heap.])
-	AC_DEFINE([MEMBER_HEAP_SIZE], 256, [Sizeof member heap.])
-	AC_DEFINE([ND_HEAP_SIZE], 128, [Size of the nick delay heap.])
-	AC_DEFINE([CONFITEM_HEAP_SIZE], 128, [Size of the confitem heap.])
-	AC_DEFINE([MONITOR_HEAP_SIZE], 128, [Size of the monitor heap.])
-	AC_DEFINE([FD_HEAP_SIZE], 128, [Size of fd heap.])
-	AC_DEFINE([AWAY_HEAP_SIZE], 128, [Size of away heap.])
-else
-dnl These settings are for a large network like efnet..they will use lots of memory
-dnl so enable small net unless you really need this much support
-        AC_DEFINE([NICKNAMEHISTORYLENGTH], 15000, [Size of the WHOWAS array.])
-        AC_DEFINE([CHANNEL_HEAP_SIZE], 8192, [Size of the channel heap.])
-        AC_DEFINE([BAN_HEAP_SIZE], 4096, [Size of the ban heap.])
-        AC_DEFINE([CLIENT_HEAP_SIZE], 8192, [Size of the client heap.])
-        AC_DEFINE([LCLIENT_HEAP_SIZE], 1024, [Size of the local client heap.])
-	AC_DEFINE([PCLIENT_HEAP_SIZE], 256, [Size of the pre-client heap.])
-        AC_DEFINE([USER_HEAP_SIZE], 8192, [Size of the user heap.])
-        AC_DEFINE([DNODE_HEAP_SIZE], 8192, [Size of the dlink_node heap.])
-        AC_DEFINE([TOPIC_HEAP_SIZE], 4096, [Size of the topic heap.])
-        AC_DEFINE([LINEBUF_HEAP_SIZE], 2048, [Size of the linebuf heap.])
-        AC_DEFINE([MEMBER_HEAP_SIZE], 32768, [Sizeof member heap.])
-        AC_DEFINE([ND_HEAP_SIZE], 512, [Size of the nick delay heap.])
-        AC_DEFINE([CONFITEM_HEAP_SIZE], 256, [Size of the confitem heap.])
-	AC_DEFINE([MONITOR_HEAP_SIZE], 1024, [Size of the monitor heap.])
-	AC_DEFINE([FD_HEAP_SIZE], 1024, [Size of fd heap.])
-	AC_DEFINE([AWAY_HEAP_SIZE], 512, [Size of away heap.])
-fi
+AC_DEFINE([NICKNAMEHISTORYLENGTH], 15000, [Size of the WHOWAS array.])
+AC_DEFINE([CHANNEL_HEAP_SIZE], 8192, [Size of the channel heap.])
+AC_DEFINE([BAN_HEAP_SIZE], 4096, [Size of the ban heap.])
+AC_DEFINE([CLIENT_HEAP_SIZE], 8192, [Size of the client heap.])
+AC_DEFINE([LCLIENT_HEAP_SIZE], 1024, [Size of the local client heap.])
+AC_DEFINE([PCLIENT_HEAP_SIZE], 256, [Size of the pre-client heap.])
+AC_DEFINE([USER_HEAP_SIZE], 8192, [Size of the user heap.])
+AC_DEFINE([DNODE_HEAP_SIZE], 8192, [Size of the dlink_node heap.])
+AC_DEFINE([TOPIC_HEAP_SIZE], 4096, [Size of the topic heap.])
+AC_DEFINE([LINEBUF_HEAP_SIZE], 2048, [Size of the linebuf heap.])
+AC_DEFINE([MEMBER_HEAP_SIZE], 32768, [Sizeof member heap.])
+AC_DEFINE([ND_HEAP_SIZE], 512, [Size of the nick delay heap.])
+AC_DEFINE([CONFITEM_HEAP_SIZE], 256, [Size of the confitem heap.])
+AC_DEFINE([MONITOR_HEAP_SIZE], 1024, [Size of the monitor heap.])
+AC_DEFINE([FD_HEAP_SIZE], 1024, [Size of fd heap.])
+AC_DEFINE([AWAY_HEAP_SIZE], 512, [Size of away heap.])
 
 AC_ARG_WITH(nicklen,
 AC_HELP_STRING([--with-nicklen=LENGTH],[Set the nick length to LENGTH (default 31, max 50)]),
 [
-  if ! expr "$withval" + 0 >/dev/null 2>&1; then 
+  if ! expr "$withval" + 0 >/dev/null 2>&1; then
 	AC_ERROR([NICKLEN must be a numeric value])
   fi 
   if test $withval -ge 50; then
@@ -932,7 +906,7 @@ AC_HELP_STRING([--with-nicklen=LENGTH],[Set the nick length to LENGTH (default 3
   fi
 ], [NICKLEN=31])
 
-AC_ARG_WITH(topiclen,           
+AC_ARG_WITH(topiclen,
 AC_HELP_STRING([--with-topiclen=NUMBER],[Set the max topic length to NUMBER (default 390, max 780)]),
 [
  if test $withval -ge 780; then
@@ -960,12 +934,12 @@ dnl Second stage: check for functions and headers.
 if test "$shared_modules" = yes; then
 	DYNLINK_C=dynlink.c
 	AC_CHECK_HEADERS(dlfcn.h)
-	AC_SEARCH_LIBS(shl_load, dld, 
+	AC_SEARCH_LIBS(shl_load, dld,
 	[
 	  AC_DEFINE(HAVE_SHL_LOAD, 1, [Define if the shl_load function is available.])
 	  SUFFIX=".sl"
 	  MOD_TARGET=hpux_shared
-	  SEDOBJ="s/\.o/.sl/g"  
+	  SEDOBJ="s/\.o/.sl/g"
 	],
 	dnl !shl_load:
 	[
@@ -1008,7 +982,7 @@ if test "$shared_modules" = yes; then
 		found="no, IRIX ld uses -B,dynamic"
 		LDFLAGS="${LDFLAGS} -Wl,-B,dynamic"
 	fi
-	
+
 	if expr "`uname -s`" : ^AIX >/dev/null 2>&1; then
 		found="no, AIX ld uses -G -brtl"
 		LDFLAGS="${LDFLAGS} -Wl,-G,-brtl"
@@ -1028,14 +1002,14 @@ if test "$shared_modules" = yes; then
 		AC_MSG_RESULT([SVR4 SGS interfaces: -KPIC -DPIC -G])
 		PICFLAGS="-KPIC -DPIC -G"
 	fi
-	
+
 	if test "$AppleGCC" = "yes"; then
 		AC_MSG_RESULT([Darwin Mach-O bundles: -fno-common -bundle -flat_namespace -undefined suppress])
 		PICFLAGS="-fno-common -bundle -flat_namespace -undefined suppress"
 	fi
 	dnl Please note, that on HPUX two different stages of module compilation occurs, since
 	dnl while compiling modules, the compiler does not allow you to give arguments
-	dnl to the linker. (I did not design this) 
+	dnl to the linker. (I did not design this)
 	dnl So we need -c in the first stage of module compilation.
 	dnl In the second stage, we link the modules via ld -b.
 	dnl Additionally, HPUX does not like -export-dynamic, it likes -E instead.
@@ -1044,8 +1018,8 @@ if test "$shared_modules" = yes; then
 		AC_MSG_RESULT(HP-UX cc: +z -r -q -n)
 		PICFLAGS="+z -r -q -n -c"
 		AC_MSG_CHECKING([if +ESfic is required on this platform])
-		
-		if expr "`$CC +ESfic 2>&1`" : ".*neither supported.*" >/dev/null; then 
+
+		if expr "`$CC +ESfic 2>&1`" : ".*neither supported.*" >/dev/null; then
 			AC_MSG_RESULT(no)
 		else
 			AC_MSG_RESULT(yes)
@@ -1199,7 +1173,7 @@ AC_SUBST(IRC_CFLAGS)
 AC_SUBST(SEDOBJ)
 
 
-if test "$prefix" = "NONE"; then 
+if test "$prefix" = "NONE"; then
 	AC_DEFINE_UNQUOTED(IRCD_PREFIX, "$ac_default_prefix", [Prefix where the ircd is installed.])
 
 else
@@ -1209,7 +1183,7 @@ dnl a custom prefix with a trailing slash
 
 	prefix=`echo $prefix | sed 's/\/$//'`
 	AC_DEFINE_UNQUOTED(IRCD_PREFIX, "$prefix", [Prefix where the ircd is installed.])
-	
+
 fi
 
 AC_CONFIG_FILES(			\
@@ -1247,7 +1221,6 @@ Configuration:
 
 	OpenSSL            : $openssl
 	Socket Engine      : $SELECT_TYPE
-	Small network      : $small_net
 	Block allocator    : $balloc
         Shared sqlite      : $shared_sqlite
 
