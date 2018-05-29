@@ -1,4 +1,3 @@
-
 dnl $Id: configure.ac 3516 2007-06-10 16:14:03Z jilles $
 dnl Process this file with autoconf to produce a configure script.
 
