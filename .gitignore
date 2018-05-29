@@ -13,12 +13,23 @@ config.log
 config.status
 
 autom4te.cache/
+include/serno.h
 include/setup.h
+include/setup.h.in
+include/setup.h.in~
+libratbox/aclocal.m4
+libratbox/compile
+libratbox/configure
+libratbox/depcomp
+libratbox/include/libratbox_config.h.in
+libratbox/include/libratbox_config.h.tmp
 libratbox/include/libratbox_config.h
-libratbox/include/librb-config.h
+libratbox/include/libratbox_config.h.in~
 libratbox/include/stamp-h1
 libratbox/libratbox.pc
 libratbox/libtool
+libratbox/ltmain.sh
+libratbox/missing
 libratbox/src/version.c
 libratbox/src/version.c.last
 src/ircd
