@@ -1233,6 +1233,7 @@ Configuration:
 	Socket Engine      : $SELECT_TYPE
 	Small network      : $small_net
 	Block allocator    : $balloc
+        Shared sqlite      : $shared_sqlite
 
 	Nickname length    : $NICKLEN
 	Topic length       : $TOPICLEN

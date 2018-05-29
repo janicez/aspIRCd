@@ -2,11 +2,12 @@ language: c
 compiler:
 - gcc
 
-before-install:
-- sudo apt-get update
 install:
-- sudo apt-get install build-essential libssl-dev flex bison
-script: "./configure --with-shared-sqlite && make && make install"
+- sudo apt-get install build-essential libssl-dev flex bison libsqlite3-dev
+script:
+  - ./configure --with-shared-sqlite
+  - make -j4
+  - make install
 
 notifications:
   template:
