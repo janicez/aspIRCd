@@ -16,9 +16,6 @@
 #include "s_serv.h"
 #include "numeric.h"
 
-/* if you're modifying this module, you'll probably to change this */
-#define KEY 0x13948cfa
-
 static int
 _modinit(void)
 {

@@ -12,6 +12,7 @@
 - [X] - Added datarootdir that was missing
 - [X] - Allow exact PID file prefix to be specified
 - [X] - Removed smallnet option as never used
+- [X] - Fixed cloaking, now cloaks more of the hostname if contains a DOT. Reads network_name from ServerInfo
 
 
 
