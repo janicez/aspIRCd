@@ -1,6 +1,6 @@
 /*
  * Charybdis: an advanced ircd
- * m_cloaking.c: provide user hostname cloaking
+ * ip_cloaking.c: provide user hostname cloaking
  *
  * Written originally by nenolod, altered to use FNV by Elizabeth in 2008
  */
@@ -11,6 +11,7 @@
 #include "client.h"
 #include "ircd.h"
 #include "send.h"
+#include "hash.h"
 #include "s_conf.h"
 #include "s_user.h"
 #include "s_serv.h"
@@ -43,7 +44,7 @@ mapi_hfn_list_av1 ip_cloaking_hfnlist[] = {
 };
 
 DECLARE_MODULE_AV1(ip_cloaking, _modinit, _moddeinit, NULL, NULL,
-                   ip_cloaking_hfnlist, "$Revision: 3522 $");
+                   ip_cloaking_hfnlist, "$Revision$");
 
 static void
 distribute_hostchange(struct Client *client_p, char *newhost)
@@ -71,7 +72,54 @@ distribute_hostchange(struct Client *client_p, char *newhost)
 }
 
 static void
-do_host_cloak(const char *inbuf, char *outbuf, int ipmask)
+do_host_cloak_ip(const char *inbuf, char *outbuf)
+{
+    /* None of the characters in this table can be valid in an IP */
+    char chartable[] = "ghijklmnopqrstuvwxyz";
+    char *tptr;
+    uint32_t accum = fnv_hash((const unsigned char*) inbuf, 32);
+    int sepcount = 0;
+    int totalcount = 0;
+    int ipv6 = 0;
+
+    rb_strlcpy(outbuf, inbuf, HOSTLEN + 1);
+
+    if (strchr(outbuf, ':')) {
+        ipv6 = 1;
+
+        /* Damn you IPv6...
+         * We count the number of colons so we can calculate how much
+         * of the host to cloak. This is because some hostmasks may not
+         * have as many octets as we'd like.
+         *
+         * We have to do this ahead of time because doing this during
+         * the actual cloaking would get ugly
+         */
+        for (tptr = outbuf; *tptr != '\0'; tptr++)
+            if (*tptr == ':')
+                totalcount++;
+    } else if (!strchr(outbuf, '.'))
+        return;
+
+    for (tptr = outbuf; *tptr != '\0'; tptr++) {
+        if (*tptr == ':' || *tptr == '.') {
+            sepcount++;
+            continue;
+        }
+
+        if (ipv6 && sepcount < totalcount / 2)
+            continue;
+
+        if (!ipv6 && sepcount < 2)
+            continue;
+
+        *tptr = chartable[(*tptr + accum) % 20];
+        accum = (accum << 1) | (accum >> 31);
+    }
+}
+
+static void
+do_host_cloak_host(const char *inbuf, char *outbuf, int ipmask)
 {
     int cyc;
     unsigned int hosthash = 1, hosthash2 = 1;
@@ -118,7 +166,7 @@ check_umode_change(void *vdata)
     if (!MyClient(source_p))
         return;
 
-    /* didn't change +x umode, we don't need to do anything */
+    /* didn't change +h umode, we don't need to do anything */
     if (!((data->oldumodes ^ source_p->umodes) & user_modes['x']))
         return;
 
@@ -149,11 +197,11 @@ check_new_user(void *vdata)
         source_p->umodes &= ~user_modes['x'];
         return;
     }
-    source_p->localClient->mangledhost = rb_malloc(HOSTLEN);
+    source_p->localClient->mangledhost = rb_malloc(HOSTLEN + 2);
     if (!irccmp(source_p->orighost, source_p->sockhost))
-        do_host_cloak(source_p->orighost, source_p->localClient->mangledhost, 1);
+        do_host_cloak_ip(source_p->orighost, source_p->localClient->mangledhost);
     else
-        do_host_cloak(source_p->orighost, source_p->localClient->mangledhost, 0);
+        do_host_cloak_host(source_p->orighost, source_p->localClient->mangledhost, 0);
     if (IsDynSpoof(source_p))
         source_p->umodes &= ~user_modes['x'];
     if (source_p->umodes & user_modes['x']) {
@@ -162,3 +210,5 @@ check_new_user(void *vdata)
             SetDynSpoof(source_p);
     }
 }
+
+
