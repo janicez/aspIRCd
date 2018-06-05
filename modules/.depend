@@ -479,8 +479,8 @@ m_cloaking.so: m_cloaking.c ../include/stdinc.h \
  ../include/reslib.h ../include/match.h ../include/ircd.h \
  ../include/snomask.h ../include/client.h ../include/privilege.h \
  ../include/stdinc.h ../include/ircd.h ../include/send.h \
- ../include/s_conf.h ../include/class.h ../include/s_user.h \
- ../include/s_serv.h ../include/numeric.h
+ ../include/hash.h ../include/s_conf.h ../include/class.h \
+ ../include/s_user.h ../include/s_serv.h ../include/numeric.h
 m_connect.so: m_connect.c ../include/stdinc.h \
  ../libratbox/include/ratbox_lib.h ../libratbox/include/librb-config.h \
  ../libratbox/include/rb_tools.h ../libratbox/include/rb_memory.h \

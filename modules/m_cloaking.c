@@ -1,6 +1,6 @@
 /*
  * Charybdis: an advanced ircd
- * ip_cloaking.c: provide user hostname cloaking
+ * m_cloaking.c: provide user hostname cloaking
  *
  * Written originally by nenolod, altered to use FNV by Elizabeth in 2008
  */
@@ -166,7 +166,7 @@ check_umode_change(void *vdata)
     if (!MyClient(source_p))
         return;
 
-    /* didn't change +h umode, we don't need to do anything */
+    /* didn't change +x umode, we don't need to do anything */
     if (!((data->oldumodes ^ source_p->umodes) & user_modes['x']))
         return;
 
@@ -197,7 +197,7 @@ check_new_user(void *vdata)
         source_p->umodes &= ~user_modes['x'];
         return;
     }
-    source_p->localClient->mangledhost = rb_malloc(HOSTLEN + 2);
+    source_p->localClient->mangledhost = rb_malloc(HOSTLEN + 1);
     if (!irccmp(source_p->orighost, source_p->sockhost))
         do_host_cloak_ip(source_p->orighost, source_p->localClient->mangledhost);
     else
