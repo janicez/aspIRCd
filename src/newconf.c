@@ -2154,6 +2154,7 @@ static struct ConfEntry conf_general_table[] =
 	{ "caller_id_wait",	CF_TIME,  NULL, 0, &ConfigFileEntry.caller_id_wait	},
 	{ "client_exit",	CF_YESNO, NULL, 0, &ConfigFileEntry.client_exit		},
 	{ "client_flood",	CF_INT,   NULL, 0, &ConfigFileEntry.client_flood	},
+	{ "resv_fnc",		CF_YESNO, NULL, 0, &ConfigFileEntry.resv_fnc		},
 	{ "collision_fnc",	CF_YESNO, NULL, 0, &ConfigFileEntry.collision_fnc	},
 	{ "connect_timeout",	CF_TIME,  NULL, 0, &ConfigFileEntry.connect_timeout	},
 	{ "default_floodcount", CF_INT,   NULL, 0, &ConfigFileEntry.default_floodcount	},
