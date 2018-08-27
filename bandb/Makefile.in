@@ -32,6 +32,8 @@ SQLITE_INCLUDES	= @SQLITE_INCLUDES@
 
 PROGRAM_PREFIX   = @PROGRAM_PREFIX@
 
+ZIP_LIB		= @ZLIB_LD@
+
 IRCDLIBS	= @MODULES_LIBS@ -L../libratbox/src/.libs -lratbox @LIBS@ $(SSL_LIBS) $(ZIP_LIB) $(SQLITE_LIBS)
 
 INCLUDES        = -I. -I../include -I../libratbox/include $(SSL_INCLUDES) $(SQLITE_INCLUDES)
