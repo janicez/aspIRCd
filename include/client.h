@@ -100,6 +100,16 @@ struct Server
         char maskinfo;
 };
 
+struct ZipStats
+{
+	unsigned long long in;
+	unsigned long long in_wire;
+	unsigned long long out;
+	unsigned long long out_wire;
+	double in_ratio;
+	double out_ratio;
+};
+
 struct Client
 {
 	rb_dlink_node node;
@@ -269,7 +279,9 @@ struct LocalUser
 			      applicable to this client */
 
 	struct _ssl_ctl *ssl_ctl;		/* which ssl daemon we're associate with */
+	struct _ssl_ctl *z_ctl;			/* second ctl for ssl+zlib */
 	uint32_t localflags;
+	struct ZipStats *zipstats;		/* zipstats */
 	uint16_t cork_count;			/* used for corking/uncorking connections */
 	struct ev_entry *event;			/* used for associated events */
 

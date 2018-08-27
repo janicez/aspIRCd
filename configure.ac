@@ -561,6 +561,24 @@ AC_SUBST(SQLITE_LD, "$SQLITE_LIBS")
 AC_SUBST(SQLITE_INCLUDES, "$SQLITE_CFLAGS")
 AC_SUBST(SQLITE_SRC)
 
+dnl Specialized functions and libraries
+dnl ===================================
+AC_ARG_WITH(zlib-path,
+AC_HELP_STRING([--with-zlib-path=DIR],[Path to libz.so for ziplinks support.]),
+[LIBS="$LIBS -L$withval"],)
+AC_ARG_ENABLE(zlib,
+AC_HELP_STRING([--disable-zlib],[Disable ziplinks support]),
+[zlib=$enableval],[zlib=yes])
+if test "$zlib" = yes; then
+AC_CHECK_HEADER(zlib.h, [
+	AC_CHECK_LIB(z, zlibVersion,
+	[
+		AC_SUBST(ZLIB_LD, -lz)
+		AC_DEFINE(HAVE_LIBZ, 1, [Define to 1 if zlib (-lz) is available.])
+	], zlib=no)
+], zlib=no)
+fi
+
 dnl IO Loop Selection
 dnl =================
 
@@ -1219,6 +1237,7 @@ echo "
 Configuration:
 	Install directory  : $prefix
 
+	Ziplinks           : $zlib
 	OpenSSL            : $openssl
 	Socket Engine      : $SELECT_TYPE
 	Block allocator    : $balloc
@@ -1227,5 +1246,4 @@ Configuration:
 	Nickname length    : $NICKLEN
 	Topic length       : $TOPICLEN
 
-Use (g)make to compile sIRCd, then (g)make install to install it.
-"
+Use (g)make to compile sIRCd, then (g)make install to install it."

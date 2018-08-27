@@ -643,6 +643,7 @@ HELP_DIR
 logdir
 LOG_DIR
 ETC_DIR
+ZLIB_LD
 SQLITE_SRC
 SQLITE_INCLUDES
 SQLITE_LD
@@ -739,6 +740,8 @@ enable_fhs_paths
 enable_ipv6
 enable_openssl
 with_shared_sqlite
+with_zlib_path
+enable_zlib
 enable_ports
 enable_poll
 enable_select
@@ -1399,6 +1402,7 @@ Optional Features:
   --enable-ipv6           Enable IPv6 support
   --enable-openssl=DIR    Enable OpenSSL support (DIR optional).
   --disable-openssl       Disable OpenSSL support.
+  --disable-zlib          Disable ziplinks support
   --enable-ports          Force solaris I/O ports subsystem usage.
   --enable-poll           Force poll() usage.
   --enable-select         Force select() usage.
@@ -1415,6 +1419,7 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-shared-sqlite    Use shared sqlite
+  --with-zlib-path=DIR    Path to libz.so for ziplinks support.
   --with-confdir=DIR      Directory to install config files [deprecated, use
                           --sysconfdir instead].
   --with-logdir=DIR       Directory where to write logfiles.
@@ -7404,6 +7409,79 @@ SQLITE_INCLUDES="$SQLITE_CFLAGS"
 
 
 
+# Check whether --with-zlib-path was given.
+if test "${with_zlib_path+set}" = set; then :
+  withval=$with_zlib_path; LIBS="$LIBS -L$withval"
+fi
+
+# Check whether --enable-zlib was given.
+if test "${enable_zlib+set}" = set; then :
+  enableval=$enable_zlib; zlib=$enableval
+else
+  zlib=yes
+fi
+
+if test "$zlib" = yes; then
+ac_fn_c_check_header_mongrel "$LINENO" "zlib.h" "ac_cv_header_zlib_h" "$ac_includes_default"
+if test "x$ac_cv_header_zlib_h" = xyes; then :
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for zlibVersion in -lz" >&5
+$as_echo_n "checking for zlibVersion in -lz... " >&6; }
+if ${ac_cv_lib_z_zlibVersion+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lz  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char zlibVersion ();
+int
+main ()
+{
+return zlibVersion ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_z_zlibVersion=yes
+else
+  ac_cv_lib_z_zlibVersion=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_z_zlibVersion" >&5
+$as_echo "$ac_cv_lib_z_zlibVersion" >&6; }
+if test "x$ac_cv_lib_z_zlibVersion" = xyes; then :
+
+		ZLIB_LD=-lz
+
+
+$as_echo "#define HAVE_LIBZ 1" >>confdefs.h
+
+
+else
+  zlib=no
+fi
+
+
+else
+  zlib=no
+fi
+
+
+fi
+
+
 # Check whether --enable-ports was given.
 if test "${enable_ports+set}" = set; then :
   enableval=$enable_ports;  if test $enableval = yes; then
@@ -11181,6 +11259,7 @@ echo "
 Configuration:
 	Install directory  : $prefix
 
+	Ziplinks           : $zlib
 	OpenSSL            : $openssl
 	Socket Engine      : $SELECT_TYPE
 	Block allocator    : $balloc
@@ -11189,5 +11268,4 @@ Configuration:
 	Nickname length    : $NICKLEN
 	Topic length       : $TOPICLEN
 
-Use (g)make to compile sIRCd, then (g)make install to install it.
-"
+Use (g)make to compile sIRCd, then (g)make install to install it."
