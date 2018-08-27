@@ -75,11 +75,14 @@ build:
 		echo "Doing so now."; \
 		sh configure; \
 	fi
-	@if [ -d .hg ] ; then \
+	@if [ -d .git ] ; then \
+		revh=`git log -1 --pretty=format:git-%h`;\
+		[ -z "$$revh" ] || echo '#define SERNO "'$$revh'"' >include/serno.h ; \
+	elif [ -d .hg ] ; then \
 		revh=`hg parents --template '{date|shortdate}_{node|short}' 2>/dev/null | sed -e s/-//g -e s/_/-/`;\
 		[ -z "$$revh" ] || echo '#define SERNO "'$$revh'"' >include/serno.h ; \
 	fi
-	@[ -f include/serno.h ] || echo '#define SERNO "Jaxon"' >include/serno.h
+	@[ -f include/serno.h ] || echo '#define SERNo "git-unknown"' >include/serno.h
 	@for i in $(SUBDIRS); do \
 		echo "build ==> $$i";\
 		cd $$i;\
@@ -88,6 +91,7 @@ build:
 
 clean:
 	${RM} -f *~ core rsa_respond.tar rsa_respond.tar.gz
+	rm -f include/serno.h
 	@for i in $(CLEANDIRS); do \
 		echo "clean ==> $$i";\
 		cd $$i;\

@@ -1,10 +1,10 @@
 # sIRCd Changes
 
-## Changes since Version 1.0.9-2 (Garlic)
+## Changes since Version 1.0.9-2
 
 
 
-## Changes since Version 1.0.9-1 (fear)
+## Changes since Version 1.0.9-1
 
 - [X] - Move m_locops module to extensions.
 - [X] - Added usermode +O which will hide oper from /whois for non oper accounts
