@@ -122,13 +122,12 @@ m_cmessage(int p_or_n, const char *command,
     }
 
     else if(!IsServer(source_p) && !IsService(source_p) && (IsSetCallerId(target_p) ||
-                                        (IsSetSCallerId(target_p) && !has_common_channel(source_p, target_p)) ||
-                                        (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
-                                        (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
-                        (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
-                        )
-                {
-    if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) {
+            (IsSetSCallerId(target_p) && !has_common_channel(source_p, target_p)) ||
+            (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) ||
+            (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
+            (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
+           ) {
+        if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]) {
             if (p_or_n != NOTICE)
                 sendto_one_numeric(source_p, ERR_NONONREG,
                                    form_str(ERR_NONONREG),
@@ -143,13 +142,13 @@ m_cmessage(int p_or_n, const char *command,
             return 0;
         }
 
-        if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))
-                        {
-                                if (p_or_n != NOTICE)
-                                {       sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send this message again once connected via SSL/TLS",
-                                                   target_p->name, target_p->username, target_p->host, source_p->name); }
-           return 0;
-                        }
+        if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) {
+            if (p_or_n != NOTICE) {
+                sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send this message again once connected via SSL/TLS",
+                           target_p->name, target_p->username, target_p->host, source_p->name);
+            }
+            return 0;
+        }
         if(p_or_n != NOTICE)
             sendto_one_numeric(source_p, ERR_TARGUMODEG,
                                form_str(ERR_TARGUMODEG), target_p->name);
@@ -172,8 +171,8 @@ m_cmessage(int p_or_n, const char *command,
     }
 
     if(p_or_n != NOTICE)
-    source_p->localClient->last = rb_current_time();
+        source_p->localClient->last = rb_current_time();
 
-                                  sendto_anywhere(target_p, source_p, command, ":%s", parv[3]);
-                                  return 0;
+    sendto_anywhere(target_p, source_p, command, ":%s", parv[3]);
+    return 0;
 }

@@ -327,8 +327,8 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
         sendto_one_numeric(source_p, RPL_WHOISSECURE, form_str(RPL_WHOISSECURE),
                            target_p->name);
     if((source_p == target_p || IsOper(source_p)))
-	sendto_one_numeric(source_p, RPL_WHOISYOURID,
-		           form_str(RPL_WHOISYOURID),
+        sendto_one_numeric(source_p, RPL_WHOISYOURID,
+                           form_str(RPL_WHOISYOURID),
                            target_p->name, target_p->id);
 
     if((source_p == target_p || IsOper(source_p)) &&
@@ -397,17 +397,17 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
                                target_p->name, target_p->sockhost);
 
         if (!IsService(target_p) && (!(target_p->umodes & UMODE_HIDEIDLE) || IsOper(source_p)))
-        sendto_one_numeric(source_p, RPL_WHOISIDLE, form_str(RPL_WHOISIDLE),
-                           target_p->name,
-                           rb_current_time() - target_p->localClient->last,
-                           target_p->localClient->firsttime);
+            sendto_one_numeric(source_p, RPL_WHOISIDLE, form_str(RPL_WHOISIDLE),
+                               target_p->name,
+                               rb_current_time() - target_p->localClient->last,
+                               target_p->localClient->firsttime);
 
         if (MyClient(target_p) && (source_p != target_p) && (target_p->umodes & UMODE_WHO)) {
-        sendto_one_notice(target_p,
-                          ":*** Notice -- %s (%s@%s) is doing a whois on you",
-                          source_p->name,
-                          source_p->username, source_p->host);
-    }
+            sendto_one_notice(target_p,
+                              ":*** Notice -- %s (%s@%s) is doing a whois on you",
+                              source_p->name,
+                              source_p->username, source_p->host);
+        }
     } else {
         if (IsOper(source_p) || source_p == target_p) {
             int isDynSpoof = 0;

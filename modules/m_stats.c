@@ -1328,7 +1328,7 @@ stats_ziplinks (struct Client *source_p)
             sent_data++;
         }
     }
-     sendto_one_numeric(source_p, RPL_STATSDEBUG,
+    sendto_one_numeric(source_p, RPL_STATSDEBUG,
                        "Z :%u ziplink(s)", sent_data);
 }
 

@@ -80,7 +80,7 @@ static void do_query_name(struct DNSQuery *query, const char *name, struct resli
 static void do_query_number(struct DNSQuery *query, const struct sockaddr_storage *,
                             struct reslist *request);
 static void gethost_byname_type_fqdn(const char *name, struct DNSQuery *query,
-		int type);
+                                     int type);
 static void query_name(struct reslist *request);
 static int send_res_msg(const char *buf, int len, int count);
 static void resend_query(struct reslist *request);
@@ -394,19 +394,19 @@ static struct reslist *find_id(int id)
  */
 void gethost_byname_type(const char *name, struct DNSQuery *query, int type)
 {
-	char fqdn[IRCD_RES_HOSTLEN + 1];
-	assert(name != 0);
+    char fqdn[IRCD_RES_HOSTLEN + 1];
+    assert(name != 0);
 
-	rb_strlcpy(fqdn, name, sizeof fqdn);
-	add_local_domain(fqdn, IRCD_RES_HOSTLEN);
-	gethost_byname_type_fqdn(fqdn, query, type);
+    rb_strlcpy(fqdn, name, sizeof fqdn);
+    add_local_domain(fqdn, IRCD_RES_HOSTLEN);
+    gethost_byname_type_fqdn(fqdn, query, type);
 }
 
 /*
  * gethost_byname_type_fqdn - get host address from fqdn
  */
 static void gethost_byname_type_fqdn(const char *name, struct DNSQuery *query,
-		int type)
+                                     int type)
 {
     assert(name != 0);
     do_query_name(query, name, NULL, type);
@@ -455,7 +455,7 @@ static void do_query_number(struct DNSQuery *query, const struct sockaddr_storag
         cp = (const unsigned char *)&v4->sin_addr.s_addr;
 
         sprintf(request->queryname, "%u.%u.%u.%u.in-addr.arpa", (unsigned int)(cp[3]),
-                   (unsigned int)(cp[2]), (unsigned int)(cp[1]), (unsigned int)(cp[0]));
+                (unsigned int)(cp[2]), (unsigned int)(cp[1]), (unsigned int)(cp[0]));
     }
 #ifdef RB_IPV6
     else if (addr->ss_family == AF_INET6) {
@@ -630,13 +630,13 @@ static int proc_answer(struct reslist *request, HEADER * header, char *buf, char
         current += TYPE_SIZE;
 
         (void) irc_ns_get16(current);
-	current += CLASS_SIZE;
+        current += CLASS_SIZE;
 
-	request->ttl = irc_ns_get32(current);
-	current += TTL_SIZE;
+        request->ttl = irc_ns_get32(current);
+        current += TTL_SIZE;
 
-	rd_length = irc_ns_get16(current);
-	current += RDLENGTH_SIZE;
+        rd_length = irc_ns_get16(current);
+        current += RDLENGTH_SIZE;
 
         /*
          * Wait to set request->type until we verify this structure

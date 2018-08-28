@@ -121,19 +121,19 @@ static char snobuf[BUFSIZE];
 char *
 construct_snobuf(unsigned int val)
 {
-        int i;
-        char *ptr = snobuf;
+    int i;
+    char *ptr = snobuf;
 
-        *ptr = '\0';
-	*ptr++ = '+';
+    *ptr = '\0';
+    *ptr++ = '+';
 
-        for (i = 0; i < 128; i++)
-                if (snomask_modes[i] && (val & snomask_modes[i]))
-                        *ptr++ = (char) i;
+    for (i = 0; i < 128; i++)
+        if (snomask_modes[i] && (val & snomask_modes[i]))
+            *ptr++ = (char) i;
 
-        *ptr++ = '\0';
+    *ptr++ = '\0';
 
-	return snobuf;
+    return snobuf;
 }
 
 /*
@@ -146,33 +146,31 @@ construct_snobuf(unsigned int val)
 unsigned int
 parse_snobuf_to_mask(unsigned int val, const char *sno)
 {
-	const char *p;
-	int what = SNO_ADD;
+    const char *p;
+    int what = SNO_ADD;
 
-	if (sno == NULL)
-		return val;
+    if (sno == NULL)
+        return val;
 
-	for (p = sno; *p != '\0'; p++)
-	{
-		switch(*p)
-		{
-			case '+':
-				what = SNO_ADD;
-				break;
-			case '-':
-				what = SNO_DEL;
-				break;
-			default:
-				if (what == SNO_ADD)
-					val |= snomask_modes[(unsigned char) *p];
-				else if (what == SNO_DEL)
-					val &= ~snomask_modes[(unsigned char) *p];
+    for (p = sno; *p != '\0'; p++) {
+        switch(*p) {
+        case '+':
+            what = SNO_ADD;
+            break;
+        case '-':
+            what = SNO_DEL;
+            break;
+        default:
+            if (what == SNO_ADD)
+                val |= snomask_modes[(unsigned char) *p];
+            else if (what == SNO_DEL)
+                val &= ~snomask_modes[(unsigned char) *p];
 
-				break;
-		}
-	}
+            break;
+        }
+    }
 
-	return val;
+    return val;
 }
 
 /*
@@ -186,14 +184,14 @@ parse_snobuf_to_mask(unsigned int val, const char *sno)
 unsigned int
 find_snomask_slot(void)
 {
-	unsigned int all_umodes = 0, my_umode = 0, i;
+    unsigned int all_umodes = 0, my_umode = 0, i;
 
-	for (i = 0; i < 128; i++)
-		all_umodes |= snomask_modes[i];
+    for (i = 0; i < 128; i++)
+        all_umodes |= snomask_modes[i];
 
-	for (my_umode = 1; my_umode && (all_umodes & my_umode);
-		my_umode <<= 1);
+    for (my_umode = 1; my_umode && (all_umodes & my_umode);
+         my_umode <<= 1);
 
-	return my_umode;
+    return my_umode;
 }
 
