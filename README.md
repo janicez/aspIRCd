@@ -29,6 +29,6 @@ directions.
 ## Support
 
 The official channel for sIRCd is `#sIRCd` on
-`irc.chatfreedom.us`. 
+`irc.oinkoink.icu`. 
 
 Please use ***GitHub issue tracker*** for any issues
