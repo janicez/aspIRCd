@@ -21,7 +21,7 @@ Debian packages:
 
 ## Debian/ubuntu Users
 
-You should run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential libsqlite3-dev`
+You should run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential libsqlite3-dev pkg-config`
 
 Read the included documentation for detailed compilation and install
 directions.
