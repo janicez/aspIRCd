@@ -28,18 +28,18 @@ def promptYesNo(prompt, default=True):
 configflags = ["./configure"]
 
 art = """
-     _____ _____   _____    _
-    |_   _|  __ \ / ____|  | |
- ___  | | | |__) | |     __| |
-/ __| | | |  _  /| |    / _` |
-\__ \_| |_| | \ \| |___| (_| |
-|___/_____|_|  \_\\_____\__, _|
-                         v1.1.0
+        _____ _____   _____    _
+       |_   _|  __ \ / ____|  | |
+ ___     | | | |__) | |     __| |
+ /---\   | | |  _  /| |    / _` |
+ asp     | |_| | \ \| |___| (_| |
+|___/   |_|__|_|  \_\\____|_____|
+                         v4.0.5
 """
 
 welcome ="""
-Welcome to the sIRCd Configuration script. This script will help you choose the
-best compile flags for your installation of sIRCd, whilst install is restricted to /home/<username>/ircd
+Welcome to the aspIRCd Configuration script. This script will help you choose the
+best compile flags for your installation of aspIRCd, whilst install is restricted to /home/<username>/ircd
 """
 
 print(art)
@@ -113,7 +113,7 @@ print("\nThat should be it for now. Running %s" % " ".join(configflags))
 print("")
 print("")
 print("")
-raw_input("Press enter to install sIRCd...")
+raw_input("Press enter to install aspIRCd...")
 
 
 
