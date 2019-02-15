@@ -1,12 +1,9 @@
-# sIRCd
-[![Build Status](https://travis-ci.org/CustomIRCd/sIRCd.svg?branch=master)](https://travis-ci.org/CustomIRCd/sIRCd)
+**aspIRCd** is a high performance, lightweight, and scalable
+IRC daemon. It is a fork of the now-defunct ircd-seven and seeks to continue in
+the direction ircd-seven was headed.
 
-**sIRCd** is a high performance, lightweight, and scalable
-IRC daemon. It is a fork of the now-defunct ShadowIRCD and seeks to continue in
-the direction ShadowIRCD was headed.
-
-**ChatIRCd**
-some of the coding from ChatIRCd has been used on sIRCd. Credit to Ben (www.chatlounge.net)
+**IRCa**
+some of the coding from IRCa has been used on aspIRCd. Credit to Ellenor (www.umbrellix.net)
 
 ## Supported Platforms
 
@@ -18,17 +15,26 @@ Debian packages:
  - `bison`
  - `build-essential`
  - `libsqlite3-dev`
+ - `libtool`
+ - `autoconf`
+ 
+ You however have a choice of choosing any of your favourite SSL supporting applications. One of them, we primarily support is one of that of OpenSSL.
+ To make sure SSL ports works, issue a certificate to your IRC Network by going in the `main directory@/bin` and running:
+ `./genssl.sh`
 
 ## Debian/ubuntu Users
 
-You should run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential libsqlite3-dev pkg-config`
+If you have a newly installed OS, you should primarily run `apt-get update` followed by `apt-get install libssl-dev flex bison build-essential libsqlite3-dev pkg-config autoconf openssl libtool`
 
 Read the included documentation for detailed compilation and install
 directions.
 
 ## Support
+Interested in meeting the developers?
+The official channel for aspIRCd is `#aspIRCd` on
+`irc.baconrashers.net Port 6667/+6697(SSL)`
 
-The official channel for sIRCd is `#sIRCd` on
-`irc.oinkoink.icu`. 
+Finding services that fully supports this IRCd?
+https://github.com/ShaleCoders/Ashtheme
 
 Please use ***GitHub issue tracker*** for any issues
