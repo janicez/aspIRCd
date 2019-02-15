@@ -1,17 +1,17 @@
-$Id: README.cidr_bans 6 2005-09-10 01:02:21Z nenolod $ 
+## CONFIGURATION
 
+1) **example.conf** Be sure to first refer to reference.conf for the explanation of each and every clause, and then edit example.conf
+Rename `YOUR DIRECTORY/etc/example.conf` to `YOUR DIRECTORY/etc/ircd.conf`
 
-Basically what this patch does is allow for users to use cidr masks when
-setting bans, exceptions, and invite invex(modes beI respectively).  This
-works for both IPv4 and IPv6 addresses.  
+2) **opers.conf** Do **NOT** forget to EDIT `YOUR DIRECTORY/etc/opers.conf` according to your suitable needs.
+The password is protected in a suitable hash when in case your server gets hacked by someone, they wont know your O:line passwords.
+Make sure to not to use same passwords everywhere, if you are doing that, you are in great trouble.
+Protect your passwords , as you know **aspIRCd** passwords are case sensitive , so : FOR EG: If you want your password to be `Cheese`
+then encrypt it to `ch3s3e`
 
-I won't go into details of how cidr works here, but to use them, you could
-do something like:
+These two sets of configuration file are the most basic and **important** sets of your Network.
+Make sure to edit them patiently.
 
-/mode #foo +b *!*@10.0.0.0/8 
-/mode #foo +e *!*@10.0.10.0/24
-
-Aaron Sethman <androsyn@ratbox.org>
-August 06, 2002
-
-
+Have cheers,
+David Franklin
+Last Updated at < 15th February 2019>
