@@ -4,8 +4,8 @@
 IRC daemon. It is a fork of the now-defunct ircd-seven and seeks to continue in
 the direction ircd-seven was headed.
 
-**IRCa**
-some of the coding from IRCa has been used on aspIRCd. Credit to Ellenor (www.umbrellix.net)
+**ChatIRCd**
+some of the coding from ChatIRCd has been used on aspIRCd. Credit to Ben (www.chatlounge.net)
 
 ## Supported Platforms
 
