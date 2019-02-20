@@ -578,16 +578,31 @@ channel_member_names(struct Channel *chptr, struct Client *client_p, int show_eo
             if(IsInvisible(target_p) && !is_member)
                 continue;
 
-            /* space, possible "@+" prefix */
-            if(cur_len + strlen(target_p->name) + 3 >= BUFSIZE - 3) {
-                *(t - 1) = '\0';
-                sendto_one(client_p, "%s", lbuf);
-                cur_len = mlen;
-                t = lbuf + mlen;
+            if (IsCapable(client_p, CLICAP_USERHOST_IN_NAMES)) {
+                /* space, possible "@+" prefix */
+                if (cur_len + strlen(target_p->name) + strlen(target_p->username) + strlen(target_p->host) + 5 >= BUFSIZE - 5) {
+                    *(t - 1) = '\0';
+                    sendto_one(client_p, "%s", lbuf);
+                    cur_len = mlen;
+                    t = lbuf + mlen;
+                }
+
+                tlen = rb_sprintf(t, "%s%s!%s@%s ", find_channel_status(msptr, stack),
+                                  target_p->name, target_p->username, target_p->host);
             }
 
-            tlen = rb_sprintf(t, "%s%s ", find_channel_status(msptr, stack),
-                              target_p->name);
+            else {
+                /* space, possible "@+" prefix */
+                if(cur_len + strlen(target_p->name) + 3 >= BUFSIZE - 3) {
+                    *(t - 1) = '\0';
+                    sendto_one(client_p, "%s", lbuf);
+                    cur_len = mlen;
+                    t = lbuf + mlen;
+                }
+
+                tlen = rb_sprintf(t, "%s%s ", find_channel_status(msptr, stack),
+                                  target_p->name);
+            }
 
             cur_len += tlen;
             t += tlen;
@@ -1890,10 +1905,11 @@ void user_join(struct Client * client_p, struct Client * source_p, const char * 
                                              source_p->tsinfo, source_p->info);
 
         /* Send away message to away-notify enabled clients. */
-        /*		if (client_p->user && client_p->user->away)
-        			sendto_channel_local_with_capability_butone(client_p, ALL_MEMBERS, CLICAP_AWAY_NOTIFY, NOCAPS, chptr,
-        				":%s!%s@%s AWAY :%s", client_p->name, client_p->username,
-        				client_p->host, client_p->user->away);*/
+        if (client_p->user && client_p->user->away)
+            sendto_channel_local_with_capability_butone(client_p, ALL_MEMBERS, CLICAP_AWAY_NOTIFY, NOCAPS, chptr,
+                    ":%s!%s@%s AWAY :%s",
+                    client_p->name, client_p->username,
+                    client_p->host, client_p->user->away);
 
         /* its a new channel, set +nt and burst. */
         if(flags & CHFL_CHANOP) {

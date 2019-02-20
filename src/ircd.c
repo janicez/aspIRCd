@@ -148,28 +148,6 @@ ircd_shutdown(const char *reason)
 }
 
 /*
- * print_startup - print startup information
- */
-static void
-print_startup(int pid)
-{
-    inotice("now running in %s mode from %s as pid %d ...",
-            !server_state_foreground ? "background" : "foreground",
-            ConfigFileEntry.dpath, pid);
-
-    /* let the parent process know the initialization was successful
-     * -- jilles */
-    if (!server_state_foreground)
-        write(0, ".", 1);
-    fclose(stdin);
-    fclose(stdout);
-    fclose(stderr);
-    open("/dev/null", O_RDWR);
-    dup2(0, 1);
-    dup2(0, 2);
-}
-
-/*
  * init_sys
  *
  * inputs	- boot_daemon flag
@@ -198,36 +176,35 @@ init_sys(void)
 static int
 make_daemon(void)
 {
-    int pid;
-    int pip[2];
-    char c;
+    int pid, nullfd, fdx;
 
-    if (pipe(pip) < 0) {
-        perror("pipe");
+    /* The below is approximately what daemon(1, 0) does, but
+       we need control over the parent after forking to print
+       the startup message -- Aaron */
+
+    if((nullfd = open("/dev/null", O_RDWR)) < 0) {
+        perror("open /dev/null");
         exit(EXIT_FAILURE);
     }
-    dup2(pip[1], 0);
-    close(pip[1]);
+
     if((pid = fork()) < 0) {
         perror("fork");
         exit(EXIT_FAILURE);
     } else if(pid > 0) {
-        close(0);
-        /* Wait for initialization to finish, successfully or
-         * unsuccessfully. Until this point the child may still
-         * write to stdout/stderr.
-         * -- jilles */
-        if (read(pip[0], &c, 1) > 0)
-            exit(EXIT_SUCCESS);
-        else
-            exit(EXIT_FAILURE);
+        inotice("now running in background mode from %s as pid %d ...",
+                ConfigFileEntry.dpath, pid);
+
+        exit(EXIT_SUCCESS);
     }
 
-    close(pip[0]);
-    setsid();
-    /*	fclose(stdin);
-    	fclose(stdout);
-    	fclose(stderr); */
+    for(fdx = 0; fdx <= 2; fdx++)
+        if (fdx != nullfd)
+            (void) dup2(nullfd, fdx);
+
+    if(nullfd > 2)
+        (void) close(nullfd);
+
+    (void) setsid();
 
     return 0;
 }
@@ -605,20 +582,18 @@ main(int argc, char *argv[])
     if(!testing_conf) {
         check_pidfile(pidFileName);
 
-        if(!server_state_foreground)
-            make_daemon();
         inotice("starting %s ...", ircd_version);
         inotice("%s", rb_lib_version());
+
+        if(!server_state_foreground)
+            make_daemon();
     }
 
     /* Init the event subsystem */
     rb_lib_init(ircd_log_cb, ircd_restart_cb, ircd_die_cb, !server_state_foreground, maxconnections, DNODE_HEAP_SIZE, FD_HEAP_SIZE);
     rb_linebuf_init(LINEBUF_HEAP_SIZE);
 
-    if(ConfigFileEntry.use_egd && (ConfigFileEntry.egdpool_path != NULL)) {
-        rb_init_prng(ConfigFileEntry.egdpool_path, RB_PRNG_EGD);
-    } else
-        rb_init_prng(NULL, RB_PRNG_DEFAULT);
+    rb_init_prng(NULL, RB_PRNG_DEFAULT);
 
     seed_random(NULL);
 
@@ -740,7 +715,9 @@ main(int argc, char *argv[])
     if(splitmode)
         check_splitmode_ev = rb_event_add("check_splitmode", check_splitmode, NULL, 5);
 
-    print_startup(getpid());
+    if(server_state_foreground)
+        inotice("now running in foreground mode from %s as pid %d ...",
+                ConfigFileEntry.dpath, getpid());
 
     rb_lib_loop(0);
 

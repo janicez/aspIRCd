@@ -824,10 +824,6 @@ get_client_name(struct Client *client, int showip)
                         client->name, client->username,
                         client->sockhost);
             break;
-        case MASK_IP:
-            rb_snprintf(nbuf, sizeof(nbuf), "%s[%s@255.255.255.255]",
-                        client->name, client->username);
-            break;
         default:
             rb_snprintf(nbuf, sizeof(nbuf), "%s[%s@%s]",
                         client->name, client->username, client->host);
