@@ -40,6 +40,7 @@
 #include "modules.h"
 #include "s_serv.h"
 #include "s_user.h"
+#include "hash.h"
 
 typedef int (*bqcmp)(const void *, const void *);
 
@@ -70,7 +71,8 @@ static struct clicap {
     _CLICAP("sasl", CLICAP_SASL, 0, 0),
     _CLICAP("account-notify", CLICAP_ACCOUNT_NOTIFY, 0, 0),
     _CLICAP("extended-join", CLICAP_EXTENDED_JOIN, 0, 0),
-//    _CLICAP("away-notify", CLICAP_AWAY_NOTIFY, 0, 0),
+    _CLICAP("away-notify", CLICAP_AWAY_NOTIFY, 0, 0),
+    _CLICAP("userhost-in-names", CLICAP_USERHOST_IN_NAMES, 0, 0),
 };
 
 #define CLICAP_LIST_LEN (sizeof(clicap_list) / sizeof(struct clicap))
