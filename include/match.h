@@ -88,7 +88,7 @@ extern const unsigned char ToLowerTab[];
 extern const unsigned char ToUpperTab[];
 #define ToUpper(c) (ToUpperTab[(unsigned char)(c)])
 
-extern const unsigned int CharAttrs[];
+extern unsigned int CharAttrs[];
 
 #define PRINT_C   0x001
 #define CNTRL_C   0x002
