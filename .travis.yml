@@ -13,4 +13,4 @@ notifications:
   template:
       - "%{repository_name} - %{commit}/%{commit_message} - %{author})"
       - "Build Status %{message}"
-  irc: "ircs://irc.chatfreedom.us:6697#sIRCd"
+  irc: "ircs://irc.baconcoders.net:+6697#aspIRCd"
