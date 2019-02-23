@@ -1,10 +1,10 @@
-# sIRCd Changes
+# aspIRCd Changes
 
-## Changes since Version 1.0.9-2
+## Changes since Version 4.0.5
 
 - [] - Add fake /list
 
-## Changes since Version 1.0.9-1
+
 
 - [X] - Move m_locops module to extensions.
 - [X] - Added usermode +O which will hide oper from /whois for non oper accounts
@@ -18,7 +18,7 @@
 
 
 
-## Changes since Version 1.0.9
+## Changes since Version 4.0.1
 
 - [X] - Added usermode +I which will hide idle from /whois output for non oper accounts
 - [X] - Reinstated configuration option for the nick of the SASL agent
@@ -32,7 +32,7 @@
 - [X] - Fixed extb_channel bug where if banned target channel has +s or +p set it wouldn't work
 - [X] - Use NAMELEN instead of NICKLEN when accessing Client->name because it could in theory be a HOSTLEN length string.
 
-## Changes since Version 1.0.7/8
+## Changes since Version 4.0.0-1
  
 - [X] - Add vhost for opers support, requiring opers to identify with nickserv firstly
 - [X] - Remove zip linking support
@@ -44,7 +44,7 @@
 - [X] - Remove last update to m_sasl.c
 - [X] - Added another cloaking module
 
-## Changes since Version 1.0.5/6
+## Changes since Version 3.5.9
 
 - [X] Change who can set selected channel modes
 - [X] Remove NOKICKOPER(Channel mode +M) from core and make a module
