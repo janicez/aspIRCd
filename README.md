@@ -23,6 +23,14 @@ Debian packages:
  You however have a choice of choosing any of your favourite SSL supporting applications. One of them, we primarily support is one of that of OpenSSL.
  To make sure SSL ports works, issue a certificate to your IRC Network by going in the `main directory@/bin` and running:
  `./genssl.sh`
+ 
+ ## Installation
+ 
+ This is a quick setup guide. In order to install, fork this repository : `git clone https://github.com/baconcoders/aspIRCd.gif`
+ 
+Then `cd aspIRCd`
+then to build the configuration file: `./autogen.sh`
+then use `libtoolize --ltdl` to link all the commands
 
 ## Debian/ubuntu Users
 
