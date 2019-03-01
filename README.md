@@ -26,11 +26,17 @@ Debian packages:
  
  ## Installation
  
- This is a quick setup guide. In order to install, fork this repository : `git clone https://github.com/baconcoders/aspIRCd.gif`
+ This is a quick setup guide. In order to install, fork this repository : `git clone https://github.com/baconcoders/aspIRCd.git`
  
 Then `cd aspIRCd`
 then to build the configuration file: `./autogen.sh`
-then use `libtoolize --ltdl` to link all the commands
+then use `libtoolize --ltdl` to link all the modules
+
+then to configure the IRCd run `./configure`
+to build the IRCd run `make`
+followed by `make install`
+
+your IRCd will be installed in `/HOME DIRECTORY/ircd` by default.
 
 ## Debian/ubuntu Users
 
