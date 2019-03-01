@@ -52,6 +52,7 @@
 #include "bandbi.h"
 #include "operhash.h"
 #include "chmode.h"
+#include "supported.h"
 
 struct config_server_hide ConfigServerHide;
 

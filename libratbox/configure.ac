@@ -340,6 +340,23 @@ fi
 
 
 
+dnl mbedTLS support
+AC_ARG_ENABLE(mbedtls,
+[AC_HELP_STRING([--enable-mbedtls], [Enable mbedTLS support.])
+AC_HELP_STRING([--disable-mbedtls], [Disable mbedTLS support.])],
+[cf_enable_mbedtls=$enableval],
+[cf_enable_mbedtls="auto"])
+
+if test "$cf_enable_mbedtls" != no; then
+	save_CPPFLAGS="$CPPFLAGS"
+	save_LIBS="$LIBS"
+	LIBS="$LIBS $MBEDTLS_LIBS"
+	AC_CHECK_LIB(mbedtls, mbedtls_ssl_init, [
+		MBEDTLS_LIBS="$MBEDTLS_LIBS -lmbedtls -lmbedcrypto -lmbedx509"
+		cf_enable_mbedtls=yes
+	], [cf_enable_mbedtls=no], [-lmbedcrypto -lmbedx509])
+fi
+
 dnl GnuTLS support
 AC_MSG_CHECKING(for GnuTLS)
 AC_ARG_ENABLE(gnutls,
@@ -354,7 +371,12 @@ if test "$cf_enable_gnutls" != no; then
        ], [cf_enable_gnutls="no"])      
 fi
 
-if test "$cf_enable_gnutls" = "auto" -a "$cf_enable_openssl" = "yes"; then
+dnl mbed TLS is given highest preference when no specified TLS library is provided
+if test "$cf_enable_openssl" = "auto" -a "$cf_enable_mbedtls" = "yes"; then
+       cf_enable_openssl="no"
+fi
+
+if test "$cf_enable_gnutls" = "auto" -a "$cf_enable_openssl" = "yes" -a "$cf_enable_mbedtls" = "yes"; then
        cf_enable_gnutls="no"
 fi
 
@@ -362,11 +384,22 @@ if test x"$cf_enable_openssl" != xno; then
 	AC_DEFINE(HAVE_OPENSSL,1,[Has OpenSSL])
 	GNUTLS_CFLAGS=""
 	GNUTLS_LIBS=""
+	MBEDTLS_LIBS=""
+	MBEDTLS_CFLAGS=""
 	SSL_TYPE="openssl"
+elif test x"$cf_enable_mbedtls" != xno; then
+	AC_DEFINE(HAVE_MBEDTLS, 1, [Has mbedTLS])
+	SSL_LIBS=""
+	SSL_CFLAGS=""	
+	GNUTLS_CFLAGS=""
+	GNUTLS_LIBS=""
+	SSL_TYPE="mbedtls"
 elif test x"$cf_enable_gnutls" != xno; then
 	AC_DEFINE(HAVE_GNUTLS, 1, [Has GnuTLS])
 	SSL_LIBS=""
 	SSL_CFLAGS=""	
+	MBEDTLS_LIBS=""
+	MBEDTLS_CFLAGS=""
 	SSL_TYPE="gnutls"
 fi
 
@@ -434,6 +467,8 @@ AC_SUBST(SSL_CFLAGS)
 AC_SUBST(SSL_LIBS)
 AC_SUBST(GNUTLS_CFLAGS)
 AC_SUBST(GNUTLS_LIBS)
+AC_SUBST(MBEDTLS_CFLAGS)
+AC_SUBST(MBEDTLS_LIBS)
 
 if test "$prefix" = "NONE"; then 
 	AC_DEFINE_UNQUOTED(RB_PREFIX, "$ac_default_prefix", [Prefix where libratbox is installed.])
