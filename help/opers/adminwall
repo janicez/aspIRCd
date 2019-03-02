@@ -1,6 +1,0 @@
-ADMINWALL :<message>
-
-Sends an ADMINWALL message of <message> to all
-admins currently online.
-
-- Requires Oper Priv: oper:admin
