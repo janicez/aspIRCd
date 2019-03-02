@@ -1,5 +1,5 @@
-/* part of irca
- * network.conf.example - example network.conf
+/* part of aspIRCd
+ * network.conf.example - rename to network.conf
  * include from your ircd.conf instead of giving the contents there for optimum
  * administrability */
 
@@ -78,8 +78,8 @@ loadmodule "extensions/ip_cloaking_5.so";
 cloaking {
   # it really doesn't matter if this gets out. it's not an effective
   # hide of host anyway
-  secretsalt = "SuperSecretSaltyFood";
-  prefix = "Umbrellix-";
+  secretsalt = "ajjajs817273jsjajhahajqikhahshah67";
+  prefix = "hype-";
 };
 
 #loadmodule "extensions/ip_cloaking.so";
