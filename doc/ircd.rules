@@ -1,0 +1,3 @@
+Rules, please edit /etc/ircd.rules
+
+then /rehash rules
