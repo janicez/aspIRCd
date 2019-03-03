@@ -51,7 +51,8 @@ The official channel for aspIRCd is `#aspIRCd` on
 `irc.aspircd.com Port 6667/+6697(SSL)`
 
 Finding services that fully supports this IRCd?
-https://github.com/baconcoders/Ashtheme
+https://github.com/baconcoders/Atheme
 the protocol for this IRCd is **aspircd.c** provided with services
+for further references of how to load the protocol, refer to atheme.conf
 
 Please use ***GitHub issue tracker*** for any issues
