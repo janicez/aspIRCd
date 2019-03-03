@@ -382,6 +382,22 @@ alias "MemoServ" {
   target = "MemoServ";
 };
 
+alias "BotServ" {
+  target = "BotServ";
+};
+
+alias "BS" {
+  target = "BotServ";
+};
+
+alias "IS" {
+  target = "InfoServ";
+};
+
+alis "InfoServ" {
+  target = "InfoServ";
+};
+
 alias "NS" {
   target = "NickServ";
 };
@@ -426,7 +442,7 @@ service {
   # you may stack services server names, however.
   # allows special privileges to the server.
   # normal servers must not be afforded these privileges.
-  name = "services.invalid";
-  name = "tclserv.invalid";
-  name = "none.invalid";
+  name = "services.example.org";
+  name = "tclserv.example.org";
+  name = "none.example.org";
 };
