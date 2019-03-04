@@ -48,7 +48,7 @@ directions.
 ## Support
 Interested in meeting the developers?
 The official channel for aspIRCd is `#aspIRCd` on
-`irc.aspircd.com Port 6667/+6697(SSL)`
+`irc.hyphovy.net Port 6667/+6697(SSL)`
 
 Finding services that fully supports this IRCd?
 https://github.com/baconcoders/Atheme
