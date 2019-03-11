@@ -36,7 +36,7 @@ Debian packages:
 * to build the IRCd run `make`
 * followed by `make install`
 
-**your IRCd will be installed in `/HOME DIRECTORY/ircd` by default.
+**your IRCd will be installed in `/HOME DIRECTORY/ircd` by default.**
 
 ## Debian/ubuntu Users
 
