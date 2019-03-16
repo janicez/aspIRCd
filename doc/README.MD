@@ -9,11 +9,9 @@ Make sure to not to use same passwords everywhere, if you are doing that, you ar
 Protect your passwords , as you know **aspIRCd** passwords are case sensitive , so : FOR EG: If you want your password to be `Cheese`
 then encrypt it to `ch3s3e`
 
-3) **network.conf** AGAIN , a very important component of the configuration for aspIRCd, this contains the aliases for services BOTS. And as well for it , it contains the services name configuration.
-
 These two sets of configuration file are the most basic and **important** sets of your Network.
 Make sure to edit them patiently.
 
 Have cheers,
 David Franklin
-Last Updated at < 4th March 2019>
+Last Updated at <15TH MARCH 2019>
