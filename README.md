@@ -4,7 +4,7 @@
 IRC daemon. It is a fork of the now-defunct ircd-seven and seeks to continue in
 the direction ircd-seven was headed.
 
-Latest Stable **Build** - 5.0.5
+**Latest Stable Build** - **5.0.5**
 
 **ircd-seven**
 some of the coding from ircd-seven has been used on aspIRCd. Credit to ilbelkyr (www.freenode.net)
