@@ -1,0 +1,14 @@
+Copyright (C) 2018 - DavidFranklin (as ircd-nine)
+Copyright (C) 2019 - DavidFranklin (as aspIRCd)
+
+##aspIRCd 5.0.5
+- Improved scalability of the daemon.
+- Various Bug Fixes.
+- Made Channel Owner Registrationship Mode: +w
+- Made quiet mode as +q
+- Improved configuration blocks.
+- Added /svsjoin and /forcejoin command to forcejoin a user to a channel.
+- Updated snomasks to latest charybdis release.
+- Changed Client connection regex as  as per the requirements.
+
+
