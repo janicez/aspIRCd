@@ -4,11 +4,9 @@
 IRC daemon. It is a fork of the now-defunct ircd-seven and seeks to continue in
 the direction ircd-seven was headed.
 
-**Latest Stable Build** - **5.0.5**
-
 **ircd-seven**
 some of the coding from ircd-seven has been used on aspIRCd. Credit to ilbelkyr (www.freenode.net)
-
+**Latest Stable Build** - **5.0.5**
 ## Supported Platforms
 
 All modern \*NIX systems should work. You need the equivalent of the following
@@ -53,7 +51,7 @@ The official channel for aspIRCd is `#aspIRCd` on
 `irc.hyphovy.net Port 6667/+6697(SSL)`
 
 Finding services that fully supports this IRCd?
-https://github.com/baconcoders/irc-services
+https://github.com/hyphovy/shale-services
 the protocol for this IRCd is **aspircd.c** provided with services
 for further references of how to load the protocol, refer to atheme.conf
 
