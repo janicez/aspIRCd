@@ -41,6 +41,7 @@ extern const char *form_str(int);
  * from another server then it is remapped to 100-199. -avalon
  */
 #define RPL_WELCOME          001
+#define RPL_STARTTLS         670 /* ircv3.atheme.org tls-3.1 */
 #define RPL_YOURHOST         002
 #define RPL_CREATED          003
 #define RPL_MYINFO           004
