@@ -1,11 +1,9 @@
 /*
- *  ircd-seven: Another slightly useful ircd.
+ *  aspIRCd : Another slightly useful ircd.
  *  m_dehelper.c: Sets a given user -h, so that they no longer show in /stats p.
  *
- *  Copyright (C) 1990 Jarkko Oikarinen and University of Oulu, Co Center
- *  Copyright (C) 1996-2002 Hybrid Development Team
- *  Copyright (C) 2002-2005 ircd-ratbox development team
- *
+ *  Copyright (C) 2019 DavidFranklin (codezero) Hyphovy Network
+ *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -40,26 +38,31 @@
 
 #include <string.h>
 
-static int mo_dehelper(struct Client *, struct Client *, int, const char **);
+static int m_dehelper(struct Client *, struct Client *, int, const char **);
 static int me_dehelper(struct Client *, struct Client *, int, const char **);
 
 static int do_dehelper(struct Client *source_p, struct Client *target_p);
 
 struct Message dehelper_msgtab = {
 	"DEHELPER", 0, 0, 0, MFLG_SLOW,
-	{mg_unreg, mg_not_oper, mg_not_oper, mg_ignore, {me_dehelper, 2}, {mo_dehelper, 2}}
+	{mg_unreg, {m_dehelper, 2}, mg_not_oper, mg_ignore, {me_dehelper, 2}, {m_dehelper, 2}}
 };
 
 mapi_clist_av1 dehelper_clist[] = { &dehelper_msgtab, NULL };
 DECLARE_MODULE_AV1(dehelper, NULL, NULL, dehelper_clist, NULL, NULL, "$Revision: 254 $");
 
-static int mo_dehelper(struct Client *client_p, struct Client *source_p, int parc, const char **parv)
+static int m_dehelper(struct Client *client_p, struct Client *source_p, int parc, const char **parv)
 {
 	struct Client *target_p;
 
-	if (!IsOperAdmin(source_p))
+	if (!IsAnyOper(source_p))
 	{
-		sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name, "admin");
+		sendto_one_numeric(source_p, ERR_NOPRIVILEGES, form_str(ERR_NOPRIVILEGES));
+		return 0;
+	}
+	if (!IsOperDehelper(source_p))
+	{
+		sendto_one(source_p, form_str(ERR_NOPRIVS), me.name, source_p->name, "dehelper");
 		return 0;
 	}
 
