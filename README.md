@@ -6,7 +6,6 @@ the direction ircd-seven was headed.
 
 **ircd-seven**
 some of the coding from ircd-seven has been used on aspIRCd. Credit to ilbelkyr (www.freenode.net)
-**Latest Stable Build** - **5.0.5**
 ## Supported Platforms
 
 All modern \*NIX systems should work. You need the equivalent of the following
