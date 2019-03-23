@@ -42,6 +42,7 @@ extern const char *form_str(int);
  */
 #define RPL_WELCOME          001
 #define RPL_STARTTLS         670 /* ircv3.atheme.org tls-3.1 */
+#define ERR_STARTTLS         691 /* ircv3.atheme.org tls-3.2 */
 #define RPL_YOURHOST         002
 #define RPL_CREATED          003
 #define RPL_MYINFO           004
