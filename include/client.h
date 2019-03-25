@@ -435,6 +435,7 @@ struct ListClient
 #define UMODE_HELPER       0x4000	/* Helper */
 #define UMODE_SSLCLIENT    0x8000	/* using SSL */
 #define UMODE_OVERRIDE     0x20000
+#define UMODE_WEBCLIENT    0x100000     /* user is connected via a web client */
 #define UMODE_NETADMIN     0x40000
 #define UMODE_HIDEOPER     0x1000000    /* Hide oper from /whois */
 
@@ -479,6 +480,7 @@ struct ListClient
 #define CLICAP_EXTENDED_JOIN	0x0010
 #define CLICAP_CHGHOST	0x0040
 #define CLICAP_TLS		0x0040
+#define CLICAP_USERHOST_IN_NAMES	0x0040
 
 /*
  * flags macros.
@@ -564,7 +566,7 @@ extern int IsXAscii(struct Client *client_p);
 #define IsDeaf(x)		((x)->umodes & UMODE_DEAF)
 #define IsNoForward(x)		((x)->umodes & UMODE_NOFORWARD)
 #define IsSetRegOnlyMsg(x)	((x)->umodes & UMODE_REGONLYMSG)
-
+#define IsWebClient(x)          ((x)->umodes & UMODE_WEBCLIENT)
 #define IsHelpOp(x)		((x)->umodes & UMODE_HELPOP)
 
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)

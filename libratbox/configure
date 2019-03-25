@@ -637,6 +637,8 @@ am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
 RB_PREFIX
+MBEDTLS_LIBS
+MBEDTLS_CFLAGS
 SSL_LIBS
 SSL_CFLAGS
 SEDOBJ
@@ -785,6 +787,7 @@ with_sysroot
 enable_libtool_lock
 enable_ipv6
 enable_openssl
+enable_mbedtls
 enable_gnutls
 enable_assert
 enable_profile
@@ -1440,6 +1443,8 @@ Optional Features:
   --disable-ipv6          Disable IPv6 support
   --enable-openssl=DIR    Enable OpenSSL support (DIR optional).
   --disable-openssl       Disable OpenSSL support.
+  --enable-mbedtls        Enable mbedTLS support.
+  --disable-mbedtls       Disable mbedTLS support.
   --enable-gnutls         Enable GnuTLS support.
   --disable-gnutls        Disable GnuTLS support.
   --enable-assert         Enable assert(). Choose between soft(warnings) and
@@ -14467,6 +14472,63 @@ fi
 fi
 
 
+# Check whether --enable-mbedtls was given.
+if test "${enable_mbedtls+set}" = set; then :
+  enableval=$enable_mbedtls; cf_enable_mbedtls=$enableval
+else
+  cf_enable_mbedtls="auto"
+fi
+
+
+if test "$cf_enable_mbedtls" != no; then
+	save_CPPFLAGS="$CPPFLAGS"
+	save_LIBS="$LIBS"
+	LIBS="$LIBS $MBEDTLS_LIBS"
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for mbedtls_ssl_init in -lmbedtls" >&5
+$as_echo_n "checking for mbedtls_ssl_init in -lmbedtls... " >&6; }
+if ${ac_cv_lib_mbedtls_mbedtls_ssl_init+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmbedtls -lmbedcrypto -lmbedx509 $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char mbedtls_ssl_init ();
+int
+main ()
+{
+return mbedtls_ssl_init ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_mbedtls_mbedtls_ssl_init=yes
+else
+  ac_cv_lib_mbedtls_mbedtls_ssl_init=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_mbedtls_mbedtls_ssl_init" >&5
+$as_echo "$ac_cv_lib_mbedtls_mbedtls_ssl_init" >&6; }
+if test "x$ac_cv_lib_mbedtls_mbedtls_ssl_init" = xyes; then :
+
+		MBEDTLS_LIBS="$MBEDTLS_LIBS -lmbedtls -lmbedcrypto -lmbedx509"
+		cf_enable_mbedtls=yes
+
+else
+  cf_enable_mbedtls=no
+fi
+
+fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GnuTLS" >&5
 $as_echo_n "checking for GnuTLS... " >&6; }
@@ -14674,7 +14736,11 @@ $as_echo "yes" >&6; }
 fi
 fi
 
-if test "$cf_enable_gnutls" = "auto" -a "$cf_enable_openssl" = "yes"; then
+if test "$cf_enable_openssl" = "auto" -a "$cf_enable_mbedtls" = "yes"; then
+       cf_enable_openssl="no"
+fi
+
+if test "$cf_enable_gnutls" = "auto" -a "$cf_enable_openssl" = "yes" -a "$cf_enable_mbedtls" = "yes"; then
        cf_enable_gnutls="no"
 fi
 
@@ -14684,13 +14750,26 @@ $as_echo "#define HAVE_OPENSSL 1" >>confdefs.h
 
 	GNUTLS_CFLAGS=""
 	GNUTLS_LIBS=""
+        MBEDTLS_LIBS=""
+	MBEDTLS_CFLAGS=""
 	SSL_TYPE="openssl"
+elif test x"$cf_enable_mbedtls" != xno; then
+
+$as_echo "#define HAVE_MBEDTLS 1" >>confdefs.h
+
+	SSL_LIBS=""
+	SSL_CFLAGS=""
+	GNUTLS_CFLAGS=""
+	GNUTLS_LIBS=""
+	SSL_TYPE="mbedtls"
 elif test x"$cf_enable_gnutls" != xno; then
 
 $as_echo "#define HAVE_GNUTLS 1" >>confdefs.h
 
 	SSL_LIBS=""
 	SSL_CFLAGS=""
+        MBEDTLS_LIBS=""
+	MBEDTLS_CFLAGS=""
 	SSL_TYPE="gnutls"
 fi
 
