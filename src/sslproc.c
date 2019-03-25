@@ -66,7 +66,6 @@ struct _ssl_ctl
 	pid_t pid;
 	rb_dlink_list readq;
 	rb_dlink_list writeq;
-        uint8_t shutdown;
 	uint8_t dead;
 };
 
@@ -165,28 +164,6 @@ static int ssld_spin_count = 0;
 static time_t last_spin;
 static int ssld_wait = 0;
 
-void
-restart_ssld(void)
-{
-    rb_dlink_node *ptr, *next;
-    ssl_ctl_t *ctl;
-
-    RB_DLINK_FOREACH_SAFE(ptr, next, ssl_daemons.head) {
-        ctl = ptr->data;
-        if(ctl->dead)
-            continue;
-        if(ctl->shutdown)
-            continue;
-        ctl->shutdown = 1;
-        ssld_count--;
-        if(!ctl->cli_count) {
-            rb_kill(ctl->pid, SIGKILL);
-            free_ssl_daemon(ctl);
-        }
-    }
-
-    start_ssldaemon(ServerInfo.ssld_count, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params, ServerInfo.ssl_cipher_list);
-}
 
 static void
 ssl_killall(void)
@@ -199,8 +176,7 @@ ssl_killall(void)
 		if(ctl->dead)
 			continue;
 		ctl->dead = 1;
-		if(!ctl->shutdown)
-                ssld_count--;
+		ssld_count--;
 		rb_kill(ctl->pid, SIGKILL);
 	}
 }
@@ -212,13 +188,11 @@ ssl_dead(ssl_ctl_t * ctl)
 		return;
 
 	ctl->dead = 1;
+	ssld_count--;
 	rb_kill(ctl->pid, SIGKILL);	/* make sure the process is really gone */
-	if(!ctl->shutdown) {
-        ssld_count--;
-        ilog(L_MAIN, "ssld helper died - attempting to restart");
-        sendto_realops_snomask(SNO_GENERAL, L_ALL, "ssld helper died - attempting to restart");
-        start_ssldaemon(1, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params, ServerInfo.ssl_cipher_list);
-    }
+	ilog(L_MAIN, "ssld helper died - attempting to restart");
+	sendto_realops_snomask(SNO_GENERAL, L_ALL, "ssld helper died - attempting to restart");
+	start_ssldaemon(1, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params);
 }
 
 static void
@@ -400,7 +374,6 @@ ssl_process_dead_fd(ssl_ctl_t * ctl, ssl_ctl_buf_t * ctl_buf)
 	struct Client *client_p;
 	char reason[256];
 	int32_t fd;
-        int32_t len;
 
 	if(ctl_buf->buflen < 6)
 		return;		/* bogus message..drop it.. XXX should warn here */
@@ -439,14 +412,13 @@ ssl_process_certfp(ssl_ctl_t * ctl, ssl_ctl_buf_t * ctl_buf)
 		return;		/* bogus message..drop it.. XXX should warn here */
 
 	fd = buf_to_int32(&ctl_buf->buf[1]);
-	len = buf_to_int32(&ctl_buf->buf[5]);
-        certfp = (uint8_t *)&ctl_buf->buf[9];
+	certfp = (uint8_t *)&ctl_buf->buf[5];
 	client_p = find_cli_fd_hash(fd);
 	if(client_p == NULL)
 		return;
 	rb_free(client_p->certfp);
-	certfp_string = rb_malloc(len * 2 + 1);
-        for(i = 0; i < len; i++)
+	certfp_string = rb_malloc(RB_SSL_CERTFP_LEN * 2 + 1);
+	for(i = 0; i < RB_SSL_CERTFP_LEN; i++)
 		rb_snprintf(certfp_string + 2 * i, 3, "%02x",
 				certfp[i]);
 	client_p->certfp = certfp_string;
@@ -730,13 +702,7 @@ ssld_decrement_clicount(ssl_ctl_t * ctl)
 	if(ctl == NULL)
 		return;
 
-	if(ctl->dead && !ctl->cli_count)
-        if(ctl->shutdown && !ctl->cli_count) {
-            ctl->dead = 1;
-            rb_kill(ctl->pid, SIGKILL);
-        }
-
-    {
+	ctl->cli_count--;
 	if(ctl->dead && !ctl->cli_count)
 	{
 		free_ssl_daemon(ctl);
