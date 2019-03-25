@@ -566,7 +566,7 @@ extern int IsXAscii(struct Client *client_p);
 #define IsDeaf(x)		((x)->umodes & UMODE_DEAF)
 #define IsNoForward(x)		((x)->umodes & UMODE_NOFORWARD)
 #define IsSetRegOnlyMsg(x)	((x)->umodes & UMODE_REGONLYMSG)
-
+#define IsWebClient(x)          ((x)->umodes & UMODE_WEBCLIENT)
 #define IsHelpOp(x)		((x)->umodes & UMODE_HELPOP)
 
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)

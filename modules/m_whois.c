@@ -321,7 +321,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 		sendto_one_numeric(source_p, RPL_AWAY, form_str(RPL_AWAY),
 				   target_p->name, target_p->user->away);
 
-     /* added UMODE_HIDEOPER, idea suggested by Matt on irc.thudsnet.us
+     /* added UMODE_HIDEOPER, idea suggested by Matt on irc.hyphovy.net
      * rather than the config hide oper option which would hide all IRC operators.
      * each irc operator can decide if they wish to hide rather than forced
      */
@@ -350,6 +350,11 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 		sendto_one_numeric(source_p, RPL_WHOISSPECIAL, form_str(RPL_WHOISSPECIAL),
 				   target_p->name, buf);
 	}
+       
+        if(IsWebClient(target_p))
+                sendto_one_numeric(source_p, RPL_WHOISWEBIRC,
+                                form_str(RPL_WHOISWEBIRC),
+                                target_p->name);
 
 	// Unrealesque helpop compatibility code.
 	if(MyClient(source_p))
