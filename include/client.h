@@ -479,6 +479,7 @@ struct ListClient
 #define CLICAP_EXTENDED_JOIN	0x0010
 #define CLICAP_CHGHOST	0x0040
 #define CLICAP_TLS		0x0040
+#define CLICAP_USERHOST_IN_NAMES	0x0040
 
 /*
  * flags macros.
