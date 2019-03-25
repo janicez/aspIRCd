@@ -570,15 +570,13 @@ rb_get_ssl_strerror(rb_fde_t *F)
 }
 
 int
-rb_get_ssl_certfp(rb_fde_t *F, uint8_t certfp[RB_SSL_CERTFP_LEN], int method)
+rb_get_ssl_certfp(rb_fde_t *F, uint8_t certfp[RB_SSL_CERTFP_LEN])
 {
 	gnutls_x509_crt_t cert;
-        gnutls_digest_algorithm_t algo;
 	unsigned int cert_list_size;
 	const gnutls_datum_t *cert_list;
 	uint8_t digest[RB_SSL_CERTFP_LEN * 2];
 	size_t digest_size;
-        int len;
 
 	if (gnutls_certificate_type_get(SSL_P(F)) != GNUTLS_CRT_X509)
 		return 0;
@@ -600,34 +598,16 @@ rb_get_ssl_certfp(rb_fde_t *F, uint8_t certfp[RB_SSL_CERTFP_LEN], int method)
 		return 0;
 	}
 
-	switch(method)
-	{
-	case RB_SSL_CERTFP_METH_SHA1:
-		algo = GNUTLS_DIG_SHA1;
-		len = RB_SSL_CERTFP_LEN_SHA1;
-		break;
-	case RB_SSL_CERTFP_METH_SHA256:
-		algo = GNUTLS_DIG_SHA256;
-		len = RB_SSL_CERTFP_LEN_SHA256;
-		break;
-	case RB_SSL_CERTFP_METH_SHA512:
-		algo = GNUTLS_DIG_SHA512;
-		len = RB_SSL_CERTFP_LEN_SHA512;
-		break;
-	default:
-		return 0;
-	}
-
-	if (gnutls_x509_crt_get_fingerprint(cert, algo, digest, &digest_size) < 0)
+	if (gnutls_x509_crt_get_fingerprint(cert, GNUTLS_DIG_SHA1, digest, &digest_size) < 0)
 	{
 		gnutls_x509_crt_deinit(cert);
 		return 0;
 	}
 
-	memcpy(certfp, digest, len);
+	memcpy(certfp, digest, RB_SSL_CERTFP_LEN);
 
 	gnutls_x509_crt_deinit(cert);
-	return len;
+	return 1;
 }
 
 int

@@ -20,7 +20,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
  *  USA
-m_sasl: check if the agent is present after every client_exitm_sasl: check if the agent is present after every client_exit *
+ *
  *  $Id: rb_commio.h 26092 2008-09-19 15:13:52Z androsyn $
  */
 
@@ -100,16 +100,8 @@ void rb_note(rb_fde_t *, const char *);
 #define RB_SELECT_ACCEPT		RB_SELECT_READ
 #define RB_SELECT_CONNECT		RB_SELECT_WRITE
 
-#define RB_SSL_CERTFP_LEN 64
+#define RB_SSL_CERTFP_LEN 20
 
-/* Methods for certfp */
-#define RB_SSL_CERTFP_METH_SHA1		0
-#define RB_SSL_CERTFP_METH_SHA256	1
-#define RB_SSL_CERTFP_METH_SHA512	2
-
-#define RB_SSL_CERTFP_LEN_SHA1		20
-#define RB_SSL_CERTFP_LEN_SHA256	32
-#define RB_SSL_CERTFP_LEN_SHA512	64
 int rb_set_nb(rb_fde_t *);
 int rb_set_buffers(rb_fde_t *, int);
 
