@@ -540,12 +540,12 @@ rb_get_ssl_certfp(rb_fde_t *F, uint8_t certfp[RB_SSL_CERTFP_LEN], int method)
 {
 	const mbedtls_x509_crt *peer_cert;
 	uint8_t hash[RB_SSL_CERTFP_LEN];
-        size_t hashlen;
+	size_t hashlen;
 	const mbedtls_md_info_t *md_info;
-        mbedtls_md_type_t md_type;
+	mbedtls_md_type_t md_type;
 	int ret;
 
-        switch (method)
+	switch (method)
 	{
 	case RB_SSL_CERTFP_METH_SHA1:
 		md_type = MBEDTLS_MD_SHA1;
@@ -574,7 +574,7 @@ rb_get_ssl_certfp(rb_fde_t *F, uint8_t certfp[RB_SSL_CERTFP_LEN], int method)
 		return 0;
 	}
 
-	memcpy(certfp, hash, haslen);
+	memcpy(certfp, hash, hashlen);
 
 	return 1;
 }
