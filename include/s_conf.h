@@ -152,8 +152,6 @@ struct config_file_entry
 	const char *dpath;	/* DPATH if set from command line */
 	const char *configfile;
 
-	char *egdpool_path;
-
 	char *default_helpopstring;
 	char *default_operstring;
 	char *default_adminstring;
