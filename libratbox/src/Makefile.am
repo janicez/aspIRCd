@@ -18,6 +18,7 @@ libratbox_la_SOURCES =			\
 	win32.c				\
 	crypt.c				\
 	balloc.c			\
+        mbedtls.c                       \
 	commio.c			\
 	openssl.c			\
 	gnutls.c			\
@@ -42,7 +43,7 @@ libratbox_la_SOURCES =			\
 	version.c
 	
 
-libratbox_la_LDFLAGS = @SSL_LIBS@ @GNUTLS_LIBS@  -avoid-version -no-undefined -export-symbols export-syms.txt
-libratbox_la_LIBADD = @SSL_LIBS@ @GNUTLS_LIBS@
+libratbox_la_LDFLAGS = @SSL_LIBS@ @GNUTLS_LIBS@ @MBEDTLS_LIBS@ -avoid-version -no-undefined -export-symbols export-syms.txt
+libratbox_la_LIBADD = @SSL_LIBS@ @GNUTLS_LIBS@ @MBEDTLS_LIBS@
 lib_LTLIBRARIES = libratbox.la
 
