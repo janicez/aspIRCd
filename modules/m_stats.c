@@ -48,7 +48,10 @@
 #include "hash.h"
 #include "reject.h"
 #include "whowas.h"
+#include "sslproc.h"
 
+#define Lformat "%s %u %u %u %u %u :%ld %ld %s"
+#define Sformat ":%s %d %s %s %u %u %u %u %u :%ld %ld %s"
 static int m_stats (struct Client *, struct Client *, int, const char **);
 
 struct Message stats_msgtab = {
@@ -67,8 +70,6 @@ mapi_hlist_av1 stats_hlist[] = {
 };
 
 DECLARE_MODULE_AV1(stats, NULL, NULL, stats_clist, stats_hlist, NULL, "$Revision: 1608 $");
-
-const char *Lformat = "%s %u %u %u %u %u :%u %u %s";
 
 static void stats_l_list(struct Client *s, const char *, int, int, rb_dlink_list *, char);
 static void stats_l_client(struct Client *source_p, struct Client *target_p,
@@ -107,6 +108,7 @@ static void stats_operedup(struct Client *);
 static void stats_ports(struct Client *);
 static void stats_tresv(struct Client *);
 static void stats_resv(struct Client *);
+static void stats_ssld(struct Client *);
 static void stats_usage(struct Client *);
 static void stats_tstats(struct Client *);
 static void stats_uptime(struct Client *);
@@ -158,6 +160,8 @@ static struct StatsStruct stats_cmd_table[] = {
 	{'Q', stats_resv,		1, 0, },
 	{'r', stats_usage,		1, 0, },
 	{'R', stats_usage,		1, 0, },
+        {'s', stats_ssld,		1, 1, },
+        {'S', stats_ssld,		1, 1, },
 	{'t', stats_tstats,		1, 0, },
 	{'T', stats_tstats,		1, 0, },
 	{'u', stats_uptime,		0, 0, },
@@ -171,7 +175,7 @@ static struct StatsStruct stats_cmd_table[] = {
 	{'z', stats_memory,		1, 0, },
 	{'Z', stats_ziplinks,		1, 0, },
 	{'?', stats_servlinks,		0, 0, },
-	{(char) 0, (void (*)()) 0, 	0, 0, }
+	{(char) 0, (void (*)(struct Client *)) 0, 0, 0, }
 };
 
 /*
@@ -782,6 +786,23 @@ stats_tresv(struct Client *source_p)
 	HASH_WALK_END
 }
 
+static void
+stats_ssld_foreach(void *data, pid_t pid, int cli_count, enum ssld_status status)
+{
+    struct Client *source_p = data;
+
+    sendto_one_numeric(source_p, RPL_STATSDEBUG,
+                       "S :%u %c %u",
+                       pid,
+                       status == SSLD_DEAD ? 'D' : (status == SSLD_SHUTDOWN ? 'S' : 'A'),
+                       cli_count);
+}
+
+static void
+stats_ssld(struct Client *source_p)
+{
+    ssld_foreach_info(stats_ssld_foreach, source_p);
+}
 
 static void
 stats_resv(struct Client *source_p)
@@ -1399,7 +1420,6 @@ stats_ziplinks (struct Client *source_p)
 static void
 stats_servlinks (struct Client *source_p)
 {
-	static char Sformat[] = ":%s %d %s %s %u %u %u %u %u :%u %u %s";
 	long uptime, sendK, receiveK;
 	struct Client *target_p;
 	rb_dlink_node *ptr;
@@ -1434,7 +1454,7 @@ stats_servlinks (struct Client *source_p)
 			(int) target_p->localClient->receiveK,
 			rb_current_time() - target_p->localClient->firsttime,
 			(rb_current_time() > target_p->localClient->lasttime) ? 
-			 (rb_current_time() - target_p->localClient->lasttime) : 0,
+			(rb_current_time() - target_p->localClient->lasttime) : (long) 0,
 			IsOper (source_p) ? show_capabilities (target_p) : "TS");
 	}
 
@@ -1588,7 +1608,7 @@ stats_l_client(struct Client *source_p, struct Client *target_p,
 				(int) target_p->localClient->receiveK,
 				rb_current_time() - target_p->localClient->firsttime,
 				(rb_current_time() > target_p->localClient->lasttime) ? 
-				 (rb_current_time() - target_p->localClient->lasttime) : 0,
+				(rb_current_time() - target_p->localClient->lasttime) : (long) 0,
 				IsOper(source_p) ? show_capabilities(target_p) : "-");
 	}
 
@@ -1607,7 +1627,7 @@ stats_l_client(struct Client *source_p, struct Client *target_p,
 				    (int) target_p->localClient->receiveK,
 				    rb_current_time() - target_p->localClient->firsttime,
 				    (rb_current_time() > target_p->localClient->lasttime) ? 
-				     (rb_current_time() - target_p->localClient->lasttime) : 0,
+				    (rb_current_time() - target_p->localClient->lasttime) : (long) 0,
 				    "-");
 	}
 }

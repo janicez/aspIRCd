@@ -33,8 +33,8 @@
 static int mr_starttls(struct Client *, struct Client *, int, const char **);
 
 struct Message starttls_msgtab = {
-	"STARTTLS", 0, 0, 0, MFLG_SLOW,
-	{{mr_starttls, 0}, mg_ignore, mg_ignore, mg_ignore, mg_ignore, mg_ignore}
+    "STARTTLS", 0, 0, 0, MFLG_SLOW,
+    {{mr_starttls, 0}, mg_ignore, mg_ignore, mg_ignore, mg_ignore, mg_ignore}
 };
 
 mapi_clist_av1 starttls_clist[] = { &starttls_msgtab, NULL };
@@ -44,54 +44,44 @@ DECLARE_MODULE_AV1(starttls, NULL, NULL, starttls_clist, NULL, NULL, "$Revision$
 static int
 mr_starttls(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-#ifdef HAVE_LIBCRYPTO
-	ssl_ctl_t *ctl;
-	rb_fde_t *F[2];
+    ssl_ctl_t *ctl;
+    rb_fde_t *F[2];
 
-	if (!MyConnect(client_p))
-		return 0;
+    if (!MyConnect(client_p))
+        return 0;
 
-	if (IsSSL(client_p))
-	{
-		sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "Nested TLS handshake not allowed");
-		return 1;
-	}
+    if (IsSSL(client_p)) {
+        sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "Nested TLS handshake not allowed");
+        return 1;
+    }
 
-	if (!ssl_ok || !get_ssld_count())
-	{
-		sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "TLS is not configured");
-		return 1;
-	}
+    if (!ssl_ok || !get_ssld_count()) {
+        sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "TLS is not configured");
+        return 1;
+    }
 
-	if (rb_socketpair(AF_UNIX, SOCK_STREAM, 0, &F[0], &F[1], "STARTTLS ssld session") == -1)
-	{
-		ilog_error("error creating SSL/TLS socketpair for ssld slave");
-		sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "Unable to create SSL/TLS socketpair for ssld offload slave");
-		return 1;
-	}
+    if (rb_socketpair(AF_UNIX, SOCK_STREAM, 0, &F[0], &F[1], "STARTTLS ssld session") == -1) {
+        ilog_error("error creating SSL/TLS socketpair for ssld slave");
+        sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "Unable to create SSL/TLS socketpair for ssld offload slave");
+        return 1;
+    }
 
-	s_assert(client_p->localClient != NULL);
+    s_assert(client_p->localClient != NULL);
 
-	/* clear out any remaining plaintext lines */
-	rb_linebuf_donebuf(&client_p->localClient->buf_recvq);
+    /* clear out any remaining plaintext lines */
+    rb_linebuf_donebuf(&client_p->localClient->buf_recvq);
 
-	sendto_one_numeric(client_p, RPL_STARTTLS, form_str(RPL_STARTTLS));
-	send_queued(client_p);
+    sendto_one_numeric(client_p, RPL_STARTTLS, form_str(RPL_STARTTLS));
+    send_queued(client_p);
 
-	ctl = start_ssld_accept(client_p->localClient->F, F[1], rb_get_fd(F[0]));
-	if (ctl != NULL)
-	{
-		del_from_cli_fd_hash(client_p);
-		client_p->localClient->F = F[0];
-		add_to_cli_fd_hash(client_p);
-		client_p->localClient->ssl_ctl = ctl;
-		SetSSL(client_p);
-	}
-	else
-		return 1;
+    ctl = start_ssld_accept(client_p->localClient->F, F[1], client_p->localClient->connid);
+    if (ctl != NULL) {
+        client_p->localClient->F = F[0];
+        client_p->localClient->ssl_ctl = ctl;
+        SetSSL(client_p);
+    } else
+        return 1;
 
-#else
-	sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "TLS is not configured");
-#endif
-	return 0;
+    return 0;
+
 }
