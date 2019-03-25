@@ -435,6 +435,7 @@ struct ListClient
 #define UMODE_HELPER       0x4000	/* Helper */
 #define UMODE_SSLCLIENT    0x8000	/* using SSL */
 #define UMODE_OVERRIDE     0x20000
+#define UMODE_WEBCLIENT    0x100000     /* user is connected via a web client */
 #define UMODE_NETADMIN     0x40000
 #define UMODE_HIDEOPER     0x1000000    /* Hide oper from /whois */
 

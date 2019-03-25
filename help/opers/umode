@@ -55,5 +55,6 @@ M/L | NAME          | O | DESCRIPTION
     |               |   | fingerprint from others.
  +P | ............. | C | Shows channels you share in WHOIS of all
     | override_chanhide | users, including +M users.
- +r | registered    | S | Signifies being registered with older-
-    |               |   | style IRC services.
+ +r | registered    | S | Signifies being registered with services
+ +W | Web client    |   | Signifies that the user is using a
+                    |   | web client.
