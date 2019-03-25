@@ -100,7 +100,16 @@ void rb_note(rb_fde_t *, const char *);
 #define RB_SELECT_ACCEPT		RB_SELECT_READ
 #define RB_SELECT_CONNECT		RB_SELECT_WRITE
 
-#define RB_SSL_CERTFP_LEN 20
+#define RB_SSL_CERTFP_LEN 64
+
+/* Methods for certfp */
+#define RB_SSL_CERTFP_METH_SHA1		0
+#define RB_SSL_CERTFP_METH_SHA256	1
+#define RB_SSL_CERTFP_METH_SHA512	2
+
+#define RB_SSL_CERTFP_LEN_SHA1		20
+#define RB_SSL_CERTFP_LEN_SHA256	32
+#define RB_SSL_CERTFP_LEN_SHA512	64
 int rb_set_nb(rb_fde_t *);
 int rb_set_buffers(rb_fde_t *, int);
 
