@@ -295,7 +295,7 @@ void user_join_override(struct Client * client_p, struct Client * source_p, stru
             flags = CHFL_CHANOP;
 
             if(ConfigChannel.admin_on_channel_create && ConfigChannel.use_admin)
-                flags |= CHFL_ADMIN;
+                flags |= CHFL_SOP;
 
             add_user_to_channel(chptr, target_p, flags);
             if (chptr->mode.join_num &&
@@ -324,10 +324,10 @@ void user_join_override(struct Client * client_p, struct Client * source_p, stru
             sendto_channel_local(CHFL_CHANOP, chptr, ":%s MODE %s %s",
                                  me.name, chptr->chname, modes);
 
-            if (flags & CHFL_OWNER)
+            if (flags & CHFL_QOP)
                 strcat(statusmodes, "~");
 
-            if (flags & CHFL_ADMIN)
+            if (flags & CHFL_SOP)
                 strcat(statusmodes, "&");
 
             strcat(statusmodes, "@");
