@@ -33,7 +33,7 @@
 
 
 #include "stdinc.h"
-#include "channel.h"
+#include "external.h"    /* New include fiel */
 #include "client.h"
 #include "hash.h"		/* for find_client() */
 #include "numeric.h"
