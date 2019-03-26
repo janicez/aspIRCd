@@ -39,6 +39,7 @@
 #include "logger.h"
 #include "s_serv.h"
 #include "s_conf.h"
+#include "external.h"
 #include "modules.h"
 #include "s_newconf.h"
 
