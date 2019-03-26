@@ -243,7 +243,7 @@ struct Channel *allocate_channel(const char *chname);
 void free_channel(struct Channel *chptr);
 struct Ban *allocate_ban(const char *, const char *, const char *);
 void free_ban(struct Ban *bptr);
-
+extern int can_join(struct Client *source_p, struct Channel *chptr, char *key);
 
 extern void destroy_channel(struct Channel *);
 
