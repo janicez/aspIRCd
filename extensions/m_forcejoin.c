@@ -33,13 +33,13 @@
 
 
 #include "stdinc.h"
+#include "channel.h"
 #include "client.h"
 #include "hash.h"		/* for find_client() */
 #include "numeric.h"
 #include "logger.h"
 #include "s_serv.h"
 #include "s_conf.h"
-#include "external.h"
 #include "modules.h"
 #include "s_newconf.h"
 
