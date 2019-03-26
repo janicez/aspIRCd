@@ -26,6 +26,7 @@
 
 #include "stdinc.h"
 #include "client.h"
+#include "channel.h"
 #include "common.h"
 #include "hash.h"
 #include "match.h"
