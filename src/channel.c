@@ -66,6 +66,7 @@ static int h_can_join;
 static int h_join_cognito;
 static int h_can_send;
 int h_get_channel_access;
+static int h_channel_join;
 
 int isnumonly(const char *s)
 {
@@ -89,7 +90,8 @@ init_channels(void)
 	member_heap = rb_bh_create(sizeof(struct membership), MEMBER_HEAP_SIZE, "member_heap");
 
 	h_can_join = register_hook("can_join");
-	h_join_cognito = register_hook("join_visible");
+	h_channel_join = register_hook("channel_join");
+        h_join_cognito = register_hook("join_visible");
 	h_can_send = register_hook("can_send");
 	h_get_channel_access = register_hook("get_channel_access");
 }
@@ -1878,7 +1880,7 @@ void user_join(struct Client * client_p, struct Client * source_p, const char * 
             }
 
             if(ConfigChannel.admin_on_channel_create && ConfigChannel.use_admin)
-                flags = CHFL_ADMIN | CHFL_CHANOP;
+                flags = CHFL_SOP | CHFL_CHANOP;
             else
                 flags = CHFL_CHANOP;
         }
