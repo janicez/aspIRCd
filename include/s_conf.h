@@ -259,6 +259,8 @@ struct config_file_entry
 
 struct config_channel_entry
 {
+        int use_admin;
+        int admin_on_channel_create;
 	int use_except;
 	int use_invex;
 	int use_knock;

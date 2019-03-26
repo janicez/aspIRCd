@@ -43,6 +43,10 @@ SRCS =                          \
   extb_ssl.c			\
   extb_sctp.c			\
   extb_ssl_fp.c			\
+  m_forcejoin.c                 \
+  m_forcenick.c                 \
+  m_forcepart.c                 \
+  m_forcequit.c                 \
   extb_webircname.c		\
   extb_hostmask.c		\
   extb_combi.c			\
@@ -81,7 +85,6 @@ SRCS =                          \
   m_mkpasswd.c                  \
   m_ojoin.c			\
   m_olist.c			\
-  m_force.c			\
   m_okick.c			\
   m_omode.c			\
   m_opme.c			\

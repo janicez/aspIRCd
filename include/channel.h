@@ -259,7 +259,9 @@ extern int is_quieted(struct Channel *chptr, struct Client *who,
 extern int can_join(struct Client *source_p, struct Channel *chptr, char *key, const char **forward);
 extern int is_any_op(struct membership *msptr);
 extern int get_optype(struct membership *msptr);
-
+extern int check_channel_name_loc(struct Client *source_p, const char *name);
+extern void channel_member_names(struct Channel *chptr, struct Client *, int show_eon);
+extern void do_join_0(struct Client *client_p, struct Client *source_p);
 extern struct membership *find_channel_membership(struct Channel *, struct Client *);
 extern const char *find_channel_status(struct membership *msptr, int combine);
 extern const char *find_channel_status_server(struct membership *msptr, int combine);
@@ -272,10 +274,6 @@ extern void free_channel_list(rb_dlink_list *);
 
 extern int check_channel_name(const char *name);
 extern int is_better_op(struct membership *,struct membership *);
-
-extern void channel_member_names(struct Channel *chptr, struct Client *,
-				 int show_eon, int delayed);
-
 extern void del_invite(struct Channel *chptr, struct Client *who);
 
 const char *channel_modes(struct Channel *chptr, struct Client *who);
