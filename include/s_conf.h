@@ -267,6 +267,7 @@ struct config_channel_entry
 	int knock_delay;
 	int knock_delay_channel;
 	char *automodes;
+        char *autochanmodes;
 	char *autotopic;
 	int max_bans;
 	int max_bans_large;
