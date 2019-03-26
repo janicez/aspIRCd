@@ -1681,6 +1681,347 @@ resv_chan_forcepart(const char *name, const char *reason, int temp_time)
 
 
 /*
+ * do_join_0
+ *
+ * inputs	- pointer to client doing join 0
+ * output	- NONE
+ * side effects	- User has decided to join 0. This is legacy
+ *		  from the days when channels were numbers not names. *sigh*
+ */
+void
+do_join_0(struct Client *client_p, struct Client *source_p)
+{
+    struct membership *msptr;
+    struct Channel *chptr = NULL;
+    rb_dlink_node *ptr;
+
+    /* Finish the flood grace period... */
+    if(MyClient(source_p) && !IsFloodDone(source_p))
+        flood_endgrace(source_p);
+
+    sendto_server(client_p, NULL, CAP_TS6, NOCAPS, ":%s JOIN 0", use_id(source_p));
+
+    while((ptr = source_p->user->channel.head)) {
+        if(source_p->user->channel.head && MyConnect(source_p) &&
+           !IsOper(source_p) && !IsExemptSpambot(source_p))
+            check_spambot_warning(source_p, NULL);
+
+        msptr = ptr->data;
+        chptr = msptr->chptr;
+        sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@%s PART %s",
+                             source_p->name,
+                             source_p->username, source_p->host, chptr->chname);
+        remove_user_from_channel(msptr);
+    }
+}
+
+int
+check_channel_name_loc(struct Client *source_p, const char *name)
+{
+    const char *p;
+
+    s_assert(name != NULL);
+    if(EmptyString(name))
+        return 0;
+
+    if(ConfigFileEntry.disable_fake_channels && !IsOper(source_p)) {
+        for(p = name; *p; ++p) {
+            if(!IsChanChar(*p) || IsFakeChanChar(*p))
+                return 0;
+        }
+    } else {
+        for(p = name; *p; ++p) {
+            if(!IsChanChar(*p))
+                return 0;
+        }
+    }
+
+    if(ConfigChannel.only_ascii_channels) {
+        for(p = name; *p; ++p)
+            if(*p < 33 || *p > 126)
+                return 0;
+    }
+
+
+    return 1;
+}
+
+void user_join(struct Client * client_p, struct Client * source_p, const char * channels, const char * keys)
+{
+    static char jbuf[BUFSIZE];
+    struct Channel *chptr = NULL;
+    struct ConfItem *aconf;
+    char *name;
+    char *key = NULL;
+    const char *modes;
+    int i, flags = 0;
+    char *p = NULL, *p2 = NULL;
+    char *chanlist;
+    char *mykey;
+
+    jbuf[0] = '\0';
+
+    if(channels == NULL)
+        return;
+
+    /* rebuild the list of channels theyre supposed to be joining.
+     * this code has a side effect of losing keys, but..
+     */
+    chanlist = LOCAL_COPY(channels);
+    for(name = rb_strtok_r(chanlist, ",", &p); name; name = rb_strtok_r(NULL, ",", &p)) {
+        /* check the length and name of channel is ok */
+        if(!check_channel_name_loc(source_p, name) || (strlen(name) > LOC_CHANNELLEN)) {
+            sendto_one_numeric(source_p, ERR_BADCHANNAME,
+                               form_str(ERR_BADCHANNAME), (unsigned char *) name,
+                               "invalid or too long");
+            continue;
+        }
+
+        /* join 0 parts all channels */
+        if(*name == '0' && (name[1] == ',' || name[1] == '\0') && name == chanlist) {
+            (void) strcpy(jbuf, "0");
+            continue;
+        }
+
+        /* check it begins with # or &, and local chans are disabled */
+        else if(!IsChannelName(name)) {
+            sendto_one_numeric(source_p, ERR_NOSUCHCHANNEL,
+                               form_str(ERR_NOSUCHCHANNEL), name);
+            continue;
+        }
+
+        if(!IsExemptResv(source_p) && (aconf = hash_find_resv(name))) {
+
+            /* see if its resv'd */
+            /* like klines, resvs have a user visible reason and an oper-visible reason
+            	 * delimited by a pipe character.  If we find a pipe in the reason, swap it
+            	 * out for a null before sending it out, and swap the pipe back in after
+            	 * faster and less verbose than using a temporary buffer or other method
+            	 */
+            char *reason_break = strstr(aconf->passwd, "|");
+            if (reason_break != NULL) *reason_break = '\0';
+            sendto_one_numeric(source_p, ERR_BADCHANNAME,
+                               form_str(ERR_BADCHANNAME), name,
+                               aconf->passwd);
+            if (reason_break != NULL) *reason_break = '|';
+
+            /* dont warn for opers */
+            if(!IsExemptJupe(source_p) && !IsOper(source_p))
+                sendto_realops_snomask(SNO_SPY, L_NETWIDE,
+                                       "User %s (%s@%s) is attempting to join locally juped channel %s (%s)",
+                                       source_p->name, source_p->username,
+                                       source_p->orighost, name, aconf->passwd);
+            /* dont update tracking for jupe exempt users, these
+             * are likely to be spamtrap leaves
+             */
+            else if(IsExemptJupe(source_p))
+                aconf->port--;
+
+            continue;
+        }
+
+        if(splitmode && !IsOper(source_p) &&
+           ConfigChannel.no_join_on_split) {
+            sendto_one(source_p, form_str(ERR_UNAVAILRESOURCE),
+                       me.name, source_p->name, name);
+            continue;
+        }
+
+        if(*jbuf)
+            (void) strcat(jbuf, ",");
+        (void) rb_strlcat(jbuf, name, sizeof(jbuf));
+    }
+
+    if(keys != NULL) {
+        mykey = LOCAL_COPY(keys);
+        key = rb_strtok_r(mykey, ",", &p2);
+    }
+
+    for(name = rb_strtok_r(jbuf, ",", &p); name;
+        key = (key) ? rb_strtok_r(NULL, ",", &p2) : NULL, name = rb_strtok_r(NULL, ",", &p)) {
+        hook_data_channel_activity hook_info;
+
+        /* JOIN 0 simply parts all channels the user is in */
+        if(*name == '0' && !atoi(name)) {
+            if(source_p->user->channel.head == NULL)
+                continue;
+
+            do_join_0(&me, source_p);
+            continue;
+        }
+
+        /* look for the channel */
+        if((chptr = find_channel(name)) != NULL) {
+            if(IsMember(source_p, chptr))
+                continue;
+
+            flags = 0;
+        } else {
+            hook_data_client_approval moduledata;
+
+            moduledata.client = source_p;
+            moduledata.approved = 0;
+
+            call_hook(h_can_create_channel, &moduledata);
+
+            if(moduledata.approved != 0) {
+                sendto_one(source_p, form_str(moduledata.approved),
+                           me.name, source_p->name, name);
+                continue;
+            }
+
+            if(splitmode && !IsOper(source_p) &&
+               ConfigChannel.no_create_on_split) {
+                sendto_one(source_p, form_str(ERR_UNAVAILRESOURCE),
+                           me.name, source_p->name, name);
+                continue;
+            }
+
+            if(ConfigChannel.admin_on_channel_create && ConfigChannel.use_admin)
+                flags = CHFL_ADMIN | CHFL_CHANOP;
+            else
+                flags = CHFL_CHANOP;
+        }
+
+        if((rb_dlink_list_length(&source_p->user->channel) >=
+            (unsigned long) ConfigChannel.max_chans_per_user) &&
+           (!IsOper(source_p) ||
+            (rb_dlink_list_length(&source_p->user->channel) >=
+             (unsigned long) ConfigChannel.max_chans_per_user * 3))) {
+            sendto_one(source_p, form_str(ERR_TOOMANYCHANNELS),
+                       me.name, source_p->name, name);
+            continue;
+        }
+
+        if(chptr == NULL) {	/* If I already have a chptr, no point doing this */
+            chptr = get_or_create_channel(source_p, name, NULL);
+
+            if(chptr == NULL) {
+                sendto_one(source_p, form_str(ERR_UNAVAILRESOURCE),
+                           me.name, source_p->name, name);
+                continue;
+            }
+        }
+
+        /* can_join checks for +i key, bans etc */
+        if((i = can_join(source_p, chptr, key))) {
+            if(IsOverride(source_p)) {
+                sendto_wallops_flags(UMODE_WALLOP, &me,
+                                     "%s is overriding JOIN to [%s]",
+                                     get_oper_name(source_p), chptr->chname);
+                sendto_server(NULL, chptr, NOCAPS, NOCAPS,
+                              ":%s WALLOPS :%s is overriding JOIN to [%s]",
+                              me.name, get_oper_name(source_p), chptr->chname);
+            } else if ((i != ERR_THROTTLE && i != ERR_INVITEONLYCHAN && i != ERR_CHANNELISFULL && i != ERR_BANNEDFROMCHAN) ||
+                       (!ConfigChannel.use_forward || (chptr = check_forward(source_p, chptr, key)) == NULL)) {
+                /* might be wrong, but is there any other better location for such?
+                 * see extensions/chm_operonly.c for other comments on this
+                 * -- dwr
+                 */
+                if(i != ERR_CUSTOM)
+                    sendto_one(source_p, form_str(i), me.name, source_p->name, name);
+
+                continue;
+            } else
+                sendto_one_numeric(source_p, ERR_LINKCHANNEL, form_str(ERR_LINKCHANNEL), name, chptr->chname);
+        }
+
+        if(flags == 0 &&
+           !IsOper(source_p) && !IsExemptSpambot(source_p))
+            check_spambot_warning(source_p, name);
+
+        /* add the user to the channel */
+        add_user_to_channel(chptr, source_p, flags);
+        if (chptr->mode.join_num &&
+            rb_current_time() - chptr->join_delta >= chptr->mode.join_time) {
+            chptr->join_count = 0;
+            chptr->join_delta = rb_current_time();
+        }
+        chptr->join_count++;
+
+        /* we send the user their join here, because we could have to
+         * send a mode out next.
+         */
+        sendto_channel_local_with_capability(ALL_MEMBERS, NOCAPS, CLICAP_EXTENDED_JOIN, chptr, ":%s!%s@%s JOIN %s",
+                                             source_p->name, source_p->username, source_p->host, chptr->chname);
+
+        sendto_channel_local_with_capability(ALL_MEMBERS, CLICAP_EXTENDED_JOIN, NOCAPS, chptr, ":%s!%s@%s JOIN %s %s %ld :%s",
+                                             source_p->name, source_p->username, source_p->host, chptr->chname,
+                                             EmptyString(source_p->user->suser) ? "*" : source_p->user->suser,
+                                             source_p->tsinfo, source_p->info);
+
+        /* Send away message to away-notify enabled clients. */
+        if (client_p->user && client_p->user->away)
+            sendto_channel_local_with_capability_butone(client_p, ALL_MEMBERS, CLICAP_AWAY_NOTIFY, NOCAPS, chptr,
+                    ":%s!%s@%s AWAY :%s",
+                    client_p->name, client_p->username,
+                    client_p->host, client_p->user->away);
+
+        /* its a new channel, set +nt and burst. */
+        if(flags & CHFL_CHANOP) {
+            chptr->channelts = rb_current_time();
+
+            /* autochanmodes stuff */
+            if(ConfigChannel.autochanmodes) {
+                char * ch;
+                for(ch = ConfigChannel.autochanmodes; *ch; ch++) {
+                    chptr->mode.mode |= chmode_table[*(unsigned char*)ch].mode_type;
+                }
+            } else {
+                chptr->mode.mode |= MODE_TOPICLIMIT;
+                chptr->mode.mode |= MODE_NOPRIVMSGS;
+            }
+
+            modes = channel_modes(chptr, &me);
+
+            sendto_channel_local(ONLY_CHANOPS, chptr, ":%s MODE %s %s",
+                                 me.name, chptr->chname, modes);
+
+            sendto_server(client_p, chptr, CAP_TS6, NOCAPS,
+                          ":%s SJOIN %ld %s %s :@%s",
+                          me.id, (long) chptr->channelts,
+                          chptr->chname, modes, source_p->id);
+            if (strlen(ConfigChannel.autotopic)!=0 && strlen(ConfigChannel.autotopic)<=TOPICLEN) {
+                set_channel_topic(chptr, ConfigChannel.autotopic, me.name, rb_current_time());
+                sendto_server(client_p, chptr, CAP_TS6|CAP_EOPMOD, NOCAPS, ":%s ETB %ld %s %ld %s :%s",
+                              me.id, (long)chptr->channelts, chptr->chname, (long)chptr->topic_time, me.name,
+                              chptr->topic);
+                sendto_server(client_p, chptr, CAP_TS6|CAP_TB, CAP_EOPMOD, ":%s TB %s %ld %s :%s",
+                              me.id, chptr->chname, (long)chptr->topic_time, me.name,
+                              chptr->topic);
+                sendto_server(client_p, chptr, CAP_TS6, CAP_TB|CAP_EOPMOD, ":%s TOPIC %s :%s",
+                              use_id(source_p), chptr->chname, chptr->topic);
+            }
+        } else {
+            sendto_server(client_p, chptr, CAP_TS6, NOCAPS,
+                          ":%s JOIN %ld %s +",
+                          use_id(source_p), (long) chptr->channelts,
+                          chptr->chname);
+        }
+
+        del_invite(chptr, source_p);
+
+        if(chptr->topic != NULL) {
+            sendto_one(source_p, form_str(RPL_TOPIC), me.name,
+                       source_p->name, chptr->chname, chptr->topic);
+
+            sendto_one(source_p, form_str(RPL_TOPICWHOTIME),
+                       me.name, source_p->name, chptr->chname,
+                       chptr->topic_info, chptr->topic_time);
+        }
+
+        channel_member_names(chptr, source_p, 1);
+
+        hook_info.client = source_p;
+        hook_info.chptr = chptr;
+        hook_info.key = key;
+        call_hook(h_channel_join, &hook_info);
+    }
+
+    return;
+}
+
+/*
  * channel_metadata_add
  * 
  * inputs	- pointer to channel struct

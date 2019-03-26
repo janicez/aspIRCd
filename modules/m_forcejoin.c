@@ -33,9 +33,7 @@
 
 
 #include "stdinc.h"
-#include "s_newconf.h"    /* New include fiel */
 #include "client.h"
-#include "channel.h"
 #include "hash.h"		/* for find_client() */
 #include "numeric.h"
 #include "logger.h"
@@ -297,7 +295,7 @@ void user_join_override(struct Client * client_p, struct Client * source_p, stru
             flags = CHFL_CHANOP;
 
             if(ConfigChannel.admin_on_channel_create && ConfigChannel.use_admin)
-                flags |= CHFL_SOP;
+                flags |= CHFL_ADMIN;
 
             add_user_to_channel(chptr, target_p, flags);
             if (chptr->mode.join_num &&
@@ -326,10 +324,10 @@ void user_join_override(struct Client * client_p, struct Client * source_p, stru
             sendto_channel_local(CHFL_CHANOP, chptr, ":%s MODE %s %s",
                                  me.name, chptr->chname, modes);
 
-            if (flags & CHFL_QOP)
+            if (flags & CHFL_OWNER)
                 strcat(statusmodes, "~");
 
-            if (flags & CHFL_SOP)
+            if (flags & CHFL_ADMIN)
                 strcat(statusmodes, "&");
 
             strcat(statusmodes, "@");
