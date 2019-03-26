@@ -10,7 +10,11 @@
  * 
  *  FILE START!
  */
+#ifndef INCLUDED_external_h
+#define INCLUDED_external_h
 
-extern int check_channel_name_loc(struct Client *source_p, const char *name);
+#ifndef INCLUDED_hash_h
+#define INCLUDED_hash_h
+
 extern void do_join_0(struct Client *client_p, struct Client *source_p);
 extern int check_channel_name_loc(struct Client *source_p, const char *name);
