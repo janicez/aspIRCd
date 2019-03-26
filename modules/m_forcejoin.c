@@ -33,8 +33,9 @@
 
 
 #include "stdinc.h"
-#include "external.h"    /* New include fiel */
+#include "s_newconf.h"    /* New include fiel */
 #include "client.h"
+#include "channel.h"
 #include "hash.h"		/* for find_client() */
 #include "numeric.h"
 #include "logger.h"

@@ -3,37 +3,37 @@
 #
 # $Id: Makefile.in 3372 2007-04-03 10:18:07Z nenolod $
 #
-CC		= @CC@
-AR		= @AR@
-RANLIB		= @RANLIB@
-RM		= @RM@
-SED             = @SED@
-LEX		= @LEX@
-LEXLIB		= @LEXLIB@
-CFLAGS		= @IRC_CFLAGS@ -DIRCD_PREFIX=\"@prefix@\"
-PICFLAGS	= @PICFLAGS@
-MKDEP		= @MKDEP@ -DIRCD_PREFIX=\"@prefix@\"
-INSTALL		= @INSTALL@
-INSTALL_PROGRAM	= @INSTALL_PROGRAM@
-INSTALL_DATA	= @INSTALL_DATA@
-INSTALL_SUID    = @INSTALL_PROGRAM@ -o root -m 4755
-SEDOBJ		= @SEDOBJ@
+CC		= gcc
+AR		= /usr/bin/ar
+RANLIB		= /usr/bin/ranlib
+RM		= /bin/rm
+SED             = /bin/sed
+LEX		= flex
+LEXLIB		= 
+CFLAGS		=  -O0 -Wall -std=gnu99 -g -g -O2  -DIRCD_PREFIX=\"/home/matty/ircd\"
+PICFLAGS	= -fPIC -DPIC -shared
+MKDEP		= gcc -MM -DIRCD_PREFIX=\"/home/matty/ircd\"
+INSTALL		= /usr/bin/install -c
+INSTALL_PROGRAM	= ${INSTALL}
+INSTALL_DATA	= ${INSTALL} -m 644
+INSTALL_SUID    = ${INSTALL} -o root -m 4755
+SEDOBJ		= s/\.o/.so/g
 SHELL		= /bin/sh
-MV		= @MV@
-LD		= @LD@
+MV		= /bin/mv
+LD		= /usr/bin/ld
 
-SSL_LIBS	= @SSL_LIBS@
-SSL_INCLUDES	= @SSL_INCLUDES@
+SSL_LIBS	=  -lcrypto
+SSL_INCLUDES	= 
 
-IRCDLIBS        = @LIBS@ $(SSL_LIBS)
+IRCDLIBS        = -ldl -lcrypt  $(SSL_LIBS)
 
-prefix          = @prefix@
-moduledir       = @moduledir@
+prefix          = /home/matty/ircd
+moduledir       = /home/matty/ircd/modules
 # Change this later! -- adrian
-automoduledir   = @moduledir@/autoload
+automoduledir   = /home/matty/ircd/modules/autoload
 
 INCLUDES	= -I../include -I../libratbox/include $(SSL_INCLUDES)
-CPPFLAGS	= ${INCLUDES} @CPPFLAGS@
+CPPFLAGS	= ${INCLUDES} 
 
 CORE_SRCS = \
   core/m_ban.c \
@@ -61,10 +61,6 @@ TSRCS =                          \
   m_challenge.c \
   m_chghost.c \
   m_close.c \
-  m_forcejoin.c  \
-  m_forcenick.c   \
-  m_forcepart.c    \
-  m_forcequit.c     \
   m_cmessage.c \
   m_connect.c \
   m_dline.c \
@@ -141,7 +137,7 @@ DOLLAR = $$
 
 default:	build
 build:	all
-all:	@MOD_TARGET@
+all:	shared_modules
 
 shared_modules: $(SH_CORE_OBJS) $(SH_OBJS)
 
@@ -175,7 +171,7 @@ install-mkdirs:
 	@mkdir -p -m 755 $(DESTDIR)$(moduledir)
 	@mkdir -p -m 755 $(DESTDIR)$(automoduledir)
 
-install: install_@MOD_TARGET@
+install: install_shared_modules
 
 install_libmodules.a: libmodules.a
 # Ye olde noop here.	
@@ -223,7 +219,7 @@ clean:
 	${RM} -f core/*.so core/*.sl core/*~ core/*.o
 
 lint:
-	lint -aacgprxhH ${CPPFLAGS} -DIRCD_PREFIX=\"@prefix@\" $(ALL_SRCS) >../lint.out
+	lint -aacgprxhH ${CPPFLAGS} -DIRCD_PREFIX=\"/home/matty/ircd\" $(ALL_SRCS) >../lint.out
 
 distclean: clean
 	${RM} -f Makefile

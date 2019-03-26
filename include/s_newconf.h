@@ -273,6 +273,5 @@ struct nd_entry
 extern void add_nd_entry(const char *name);
 extern void free_nd_entry(struct nd_entry *);
 extern unsigned long get_nd_count(void);
-
 #endif
 

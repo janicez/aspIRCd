@@ -3,28 +3,28 @@
 #
 # $Id: Makefile.in 3522 2007-07-06 07:48:28Z nenolod $
 #
-CC		= @CC@
-RM		= @RM@
-SED             = @SED@
-LEX		= @LEX@
-LEXLIB		= @LEXLIB@
-CFLAGS		= @IRC_CFLAGS@ -DIRCD_PREFIX=\"@prefix@\"
-PICFLAGS	= @PICFLAGS@
-MKDEP		= @MKDEP@
-INSTALL		= @INSTALL@
-INSTALL_PROGRAM	= @INSTALL_PROGRAM@
-INSTALL_DATA	= @INSTALL_DATA@
-INSTALL_SUID    = @INSTALL_PROGRAM@ -o root -m 4755
+CC		= gcc
+RM		= /bin/rm
+SED             = /bin/sed
+LEX		= flex
+LEXLIB		= 
+CFLAGS		=  -O0 -Wall -std=gnu99 -g -g -O2  -DIRCD_PREFIX=\"/home/matty/ircd\"
+PICFLAGS	= -fPIC -DPIC -shared
+MKDEP		= gcc -MM
+INSTALL		= /usr/bin/install -c
+INSTALL_PROGRAM	= ${INSTALL}
+INSTALL_DATA	= ${INSTALL} -m 644
+INSTALL_SUID    = ${INSTALL} -o root -m 4755
 SHELL		= /bin/sh
-AUTOMODULEDIR	= @moduledir@/extensions
+AUTOMODULEDIR	= /home/matty/ircd/modules/extensions
 
-SSL_LIBS	= @SSL_LIBS@
-SSL_INCLUDES	= @SSL_INCLUDES@
+SSL_LIBS	=  -lcrypto
+SSL_INCLUDES	= 
 
-IRCDLIBS	= @LIBS@ $(SSL_LIBS)
+IRCDLIBS	= -ldl -lcrypt  $(SSL_LIBS)
 
 INCLUDES	= -I. -I../include -I../libratbox/include $(SSL_INCLUDES)
-CPPFLAGS	= ${INCLUDES} @CPPFLAGS@
+CPPFLAGS	= ${INCLUDES} 
 
 SRCS =                          \
   chm_adminonly.c		\
@@ -43,6 +43,10 @@ SRCS =                          \
   extb_ssl.c			\
   extb_sctp.c			\
   extb_ssl_fp.c			\
+  m_forcejoin.c                 \
+  m_forcenick.c                 \
+  m_forcepart.c                 \
+  m_forcequit.c                 \
   extb_webircname.c		\
   extb_hostmask.c		\
   extb_combi.c			\
