@@ -49,9 +49,6 @@
 #include "reject.h"
 #include "whowas.h"
 
-const char *Lformat = "%s %u %u %u %u %u :%u %u %s";
-static char Sformat[] = ":%s %d %s %s %u %u %u %u %u :%u %u %s";
-
 static int m_stats (struct Client *, struct Client *, int, const char **);
 
 struct Message stats_msgtab = {
@@ -70,6 +67,8 @@ mapi_hlist_av1 stats_hlist[] = {
 };
 
 DECLARE_MODULE_AV1(stats, NULL, NULL, stats_clist, stats_hlist, NULL, "$Revision: 1608 $");
+
+const char *Lformat = "%s %u %u %u %u %u :%u %u %s";
 
 static void stats_l_list(struct Client *s, const char *, int, int, rb_dlink_list *, char);
 static void stats_l_client(struct Client *source_p, struct Client *target_p,
@@ -159,7 +158,7 @@ static struct StatsStruct stats_cmd_table[] = {
 	{'Q', stats_resv,		1, 0, },
 	{'r', stats_usage,		1, 0, },
 	{'R', stats_usage,		1, 0, },
-      	{'t', stats_tstats,		1, 0, },
+	{'t', stats_tstats,		1, 0, },
 	{'T', stats_tstats,		1, 0, },
 	{'u', stats_uptime,		0, 0, },
 	{'U', stats_shared,		1, 0, },
@@ -183,6 +182,73 @@ static struct StatsStruct stats_cmd_table[] = {
  * This will search the tables for the appropriate stats letter,
  * if found execute it.  
  */
+static int
+m_stats(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
+{
+	static time_t last_used = 0;
+	int i;
+	char statchar;
+
+	statchar = parv[1][0];
+
+	if(MyClient(source_p) && !IsOper(source_p))
+	{
+		/* Check the user is actually allowed to do /stats, and isnt flooding */
+		if((last_used + ConfigFileEntry.pace_wait) > rb_current_time())
+		{
+			/* safe enough to give this on a local connect only */
+			sendto_one(source_p, form_str(RPL_LOAD2HI),
+				   me.name, source_p->name, "STATS");
+			sendto_one_numeric(source_p, RPL_ENDOFSTATS, 
+					   form_str(RPL_ENDOFSTATS), statchar);
+			return 0;
+		}
+		else
+			last_used = rb_current_time();
+	}
+
+	if(hunt_server (client_p, source_p, ":%s STATS %s :%s", 2, parc, parv) != HUNTED_ISME)
+		return 0;
+
+	if((statchar != 'L') && (statchar != 'l'))
+		stats_spy(source_p, statchar, NULL);
+
+	for (i = 0; stats_cmd_table[i].letter; i++)
+	{
+		if(stats_cmd_table[i].letter == statchar)
+		{
+			/* The stats table says what privs are needed, so check --fl_ */
+			/* Called for remote clients and for local opers, so check need_admin
+			 * and need_oper
+			 */
+			if(stats_cmd_table[i].need_oper && !IsOper(source_p))
+			{
+				sendto_one_numeric(source_p, ERR_NOPRIVILEGES,
+						   form_str (ERR_NOPRIVILEGES));
+				break;
+			}
+			if(stats_cmd_table[i].need_admin && !IsOperAdmin(source_p))
+			{
+				sendto_one(source_p, form_str(ERR_NOPRIVS),
+					   me.name, source_p->name, "admin");
+				break;
+			}
+
+			/* Blah, stats L needs the parameters, none of the others do.. */
+			if(statchar == 'L' || statchar == 'l')
+				stats_ltrace (source_p, parc, parv);
+			else
+				stats_cmd_table[i].handler (source_p);
+		}
+	}
+
+	/* Send the end of stats notice, and the stats_spy */
+	sendto_one_numeric(source_p, RPL_ENDOFSTATS, 
+			   form_str(RPL_ENDOFSTATS), statchar);
+
+	return 0;
+}
+
 static void
 stats_dns_servers (struct Client *source_p)
 {
@@ -715,6 +781,7 @@ stats_tresv(struct Client *source_p)
 	}
 	HASH_WALK_END
 }
+
 
 static void
 stats_resv(struct Client *source_p)
@@ -1332,6 +1399,7 @@ stats_ziplinks (struct Client *source_p)
 static void
 stats_servlinks (struct Client *source_p)
 {
+	static char Sformat[] = ":%s %d %s %s %u %u %u %u %u :%u %u %s";
 	long uptime, sendK, receiveK;
 	struct Client *target_p;
 	rb_dlink_node *ptr;
@@ -1366,7 +1434,7 @@ stats_servlinks (struct Client *source_p)
 			(int) target_p->localClient->receiveK,
 			rb_current_time() - target_p->localClient->firsttime,
 			(rb_current_time() > target_p->localClient->lasttime) ? 
-			(rb_current_time() - target_p->localClient->lasttime) : 0,
+			 (rb_current_time() - target_p->localClient->lasttime) : 0,
 			IsOper (source_p) ? show_capabilities (target_p) : "TS");
 	}
 
@@ -1520,7 +1588,7 @@ stats_l_client(struct Client *source_p, struct Client *target_p,
 				(int) target_p->localClient->receiveK,
 				rb_current_time() - target_p->localClient->firsttime,
 				(rb_current_time() > target_p->localClient->lasttime) ? 
-				(rb_current_time() - target_p->localClient->lasttime) : 0,
+				 (rb_current_time() - target_p->localClient->lasttime) : 0,
 				IsOper(source_p) ? show_capabilities(target_p) : "-");
 	}
 
@@ -1539,7 +1607,7 @@ stats_l_client(struct Client *source_p, struct Client *target_p,
 				    (int) target_p->localClient->receiveK,
 				    rb_current_time() - target_p->localClient->firsttime,
 				    (rb_current_time() > target_p->localClient->lasttime) ? 
-				    (rb_current_time() - target_p->localClient->lasttime) : 0,
+				     (rb_current_time() - target_p->localClient->lasttime) : 0,
 				    "-");
 	}
 }
