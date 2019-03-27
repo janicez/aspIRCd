@@ -161,7 +161,7 @@ typedef int (*ExtbanFunc)(const char *data, struct Client *client_p,
 #define CHFL_DELAYED    	0x0800	/* Join delayed -- do not propagate nor show to clients because this mode has no letter. Delays may speak if not otherwise prohibited. */
 
 #define CHFL_BANNED		0x000008  /* cached as banned */
-#define CHFL_QUIETED		0x000010  /* cached as being +q victim */
+#define CHFL_QUIETED		0x000010  /* cached as being +y victim */
 #define ONLY_SERVERS		0x000020
 #define ONLY_OPERS		0x000040
 #define ALL_MEMBERS		CHFL_PEON
