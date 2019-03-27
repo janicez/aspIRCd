@@ -892,8 +892,9 @@ msg_client(int p_or_n, const char *command,
 		 * yep, deleted that from this ircd. may import oaccept. */
 		if(!IsServer(source_p) && (IsSetCallerId(target_p) ||
 					((target_p->umodes & user_modes['t']) != 0x0) ||
-					(IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])))
-		{
+					(IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0]))) ||
+	                                (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p))
+               {
 			/* Here is the anti-flood bot/spambot code -db */
 			if(accept_message(source_p, target_p))
 			{
@@ -935,6 +936,13 @@ msg_client(int p_or_n, const char *command,
 							form_str(ERR_NONONREG),
 							target_p->name);
 			}
+                        else if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p))
+                        {
+                                if (p_or_n != NOTICE)
+                                        sendto_one_numeric(source_p, ERR_NONONOP,
+                                                        form_str(ERR_NONONOP),
+                                                        target_p->name);
+                        }
 			else
 			{
 				/* check for accept, flag recipient incoming message */

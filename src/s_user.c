@@ -107,7 +107,7 @@ int user_modes[256] = {
 	0,			/* j */
 	0,			/* k */
 	UMODE_LOCOPS,		/* l */
-	0,			/* m */
+        UMODE_STAFFONLYMSG,	/* m */
 	0,			/* n */
 	UMODE_OPER,		/* o */
 	UMODE_OVERRIDE,		/* p */

@@ -294,6 +294,7 @@ static struct mode_table umode_table[] = {
 	{"hideoper",    UMODE_HIDEOPER  },
         {"locops",	UMODE_LOCOPS	},
 	{"noforward",	UMODE_NOFORWARD	},
+        {"staffonlymsg", UMODE_STAFFONLYMSG},
 	{"regonlymsg",	UMODE_REGONLYMSG},
 	{"servnotice",	UMODE_SERVNOTICE},
 	{"wallop",	UMODE_WALLOP	},

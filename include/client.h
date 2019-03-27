@@ -424,6 +424,7 @@ struct ListClient
 #define UMODE_INVISIBLE    0x0008	/* makes user invisible */
 #define UMODE_CALLERID     0x0010	/* block unless caller id's */
 #define UMODE_LOCOPS       0x0020	/* show locops */
+#define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
 #define UMODE_SERVICE      0x0040
 #define UMODE_DEAF	   0x0080
 #define UMODE_NOFORWARD    0x0100	/* don't forward */
@@ -508,6 +509,7 @@ extern int IsXAscii(struct Client *client_p);
 #define SetEob(x)		((x)->flags |= FLAGS_EOB)
 #define HasSentEob(x)		((x)->flags & FLAGS_EOB)
 #define IsDead(x)          	((x)->flags &  FLAGS_DEAD)
+#define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
 #define SetDead(x)         	((x)->flags |= FLAGS_DEAD)
 #define IsClosing(x)		((x)->flags & FLAGS_CLOSING)
 #define SetClosing(x)		((x)->flags |= FLAGS_CLOSING)
