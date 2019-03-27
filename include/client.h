@@ -425,6 +425,7 @@ struct ListClient
 #define UMODE_CALLERID     0x0010	/* block unless caller id's */
 #define UMODE_LOCOPS       0x0020	/* show locops */
 #define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
+#define UMODE_WHO        0x2000000    /* Send notification when someone /whois */
 #define UMODE_SERVICE      0x0040
 #define UMODE_DEAF	   0x0080
 #define UMODE_NOFORWARD    0x0100	/* don't forward */
