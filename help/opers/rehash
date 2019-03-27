@@ -8,7 +8,6 @@ ircd.conf file.
   DNS      - Re-read the /etc/resolv.conf file
   HELP     - Re-reads help files
   MOTD     - Re-reads MOTD file
-  SSLD    - Rehases SSL Cert and Restarts SSLD Processes
   NICKDELAY - Clears delayed nicks
   OMOTD    - Re-reads Oper MOTD file
   REJECTCACHE - Clears the reject cache

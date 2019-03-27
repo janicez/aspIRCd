@@ -13,7 +13,6 @@ X B - Shows hash statistics
 ^ c - Shows connect blocks (Old C:/N: lines)
 * d - Shows temporary D lines
 * D - Shows D lines
-* S - Shows ssld processes
 * e - Shows exemptions to D lines
 X E - Shows Events
 X f - Shows File Descriptors
