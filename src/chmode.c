@@ -2109,7 +2109,7 @@ struct ChannelMode chmode_table[256] =
 
   {chm_nosuch,	0 },			/* @ */
   {chm_simple,	MODE_ANONMSGS },	/* A */
-  {chm_nosuch,	0 },			/* B */
+  {chm_ownerbot, 0 },			/* B */
   {chm_simple,	MODE_NOCTCP },		/* C */
   {chm_simple,	MODE_DELAYJOIN },			/* D */
   {chm_nosuch,	0 },			/* E */
@@ -2130,7 +2130,7 @@ struct ChannelMode chmode_table[256] =
   {chm_simple,	MODE_NONOTICE },	/* T */
   {chm_nosuch,	0 },			/* U */
   {chm_nosuch,	0 },			/* V */
-  {chm_ownerbot,0 },		/* W */
+  {chm_nosuch,  0 },	         	/* W */
   {chm_nosuch,	0 },			/* X */
   {chm_nosuch,	0 },			/* Y */
   {chm_nosuch,	0 },			/* Z */
@@ -2154,17 +2154,17 @@ struct ChannelMode chmode_table[256] =
   {chm_limit,	0 },			/* l */
   {chm_simple,	MODE_MODERATED },	/* m */
   {chm_simple,	MODE_NOPRIVMSGS },	/* n */
-  {chm_op,	0 },		/* o */
+  {chm_op,	0 },		        /* o */
   {chm_simple,	MODE_PRIVATE },		/* p */
-  {chm_ban,	CHFL_QUIET },		/* q */
-  {chm_nosuch,  0 },		/* r */
+  {chm_owner,	0 },		        /* q */
+  {chm_nosuch,  0 },		        /* r */
   {chm_simple,	MODE_SECRET },		/* s */
   {chm_simple,	MODE_TOPICLIMIT },	/* t */
   {chm_nosuch,	0 },			/* u */
   {chm_voice,	0 },			/* v */
-  {chm_owner,	0 },		/* w */
+  {chm_nosuch,	0 },		        /* w */
   {chm_nosuch,	0 },			/* x */
-  {chm_nosuch,	0 },			/* y */
+  {chm_ban,	CHFL_QUIET },	        /* y */
   {chm_simple,	MODE_OPMODERATE },	/* z */
 
   {chm_nosuch,  0 },			/* 0x7b */

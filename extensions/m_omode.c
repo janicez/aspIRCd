@@ -152,7 +152,7 @@ mo_omode(struct Client *client_p, struct Client *source_p, int parc, const char 
 				source_p->id);
 		msptr->flags |= CHFL_SOP;
 	}
-	else if (parc == 4 && !strcmp(parv[2], "+w") && !irccmp(parv[3], source_p->name))
+	else if (parc == 4 && !strcmp(parv[2], "+q") && !irccmp(parv[3], source_p->name))
 	{
 		/* Opping themselves */
 		if (!wasonchannel)
@@ -161,15 +161,15 @@ mo_omode(struct Client *client_p, struct Client *source_p, int parc, const char 
 					   form_str(ERR_USERNOTINCHANNEL), parv[3], chptr->chname);
 			return 0;
 		}
-		sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +w %s",
+		sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +q %s",
 				me.name, parv[1], source_p->name);
 		sendto_server(NULL, chptr, CAP_TS6, NOCAPS,
-				":%s TMODE %ld %s +w %s",
+				":%s TMODE %ld %s +q %s",
 				me.id, (long) chptr->channelts, parv[1],
 				source_p->id);
 		msptr->flags |= CHFL_QOP;
 	}
-	else if (parc == 4 && !strcmp(parv[2], "+W") && !irccmp(parv[3], source_p->name))
+	else if (parc == 4 && !strcmp(parv[2], "+B") && !irccmp(parv[3], source_p->name))
 	{
 		/* Opping themselves */
 		if (!wasonchannel)
@@ -178,10 +178,10 @@ mo_omode(struct Client *client_p, struct Client *source_p, int parc, const char 
 					   form_str(ERR_USERNOTINCHANNEL), parv[3], chptr->chname);
 			return 0;
 		}
-		sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +W %s",
+		sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +B %s",
 				me.name, parv[1], source_p->name);
 		sendto_server(NULL, chptr, CAP_TS6, NOCAPS,
-				":%s TMODE %ld %s +W %s",
+				":%s TMODE %ld %s +B %s",
 				me.id, (long) chptr->channelts, parv[1],
 				source_p->id);
 		msptr->flags |= CHFL_BOP;

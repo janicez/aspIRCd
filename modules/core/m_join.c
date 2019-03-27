@@ -951,7 +951,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 		// This makes dogs whimper.
                 if(fl & CHFL_QOP)
                 {
-                        *mbuf++ = 'w';
+                        *mbuf++ = 'q';
                         para[pargs++] = target_p->name;
 
                         if(fl & CHFL_BOP)
@@ -973,7 +973,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                                         pargs = 0;
                                 }
 
-                                *mbuf++ = 'W';
+                                *mbuf++ = 'B';
                                 para[pargs++] = target_p->name;
                         }
                         if(fl & CHFL_SOP)
@@ -1067,7 +1067,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                 }
                 else if(fl & CHFL_BOP)
                 {
-                        *mbuf++ = 'W';
+                        *mbuf++ = 'B';
                         para[pargs++] = target_p->name;
 
                         if(fl & CHFL_QOP)
@@ -1089,7 +1089,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                                         pargs = 0;
                                 }
 
-                                *mbuf++ = 'w';
+                                *mbuf++ = 'q';
                                 para[pargs++] = target_p->name;
                         }
                         if(fl & CHFL_SOP)
