@@ -1,6 +1,27 @@
 Copyright (C) 2018 - DavidFranklin (as ircd-nine)
 Copyright (C) 2019 - DavidFranklin (as aspIRCd)
 
+##aspIRCd 5.0.9
+After including the updates from aspIRCd 5.0.7 RC (Development Version) into the Final Release of 5.0.9, aspIRCd ships you:
+- Added mbedTLS support, the most secured TLS base in the IRC industry.
+- Updated sqlite version to sqlite3.12.0 - the latest version.
+- Added support for IRCv3.2 user host in names.
+- Re-enabled away-notify feature.
+- When a user is killed, it no longer echoes the name of the IRC Operator who killed the user.
+- Added new user mode for Web Chat users, +W that displays a swhois.
+- Fixed egdpool compile error.
+- Added all-new **SASL** , taken from Charybdis 3.6.
+- Added all-new IRCv3.2  starttls, taken from Charybdis 3.6
+- Added ability to CertFP hash
+- SSLD: Fixed compile error
+- Removed m_force.c and added 4 new modules, **/forcejoin /forcenick /forcepart /forcequit**, which work over remote servers!
+- Made ownermode to be +q instead of +w
+- Made quiet mode to be +y.
+- Fixed /rehash ssld "Unknown Command" - Error.
+- Fixed /stats S "Unknown Command" - Error.
+
+This was the biggest leap, aspIRCd ever took, in , considering this release to be named as 5.0.9 *Final Release*.
+
 ##aspIRCd 5.0.7 RC1
 aspIRCd has jumped to the next level, 5.0.7-RC1 (Release Candidate) \/
 **NOTE**: This is a Release Candidate, you may or may not spot bugs. If you do, report it to us at our Developmental Server.

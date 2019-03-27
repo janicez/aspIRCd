@@ -61,24 +61,28 @@ Feature Specific Requirements:
   flags for cc(1) prior to that point to produce shared modules.
 
 - SUPPORTED PLATFORMS: this code should compile without any warnings on:
-    FreeBSD 6.x/7.x,
-    Gentoo & Gentoo Hardened ~x86/~amd64/~fbsd
-    Fedora 8/9 / CentOS 4/5 / Redhat Enterprise 5
-    Debian Etch, 
-    OpenSuSE 10/11,
-    OpenSolaris 2008.x?
-    Solaris 10 sparc.
+    Debian 9
+    Ubuntu 18.04
+    CentOS Latest Version
+    FreeBSD uptill latest version
+    Solaris uptill latest version
   
   Please let us know if you find otherwise.  
   It probably does not compile on AIX, IRIX or libc5 Linux.
 
 - TESTED PLATFORMS:  The code has been tested on the following platforms, and
   is known to run properly.
-  FreeBSD 6.x/7.x
-  Linux glibc-2.6, glibc-2.7
-  Solaris 2.6/7/8
-  OpenBSD 2.8
-  NetBSD 1.4
+  Debian 9  
+  Ubuntu 18.04
+  CentOS uptill latest version
+  Fedora uptill latest version
+  Solaris Uptill Latest Version
+  NetBSD Uptill Latest Version
+
+- This code has been primarily updated and should compile on every version of
+Operating sytem.
+You are free to report bugs.
+on our Developmental Server : irc.hyphovy.net Port: 6667/+6697 #aspIRCd
 
 - Please read NEWS for information about what is in this release.
 
