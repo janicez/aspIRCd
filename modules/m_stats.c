@@ -717,24 +717,6 @@ stats_tresv(struct Client *source_p)
 }
 
 static void
-stats_ssld_foreach(void *data, pid_t pid, int cli_count, enum ssld_status status)
-{
-    struct Client *source_p = data;
-
-    sendto_one_numeric(source_p, RPL_STATSDEBUG,
-                       "S :%u %c %u",
-                       pid,
-                       status == SSLD_DEAD ? 'D' : (status == SSLD_SHUTDOWN ? 'S' : 'A'),
-                       cli_count);
-}
-
-static void
-stats_ssld(struct Client *source_p)
-{
-    ssld_foreach_info(stats_ssld_foreach, source_p);
-}
-
-static void
 stats_resv(struct Client *source_p)
 {
 	struct ConfItem *aconf;
