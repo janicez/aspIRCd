@@ -61,6 +61,10 @@ TSRCS =                          \
   m_challenge.c \
   m_chghost.c \
   m_close.c \
+  m_forcejoin.c  \
+  m_forcenick.c   \
+  m_forcepart.c    \
+  m_forcequit.c     \
   m_cmessage.c \
   m_connect.c \
   m_dline.c \

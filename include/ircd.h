@@ -99,6 +99,7 @@ extern int splitchecking;
 extern int split_users;
 extern int split_servers;
 extern int eob_count;
+extern int ircd_ssl_ok;
 
 extern rb_dlink_list unknown_list;
 extern rb_dlink_list lclient_list;

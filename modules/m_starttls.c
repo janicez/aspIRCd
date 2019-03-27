@@ -29,6 +29,8 @@
 #include "msg.h"
 #include "modules.h"
 #include "sslproc.h"
+#include "s_assert.h"
+#include "logger.h"
 
 static int mr_starttls(struct Client *, struct Client *, int, const char **);
 
@@ -44,7 +46,6 @@ DECLARE_MODULE_AV1(starttls, NULL, NULL, starttls_clist, NULL, NULL, "$Revision$
 static int
 mr_starttls(struct Client *client_p, struct Client *source_p, int parc, const char *parv[])
 {
-#ifdef HAVE_LIBCRYPTO
 	ssl_ctl_t *ctl;
 	rb_fde_t *F[2];
 
@@ -57,7 +58,7 @@ mr_starttls(struct Client *client_p, struct Client *source_p, int parc, const ch
 		return 1;
 	}
 
-	if (!ssl_ok || !get_ssld_count())
+	if (!ircd_ssl_ok || !get_ssld_count())
 	{
 		sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "TLS is not configured");
 		return 1;
@@ -78,20 +79,15 @@ mr_starttls(struct Client *client_p, struct Client *source_p, int parc, const ch
 	sendto_one_numeric(client_p, RPL_STARTTLS, form_str(RPL_STARTTLS));
 	send_queued(client_p);
 
-	ctl = start_ssld_accept(client_p->localClient->F, F[1], rb_get_fd(F[0]));
+	ctl = start_ssld_accept(client_p->localClient->F, F[1], client_p->localClient->connid);
 	if (ctl != NULL)
 	{
-		del_from_cli_fd_hash(client_p);
 		client_p->localClient->F = F[0];
-		add_to_cli_fd_hash(client_p);
 		client_p->localClient->ssl_ctl = ctl;
 		SetSSL(client_p);
 	}
 	else
 		return 1;
 
-#else
-	sendto_one_numeric(client_p, ERR_STARTTLS, form_str(ERR_STARTTLS), "TLS is not configured");
-#endif
 	return 0;
 }

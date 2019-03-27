@@ -161,7 +161,7 @@ typedef int (*ExtbanFunc)(const char *data, struct Client *client_p,
 #define CHFL_DELAYED    	0x0800	/* Join delayed -- do not propagate nor show to clients because this mode has no letter. Delays may speak if not otherwise prohibited. */
 
 #define CHFL_BANNED		0x000008  /* cached as banned */
-#define CHFL_QUIETED		0x000010  /* cached as being +q victim */
+#define CHFL_QUIETED		0x000010  /* cached as being +y victim */
 #define ONLY_SERVERS		0x000020
 #define ONLY_OPERS		0x000040
 #define ALL_MEMBERS		CHFL_PEON
@@ -244,7 +244,6 @@ void free_channel(struct Channel *chptr);
 struct Ban *allocate_ban(const char *, const char *, const char *);
 void free_ban(struct Ban *bptr);
 
-
 extern void destroy_channel(struct Channel *);
 
 extern int can_send(struct Channel *chptr, struct Client *who, 
@@ -259,7 +258,6 @@ extern int is_quieted(struct Channel *chptr, struct Client *who,
 extern int can_join(struct Client *source_p, struct Channel *chptr, char *key, const char **forward);
 extern int is_any_op(struct membership *msptr);
 extern int get_optype(struct membership *msptr);
-
 extern struct membership *find_channel_membership(struct Channel *, struct Client *);
 extern const char *find_channel_status(struct membership *msptr, int combine);
 extern const char *find_channel_status_server(struct membership *msptr, int combine);
@@ -272,10 +270,6 @@ extern void free_channel_list(rb_dlink_list *);
 
 extern int check_channel_name(const char *name);
 extern int is_better_op(struct membership *,struct membership *);
-
-extern void channel_member_names(struct Channel *chptr, struct Client *,
-				 int show_eon, int delayed);
-
 extern void del_invite(struct Channel *chptr, struct Client *who);
 
 const char *channel_modes(struct Channel *chptr, struct Client *who);

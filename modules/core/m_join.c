@@ -25,8 +25,8 @@
  */
 
 #include "stdinc.h"
-#include "channel.h"
 #include "client.h"
+#include "channel.h"
 #include "common.h"
 #include "hash.h"
 #include "match.h"
@@ -788,7 +788,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 					'I', ONLY_CHANOPS);
 		if(rb_dlink_list_length(&chptr->quietlist) > 0)
 			remove_ban_list(chptr, fakesource_p, &chptr->quietlist,
-					'q', ALL_MEMBERS);
+					'y', ALL_MEMBERS);
 		chptr->bants++;
 
 		sendto_channel_local(ALL_MEMBERS, chptr,
@@ -951,7 +951,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 		// This makes dogs whimper.
                 if(fl & CHFL_QOP)
                 {
-                        *mbuf++ = 'w';
+                        *mbuf++ = 'q';
                         para[pargs++] = target_p->name;
 
                         if(fl & CHFL_BOP)
@@ -973,7 +973,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                                         pargs = 0;
                                 }
 
-                                *mbuf++ = 'W';
+                                *mbuf++ = 'B';
                                 para[pargs++] = target_p->name;
                         }
                         if(fl & CHFL_SOP)
@@ -1067,7 +1067,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                 }
                 else if(fl & CHFL_BOP)
                 {
-                        *mbuf++ = 'W';
+                        *mbuf++ = 'B';
                         para[pargs++] = target_p->name;
 
                         if(fl & CHFL_QOP)
@@ -1089,7 +1089,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                                         pargs = 0;
                                 }
 
-                                *mbuf++ = 'w';
+                                *mbuf++ = 'q';
                                 para[pargs++] = target_p->name;
                         }
                         if(fl & CHFL_SOP)

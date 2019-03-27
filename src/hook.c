@@ -59,6 +59,7 @@ int h_burst_finished;
 int h_server_introduced;
 int h_server_eob;
 int h_client_exit;
+int h_after_client_exit;
 int h_umode_changed;
 int h_new_local_user;
 int h_new_remote_user;
@@ -80,7 +81,8 @@ init_hook(void)
 	h_burst_channel = register_hook("burst_channel");
 	h_burst_finished = register_hook("burst_finished");
 	h_server_introduced = register_hook("server_introduced");
-	h_server_eob = register_hook("server_eob");
+	h_after_client_exit = register_hook("after_client_exit");
+        h_server_eob = register_hook("server_eob");
 	h_client_exit = register_hook("client_exit");
 	h_umode_changed = register_hook("umode_changed");
 	h_new_local_user = register_hook("new_local_user");

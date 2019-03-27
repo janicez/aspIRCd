@@ -231,8 +231,8 @@ isupport_chanmodes(const void *ptr)
 	rb_snprintf(result, sizeof result, "%s%sbq%s%s%s%s,k,flj,%s",
 			ConfigChannel.use_except ? "e" : "",
 			ConfigChannel.use_invex ? "I" : "",
-			(EmptyString(ConfigChannel.qprefix)) ? "W" : "",
-			(EmptyString(ConfigChannel.mprefix)) ? "w" : "",
+			(EmptyString(ConfigChannel.qprefix)) ? "B" : "",
+			(EmptyString(ConfigChannel.mprefix)) ? "q" : "",
 			(EmptyString(ConfigChannel.aprefix)) ? "a" : "",
 			(EmptyString(ConfigChannel.hprefix)) ? "h" : "",
 			cflagsbuf);
@@ -297,8 +297,8 @@ isupport_chanprefix(const void *ptr)
 	static char result[40];
 
 	rb_snprintf(result, sizeof result, "(%s%s%so%sv)%s%s%s@%s+",
-		(!EmptyString(ConfigChannel.qprefix)) ? "W" : "",
-		(!EmptyString(ConfigChannel.mprefix)) ? "w" : "",
+		(!EmptyString(ConfigChannel.qprefix)) ? "B" : "",
+		(!EmptyString(ConfigChannel.mprefix)) ? "q" : "",
 		(!EmptyString(ConfigChannel.aprefix)) ? "a" : "",
 		(!EmptyString(ConfigChannel.hprefix)) ? "h" : "",
 		(!EmptyString(ConfigChannel.qprefix)) ? ConfigChannel.qprefix : "",

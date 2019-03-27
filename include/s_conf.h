@@ -259,12 +259,16 @@ struct config_file_entry
 
 struct config_channel_entry
 {
+        int use_forward;
+        int use_admin;
+        int admin_on_channel_create;
 	int use_except;
 	int use_invex;
 	int use_knock;
 	int knock_delay;
 	int knock_delay_channel;
 	char *automodes;
+        char *autochanmodes;
 	char *autotopic;
 	int max_bans;
 	int max_bans_large;
@@ -337,6 +341,7 @@ struct alias_entry
 /* All variables are GLOBAL */
 extern int specific_ipv4_vhost;	/* used in s_bsd.c */
 extern int specific_ipv6_vhost;
+
 extern struct config_file_entry ConfigFileEntry;	/* defined in ircd.c */
 extern struct config_channel_entry ConfigChannel;	/* defined in channel.c */
 extern struct config_server_hide ConfigServerHide;	/* defined in s_conf.c */

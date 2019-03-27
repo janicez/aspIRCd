@@ -233,9 +233,10 @@ struct LocalUser
 	char *passwd;
 	char *auth_user;
 	char *challenge;
-	char *fullcaps;
-
-	int caps;		/* capabilities bit-field */
+     	char *fullcaps;
+        uint32_t connid;
+  	uint32_t zconnid;
+        int caps;		/* capabilities bit-field */
 	rb_fde_t *F;		/* >= 0, for local clients */
 
 	/* time challenge response is valid for */
@@ -478,7 +479,8 @@ struct ListClient
 #define CLICAP_IDENTIFY_MSG	0x0004
 #define CLICAP_ACCOUNT_NOTIFY	0x0008
 #define CLICAP_EXTENDED_JOIN	0x0010
-#define CLICAP_CHGHOST	0x0040
+#define CLICAP_AWAY_NOTIFY      0x0010
+#define CLICAP_CHGHOST	        0x0040
 #define CLICAP_TLS		0x0040
 #define CLICAP_USERHOST_IN_NAMES	0x0040
 

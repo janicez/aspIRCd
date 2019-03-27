@@ -66,6 +66,8 @@ static int h_can_join;
 static int h_join_cognito;
 static int h_can_send;
 int h_get_channel_access;
+static int h_channel_join;
+static int h_can_create_channel;
 
 int isnumonly(const char *s)
 {
@@ -89,7 +91,9 @@ init_channels(void)
 	member_heap = rb_bh_create(sizeof(struct membership), MEMBER_HEAP_SIZE, "member_heap");
 
 	h_can_join = register_hook("can_join");
-	h_join_cognito = register_hook("join_visible");
+        h_can_create_channel = register_hook("can_create_channel");
+	h_channel_join = register_hook("channel_join");
+        h_join_cognito = register_hook("join_visible");
 	h_can_send = register_hook("can_send");
 	h_get_channel_access = register_hook("get_channel_access");
 }
@@ -1679,6 +1683,72 @@ resv_chan_forcepart(const char *name, const char *reason, int temp_time)
 	}
 }
 
+
+/*
+ * do_join_0
+ *
+ * inputs	- pointer to client doing join 0
+ * output	- NONE
+ * side effects	- User has decided to join 0. This is legacy
+ *		  from the days when channels were numbers not names. *sigh*
+ */
+void
+do_join_0(struct Client *client_p, struct Client *source_p)
+{
+    struct membership *msptr;
+    struct Channel *chptr = NULL;
+    rb_dlink_node *ptr;
+
+    /* Finish the flood grace period... */
+    if(MyClient(source_p) && !IsFloodDone(source_p))
+        flood_endgrace(source_p);
+
+    sendto_server(client_p, NULL, CAP_TS6, NOCAPS, ":%s JOIN 0", use_id(source_p));
+
+    while((ptr = source_p->user->channel.head)) {
+        if(source_p->user->channel.head && MyConnect(source_p) &&
+           !IsOper(source_p) && !IsExemptSpambot(source_p))
+            check_spambot_warning(source_p, NULL);
+
+        msptr = ptr->data;
+        chptr = msptr->chptr;
+        sendto_channel_local(ALL_MEMBERS, chptr, ":%s!%s@%s PART %s",
+                             source_p->name,
+                             source_p->username, source_p->host, chptr->chname);
+        remove_user_from_channel(msptr);
+    }
+}
+
+int
+check_channel_name_loc(struct Client *source_p, const char *name)
+{
+    const char *p;
+
+    s_assert(name != NULL);
+    if(EmptyString(name))
+        return 0;
+
+    if(ConfigFileEntry.disable_fake_channels && !IsOper(source_p)) {
+        for(p = name; *p; ++p) {
+            if(!IsChanChar(*p) || IsFakeChanChar(*p))
+                return 0;
+        }
+    } else {
+        for(p = name; *p; ++p) {
+            if(!IsChanChar(*p))
+                return 0;
+        }
+    }
+
+    if(ConfigChannel.only_ascii_channels) {
+        for(p = name; *p; ++p)
+            if(*p < 33 || *p > 126)
+                return 0;
+    }
+
+
+    return 1;
+}
 
 /*
  * channel_metadata_add

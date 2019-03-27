@@ -35,6 +35,5 @@ void start_zlib_session(void *data);
 void send_new_ssl_certs(const char *ssl_cert, const char *ssl_private_key, const char *ssl_dh_params);
 void ssld_decrement_clicount(ssl_ctl_t *ctl);
 int get_ssld_count(void);
-
 #endif
 

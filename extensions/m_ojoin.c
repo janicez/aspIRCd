@@ -146,7 +146,7 @@ mo_ojoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 			      ":%s SJOIN %ld %s + :~%s",
 			      me.id, (long) chptr->channelts, chptr->chname, source_p->id);
 		send_channel_join(1, chptr, source_p);
-		sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +w %s",
+		sendto_channel_local(ALL_MEMBERS, chptr, ":%s MODE %s +q %s",
 				     me.name, chptr->chname, source_p->name);
 	}
 	else
