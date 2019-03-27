@@ -233,9 +233,10 @@ struct LocalUser
 	char *passwd;
 	char *auth_user;
 	char *challenge;
-	char *fullcaps;
-
-	int caps;		/* capabilities bit-field */
+     	char *fullcaps;
+        uint32_t connid;
+  	uint32_t zconnid;
+        int caps;		/* capabilities bit-field */
 	rb_fde_t *F;		/* >= 0, for local clients */
 
 	/* time challenge response is valid for */
