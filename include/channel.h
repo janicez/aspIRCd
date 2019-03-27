@@ -189,6 +189,7 @@ typedef int (*ExtbanFunc)(const char *data, struct Client *client_p,
 #define MODE_INVITEONLY 0x00010
 #define MODE_NOPRIVMSGS 0x00020
 #define MODE_REGONLY	0x00040
+#define MODE_HIDEBANS	0x1000000 /* disallow non-chanops from seeing ban/quiet lists */
 #define MODE_NOCOLOR	0x00080
 #define MODE_EXLIMIT	0x00100  /* exempt from list limits, +b/+e/+I/+q */
 #define MODE_PERMANENT  0x00200  /* permanant channel, +P */

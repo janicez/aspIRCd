@@ -973,7 +973,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                                         pargs = 0;
                                 }
 
-                                *mbuf++ = 'B';
+                                *mbuf++ = 'U';
                                 para[pargs++] = target_p->name;
                         }
                         if(fl & CHFL_SOP)
@@ -1067,7 +1067,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
                 }
                 else if(fl & CHFL_BOP)
                 {
-                        *mbuf++ = 'B';
+                        *mbuf++ = 'U';
                         para[pargs++] = target_p->name;
 
                         if(fl & CHFL_QOP)
