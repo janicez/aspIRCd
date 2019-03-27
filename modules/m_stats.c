@@ -107,6 +107,7 @@ static void stats_operedup(struct Client *);
 static void stats_ports(struct Client *);
 static void stats_tresv(struct Client *);
 static void stats_resv(struct Client *);
+static void stats_ssld(struct Client *);
 static void stats_usage(struct Client *);
 static void stats_tstats(struct Client *);
 static void stats_uptime(struct Client *);
@@ -158,6 +159,8 @@ static struct StatsStruct stats_cmd_table[] = {
 	{'Q', stats_resv,		1, 0, },
 	{'r', stats_usage,		1, 0, },
 	{'R', stats_usage,		1, 0, },
+        {'s', stats_ssld,		1, 1, },
+        {'S', stats_ssld,		1, 1, },
 	{'t', stats_tstats,		1, 0, },
 	{'T', stats_tstats,		1, 0, },
 	{'u', stats_uptime,		0, 0, },
@@ -248,6 +251,25 @@ m_stats(struct Client *client_p, struct Client *source_p, int parc, const char *
 
 	return 0;
 }
+
+static void
+stats_ssld_foreach(void *data, pid_t pid, int cli_count, enum ssld_status status)
+{
+    struct Client *source_p = data;
+
+    sendto_one_numeric(source_p, RPL_STATSDEBUG,
+                       "S :%u %c %u",
+                       pid,
+                       status == SSLD_DEAD ? 'D' : (status == SSLD_SHUTDOWN ? 'S' : 'A'),
+                       cli_count);
+}
+
+static void
+stats_ssld(struct Client *source_p)
+{
+    ssld_foreach_info(stats_ssld_foreach, source_p);
+}
+
 
 static void
 stats_dns_servers (struct Client *source_p)

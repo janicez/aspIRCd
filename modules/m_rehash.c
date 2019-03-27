@@ -37,6 +37,7 @@
 #include "s_newconf.h"
 #include "logger.h"
 #include "send.h"
+#include "sslproc.h"
 #include "msg.h"
 #include "parse.h"
 #include "modules.h"
@@ -61,6 +62,22 @@ struct hash_commands
 	const char *cmd;
 	void (*handler) (struct Client * source_p);
 };
+
+static void
+rehash_ssld(struct Client *source_p)
+{
+    if (!IsOperAdmin(source_p)) {
+        sendto_one(source_p, form_str(ERR_NOPRIVS),
+                   me.name, source_p->name, "admin");
+        return;
+    }
+    sendto_realops_snomask(SNO_GENERAL, L_ALL, "%s is restarting ssld",
+                           get_oper_name(source_p));
+
+    restart_ssld();
+}
+
+
 
 static void
 rehash_bans_loc(struct Client *source_p)
@@ -281,6 +298,7 @@ static struct hash_commands rehash_commands[] =
 	{"BANS",	rehash_bans_loc		},
 	{"DNS", 	rehash_dns		},
 	{"MOTD", 	rehash_motd		},
+        {"SSLD", 	rehash_ssld		},
 	{"OMOTD", 	rehash_omotd		},
 	{"TKLINES", 	rehash_tklines		},
 	{"TDLINES", 	rehash_tdlines		},

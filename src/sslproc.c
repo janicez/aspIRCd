@@ -31,6 +31,7 @@
 #include "sslproc.h"
 #include "s_serv.h"
 #include "ircd.h"
+#include "sslproc.h"
 #include "hash.h"
 #include "client.h"
 #include "send.h"
@@ -165,6 +166,29 @@ static time_t last_spin;
 static int ssld_wait = 0;
 
 
+void
+restart_ssld(void)
+{
+    rb_dlink_node *ptr, *next;
+    ssl_ctl_t *ctl;
+
+    RB_DLINK_FOREACH_SAFE(ptr, next, ssl_daemons.head) {
+        ctl = ptr->data;
+        if(ctl->dead)
+            continue;
+        if(ctl->shutdown)
+            continue;
+        ctl->shutdown = 1;
+        ssld_count--;
+        if(!ctl->cli_count) {
+            rb_kill(ctl->pid, SIGKILL);
+            free_ssl_daemon(ctl);
+        }
+    }
+
+    start_ssldaemon(ServerInfo.ssld_count, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params, ServerInfo.ssl_cipher_list);
+}
+
 static void
 ssl_killall(void)
 {
@@ -176,7 +200,8 @@ ssl_killall(void)
 		if(ctl->dead)
 			continue;
 		ctl->dead = 1;
-		ssld_count--;
+		if(!ctl->shutdown)
+                   ssld_count--;
 		rb_kill(ctl->pid, SIGKILL);
 	}
 }
@@ -188,11 +213,13 @@ ssl_dead(ssl_ctl_t * ctl)
 		return;
 
 	ctl->dead = 1;
-	ssld_count--;
 	rb_kill(ctl->pid, SIGKILL);	/* make sure the process is really gone */
-	ilog(L_MAIN, "ssld helper died - attempting to restart");
-	sendto_realops_snomask(SNO_GENERAL, L_ALL, "ssld helper died - attempting to restart");
-	start_ssldaemon(1, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params);
+            if(!ctl->shutdown) {
+        ssld_count--;
+        ilog(L_MAIN, "ssld helper died - attempting to restart");
+        sendto_realops_snomask(SNO_GENERAL, L_ALL, "ssld helper died - attempting to restart");
+        start_ssldaemon(1, ServerInfo.ssl_cert, ServerInfo.ssl_private_key, ServerInfo.ssl_dh_params, ServerInfo.ssl_cipher_list);
+    }
 }
 
 static void
@@ -522,6 +549,8 @@ which_ssld(void)
 		ctl = ptr->data;
 		if(ctl->dead)
 			continue;
+                if(ctl->shutdown)
+                    continue;
 		if(lowest == NULL)
 		{
 			lowest = ctl;
@@ -703,8 +732,13 @@ ssld_decrement_clicount(ssl_ctl_t * ctl)
 		return;
 
 	ctl->cli_count--;
-	if(ctl->dead && !ctl->cli_count)
-	{
+	    if(ctl->dead && !ctl->cli_count)
+        if(ctl->shutdown && !ctl->cli_count) {
+            ctl->dead = 1;
+            rb_kill(ctl->pid, SIGKILL);
+        }
+
+    {
 		free_ssl_daemon(ctl);
 	}
 }
