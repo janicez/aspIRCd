@@ -788,7 +788,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
 					'I', ONLY_CHANOPS);
 		if(rb_dlink_list_length(&chptr->quietlist) > 0)
 			remove_ban_list(chptr, fakesource_p, &chptr->quietlist,
-					'q', ALL_MEMBERS);
+					'y', ALL_MEMBERS);
 		chptr->bants++;
 
 		sendto_channel_local(ALL_MEMBERS, chptr,
