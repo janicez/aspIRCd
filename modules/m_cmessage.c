@@ -128,7 +128,7 @@ m_cmessage(int p_or_n, const char *command,
 	}
 
 	if(MyClient(target_p) && (IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) &&
-	   !accept_message(source_p, target_p) && !IsOper(source_p)
+	   !accept_message(source_p, target_p) && !IsOper(source_p) ||
            (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
 	{
 		if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])

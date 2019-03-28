@@ -187,7 +187,7 @@ char *user_mode_names[256] = {
 	NULL,			/* j */
 	NULL,			/* k */
 	"locops",		/* l */
-	"staffonlymsg";         /* m */
+	"staffonlymsg",         /* m */
 	NULL,			/* n */
 	"ircop",		/* o */
 	"override",		/* p */
@@ -1357,6 +1357,12 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
         {
                 sendto_one_notice(source_p, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
                 source_p->umodes &= ~UMODE_SSLONLYMSG;
+        }
+
+        if (MyConnect(source_p) && (source_p->umodes & UMODE_STAFFONLYMSG) && (!IsOper(source_p)))
+        {
+                sendto_one_notice(source_p, ":Permission Denied - You're not an IRC operator");
+                source_p->umodes &= ~UMODE_STAFFONLYMSG;
         }
 
         /* preventing anyone setting UMODE_HIDEOPER because not everyone will be IRC operator */
