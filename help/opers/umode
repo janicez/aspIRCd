@@ -47,7 +47,7 @@ M/L | NAME          | O | DESCRIPTION
  +R | regonlymsg    |   | Prevents non-accept unidentified
     |               |   | users messaging you.
  +Z | sslclient     | P | Is connected through SSL
- +J | sctpclient    | P | Is connected through SCTP
+ +A | sctpclient    | P | Is connected through SCTP
  +M | chanhide      | C | Hide all channels from most users
     |               |   | (except those who are set umode +P)
  +I | hideidle      | C | Hides your idle time.
