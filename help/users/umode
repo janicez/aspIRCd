@@ -70,3 +70,6 @@ M/L | NAME          | O | DESCRIPTION
                     |   | you.
  +t | SSL Only Msg  |   | Prevents the users who are connected via non-ssl
                     |   | ports to the network from messaging you.
+ +B | Adds as a Bot |   | Shows a string "is a Bot on this server."
+                    |   | usually to mark you as a BOT.
+
