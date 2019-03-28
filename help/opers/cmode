@@ -55,13 +55,13 @@ WITH PARAMETERS:
               privileges of +o. This type of op is immune to kicks from +o,
               but +w/+W are immune to kicks from +a.
               PARAMS: /mode #channel +a nick
-   +q/+B    - Owner/ownerbot (semantics vary per channel and server config)
+   +q/+U    - Owner/ownerbot (semantics vary per channel and server config)
               Tied for the highest rank, manager and owner, or owner and
               ownerbot on some networks and channels, are ops who cannot be
               kicked by regular ops nor superops, but only their own kind.
               If both are enabled, +W shows higher in the nick list.
               PARAMS: /mode #channel +q nick
-                      /mode #channel +B nick
+                      /mode #channel +U nick
      +b     - Ban. Prevents a user from entering the channel, and from
               sending or changing nick if they are on it, based on a 
               nick!ident@host match, or extended matches.
@@ -76,3 +76,5 @@ WITH PARAMETERS:
      +I     - Invite Exempt. Allows a user to join a +i channel without an 
               invite, based on a nick!user@host match.
               PARAMS: /mode #channel +I nick!user@host
+     +B     - Prevents non-IRC Operators from seeing the channel bans.
+              PARAMS: /mode #channel +B

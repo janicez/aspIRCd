@@ -47,7 +47,7 @@ M/L | NAME          | O | DESCRIPTION
  +R | regonlymsg    |   | Prevents non-accept unidentified
     |               |   | users messaging you.
  +Z | sslclient     | P | Is connected through SSL
- +A | sctpclient    | P | Is connected through SCTP
+ +J | sctpclient    | P | Is connected through SCTP
  +M | chanhide      | C | Hide all channels from most users
     |               |   | (except those who are set umode +P)
  +I | hideidle      | C | Hides your idle time.
@@ -56,5 +56,9 @@ M/L | NAME          | O | DESCRIPTION
  +P | ............. | C | Shows channels you share in WHOIS of all
     | override_chanhide | users, including +M users.
  +r | registered    | S | Signifies being registered with services
- +W | Web client    |   | Signifies that the user is using a
+ +X | Web client    |   | Signifies that the user is using a
                     |   | web client.
+ +m | OperOnlyMsg   |   | Prevents non-oper users from messaging
+                    |   | you (generally, who are -Oo)
+ +W | Whois_Notifier|   | This allows you to show up notices when
+                    |   | someone /whois'es you.

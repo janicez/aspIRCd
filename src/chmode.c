@@ -2120,9 +2120,9 @@ struct ChannelMode chmode_table[256] =
 
   {chm_nosuch,	0 },			/* @ */
   {chm_simple,	MODE_ANONMSGS },	/* A */
-  {chm_ownerbot, 0 },			/* B */
+  {chm_simple,  MODE_HIDEBANS },	/* B */
   {chm_simple,	MODE_NOCTCP },		/* C */
-  {chm_simple,	MODE_DELAYJOIN },			/* D */
+  {chm_simple,	MODE_DELAYJOIN },	/* D */
   {chm_nosuch,	0 },			/* E */
   {chm_simple,	MODE_FREETARGET },	/* F */
   {chm_nosuch,	0 },			/* G */
@@ -2139,7 +2139,7 @@ struct ChannelMode chmode_table[256] =
   {chm_simple,	MODE_REGONLY },		/* R */
   {chm_nosuch,	0 },			/* S */
   {chm_simple,	MODE_NONOTICE },	/* T */
-  {chm_nosuch,	0 },			/* U */
+  {chm_ownerbot,	0 },	        /* U */
   {chm_nosuch,	0 },			/* V */
   {chm_nosuch,  0 },	         	/* W */
   {chm_nosuch,	0 },			/* X */

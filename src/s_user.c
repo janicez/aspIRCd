@@ -68,16 +68,16 @@ int user_modes[256] = {
 	/* 0x20 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x2F */
 	/* 0x30 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x3F */
 	0,			/* @ */
-	UMODE_SCTPCLIENT,	/* A */
+	0,                	/* A */
 	0,			/* B */
 	0,			/* C */
 	UMODE_DEAF,		/* D */
 	0,			/* E */
 	0,			/* F */
 	0,			/* G */
-	UMODE_HIDEOPER,	                /* H */
+	UMODE_HIDEOPER,	        /* H */
 	0,			/* I */
-	0,			/* J */
+	UMODE_SCTPCLIENT,	/* J */
 	0,			/* K */
 	0,			/* L */
 	0,			/* M */

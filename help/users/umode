@@ -52,7 +52,7 @@ M/L | NAME          | O | DESCRIPTION
  +R | regonlymsg    |   | Prevents non-accept unidentified
     |               |   | users messaging you.
  +Z | sslclient     | P | Is connected through SSL
- +A | sctpclient    | P | Is connected through SCTP
+ +J | sctpclient    | P | Is connected through SCTP
  +M | chanhide      | C | Hide all channels from most users
     |               |   | (except those who are set umode +P)
  +I | hideidle      | C | Hides your idle time.
@@ -62,5 +62,9 @@ M/L | NAME          | O | DESCRIPTION
     | override_chanhide | users, including +M users.
  +r | registered    | S | Signifies being registered with older-
     |               |   | style IRC services.
- +W | Web Client    |   | Signifies that the user is using a
+ +X | Web Client    |   | Signifies that the user is using a
                     |   | web client.
+ +m | operonlymsg   |   | Prevents non-oper users from messaging
+                    |   | you. (usually the ones -Oo).
+ +W | Whois_Notifier|   | Notifies you when someone /whois'es
+                    |   | you.
