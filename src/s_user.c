@@ -1314,7 +1314,7 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 			{
 				if(MyConnect(source_p))
 					badflag = YES;
-			}
+ 			}
 			break;
 		}
 
@@ -1359,12 +1359,13 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
                 source_p->umodes &= ~UMODE_SSLONLYMSG;
         }
 
-        if (MyConnect(source_p) && (source_p->umodes & UMODE_STAFFONLYMSG) && (!IsOper(source_p)))
-        {
-                sendto_one_notice(source_p, ":Permission Denied - You're not an IRC operator");
+        /* preventing anyone setting UMODE_STAFFONLYMSG (+m) because not everyone is IRCOp  -- Matt */
+        
+         if (MyConnect(source_p) && (source_p->umodes & UMODE_STAFFONLYMSG) && (!IsOper(source_p))) {
+                sendto_one_numeric(source_p, 481, ":Permission Denied - You're not an IRC operator");
                 source_p->umodes &= ~UMODE_STAFFONLYMSG;
-        }
-
+       } 
+        
         /* preventing anyone setting UMODE_HIDEOPER because not everyone will be IRC operator */
 
        if (MyConnect(source_p) && (source_p->umodes & UMODE_HIDEOPER) && (!IsOper(source_p))) {
