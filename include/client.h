@@ -511,7 +511,7 @@ extern int IsXAscii(struct Client *client_p);
 #define SetEob(x)		((x)->flags |= FLAGS_EOB)
 #define HasSentEob(x)		((x)->flags & FLAGS_EOB)
 #define IsDead(x)          	((x)->flags &  FLAGS_DEAD)
-#define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
+#define IsSetStaffOnlyMsg(x)    ((x)->umodes & UMODE_STAFFONLYMSG)
 #define IsSetSslOnlyMsg(x)	((x)->umodes & UMODE_SSLONLYMSG)
 #define SetDead(x)         	((x)->flags |= FLAGS_DEAD)
 #define IsClosing(x)		((x)->flags & FLAGS_CLOSING)

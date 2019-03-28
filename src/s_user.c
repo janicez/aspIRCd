@@ -68,7 +68,7 @@ int user_modes[256] = {
 	/* 0x20 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x2F */
 	/* 0x30 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x3F */
 	0,			/* @ */
-	0,                	/* A */
+	UMODE_SCTPCLIENT,       /* A */
 	0,			/* B */
 	0,			/* C */
 	UMODE_DEAF,		/* D */
@@ -77,7 +77,7 @@ int user_modes[256] = {
 	0,			/* G */
 	UMODE_HIDEOPER,	        /* H */
 	0,			/* I */
-	UMODE_SCTPCLIENT,	/* J */
+	0,                 	/* J */
 	0,			/* K */
 	0,			/* L */
 	0,			/* M */
@@ -187,7 +187,7 @@ char *user_mode_names[256] = {
 	NULL,			/* j */
 	NULL,			/* k */
 	"locops",		/* l */
-	NULL,			/* m */
+	"staffonlymsg";         /* m */
 	NULL,			/* n */
 	"ircop",		/* o */
 	"override",		/* p */
