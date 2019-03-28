@@ -114,8 +114,8 @@ int user_modes[256] = {
 	0,			/* q */
 	UMODE_REGISTERED,	/* r */
 	UMODE_SERVNOTICE,	/* s */
-	0,			/* t */
-	0,			/* u */
+	UMODE_SSLONLYMSG,	/* t */
+        0,			/* u */
 	0,			/* v */
 	UMODE_WALLOP,		/* w */
 	0,			/* x */
@@ -1352,6 +1352,12 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 		sendto_one_notice(source_p, ":*** You need oper and the override flag for +p");
 		source_p->umodes &= ~UMODE_OVERRIDE;
 	}
+
+        if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsSSLClient(source_p)))
+        {
+                sendto_one_notice(source_p, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
+                source_p->umodes &= ~UMODE_SSLONLYMSG;
+        }
 
         /* preventing anyone setting UMODE_HIDEOPER because not everyone will be IRC operator */
 

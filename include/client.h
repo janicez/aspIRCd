@@ -425,8 +425,9 @@ struct ListClient
 #define UMODE_CALLERID     0x0010	/* block unless caller id's */
 #define UMODE_LOCOPS       0x0020	/* show locops */
 #define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
-#define UMODE_WHO        0x2000000    /* Send notification when someone /whois */
+#define UMODE_WHO          0x2000000    /* Send notification when someone /whois */
 #define UMODE_SERVICE      0x0040
+#define UMODE_SSLONLYMSG   0x200000     /* only allow users using SSL to msg */
 #define UMODE_DEAF	   0x0080
 #define UMODE_NOFORWARD    0x0100	/* don't forward */
 #define UMODE_REGONLYMSG   0x0200	/* only allow logged in users to msg */
@@ -511,6 +512,7 @@ extern int IsXAscii(struct Client *client_p);
 #define HasSentEob(x)		((x)->flags & FLAGS_EOB)
 #define IsDead(x)          	((x)->flags &  FLAGS_DEAD)
 #define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
+#define IsSetSslOnlyMsg(x)	((x)->umodes & UMODE_SSLONLYMSG)
 #define SetDead(x)         	((x)->flags |= FLAGS_DEAD)
 #define IsClosing(x)		((x)->flags & FLAGS_CLOSING)
 #define SetClosing(x)		((x)->flags |= FLAGS_CLOSING)

@@ -127,7 +127,7 @@ m_cmessage(int p_or_n, const char *command,
 		return 0;
 	}
 
-	if(MyClient(target_p) && (IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||  (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) &&
+	if(MyClient(target_p) && (IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) || (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) &&
 	   !accept_message(source_p, target_p) && !IsOper(source_p))
 	{
 		if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])
@@ -138,6 +138,13 @@ m_cmessage(int p_or_n, const char *command,
 						target_p->name);
 			return 0;
 		}
+                if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) {
+                        if (p_or_n != NOTICE) {
+                                  sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send this message again once connected via SSL/TLS",
+                                      target_p->name, target_p->username, target_p->host, source_p->name);
+                 }
+                        return 0;
+                 }
                 if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) {
                 if (p_or_n != NOTICE)
                              sendto_one_numeric(source_p, ERR_NONONOP,

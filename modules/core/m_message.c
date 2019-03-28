@@ -893,6 +893,7 @@ msg_client(int p_or_n, const char *command,
 		if(!IsServer(source_p) && (IsSetCallerId(target_p) ||
 					((target_p->umodes & user_modes['t']) != 0x0) ||
 					(IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
+                                        (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) ||
                                         (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])))            
         {
 			/* Here is the anti-flood bot/spambot code -db */
@@ -935,6 +936,12 @@ msg_client(int p_or_n, const char *command,
 					sendto_one_numeric(source_p, ERR_NONONREG,
 							form_str(ERR_NONONREG),
 							target_p->name);
+			}
+                        else if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))
+			{
+				if (p_or_n != NOTICE)
+                                {       sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send this message again once connected via SSL/TLS",
+                                                   target_p->name, target_p->username, target_p->host, source_p->name); }
 			}
                         else if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p))
                         {

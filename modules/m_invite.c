@@ -197,7 +197,8 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
 	{
 		if(!IsOper(source_p) && (IsSetCallerId(target_p) ||
                                         (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
-					(IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) &&
+					(IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) ||
+                                        (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) &&
 				!accept_message(source_p, target_p))
 		{
 			if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])
@@ -207,6 +208,13 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
 						target_p->name);
 				return 0;
 			}
+                        else if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) {
+                        {
+                               sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send this message again once connected via SSL/TLS",
+                               target_p->name, target_p->username, target_p->host, source_p->name);
+                        }
+                                 return 0;
+                        }
                         if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) {
                                 sendto_one_numeric(source_p, ERR_NONONOP,
                                                 form_str(ERR_NONONOP),

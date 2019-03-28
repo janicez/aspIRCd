@@ -68,3 +68,5 @@ M/L | NAME          | O | DESCRIPTION
                     |   | you. (usually the ones -Oo).
  +W | Whois_Notifier|   | Notifies you when someone /whois'es
                     |   | you.
+ +t | SSL Only Msg  |   | Prevents the users who are connected via non-ssl
+                    |   | ports to the network from messaging you.
