@@ -47,6 +47,7 @@ extern const char *form_str(int);
 #define RPL_CREATED          003
 #define RPL_MYINFO           004
 #define RPL_ISUPPORT         005
+#define ERR_NONONOP          496
 
 #define RPL_SNOMASK	     8
 

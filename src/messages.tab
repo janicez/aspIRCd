@@ -517,7 +517,7 @@ static  const char *  replies[] = {
 /* 493 */       NULL,
 /* 494 ERR_OWNMODE, */          "%s :cannot answer you while you are %s, your message was not sent",
 /* 495 */       NULL,
-/* 496 */       NULL,
+/* 496 ERR_NONONOP */           ":You must be an IRCOP to message %s",
 /* 497 */       NULL,
 /* 498 */       NULL,
 /* 499 */       NULL,
