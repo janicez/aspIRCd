@@ -945,6 +945,17 @@ chm_ban(struct Client *source_p, struct Channel *chptr,
 			}
 		}
 
+                if(!(chptr->mode.mode & MODE_HIDEBANS) || alevel & ONLY_CHANOPS) {
+                       RB_DLINK_FOREACH(ptr, list->head) {
+                           banptr = ptr->data;
+                           sendto_one(source_p, form_str(rpl_list),
+                                 me.name, source_p->name, chptr->chname,
+                                 banptr->banstr, banptr->who, banptr->when);
+                        }
+                }
+                sendto_one(source_p, form_str(rpl_endlist), me.name, source_p->name, chptr->chname);
+                return;
+
 		RB_DLINK_FOREACH(ptr, list->head)
 		{
 			char buf[BANLEN];
