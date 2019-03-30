@@ -228,7 +228,7 @@ isupport_chanmodes(const void *ptr)
 {
 	static char result[80];
 
-	rb_snprintf(result, sizeof result, "%s%sbq%s%s%s%s,k,flj,%s",
+	rb_snprintf(result, sizeof result, "%s%sby%s%s%s%s,k,flj,%s",
 			ConfigChannel.use_except ? "e" : "",
 			ConfigChannel.use_invex ? "I" : "",
 			(EmptyString(ConfigChannel.qprefix)) ? "U" : "",
