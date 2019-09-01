@@ -1,6 +1,6 @@
 ## aspIRCd
 
-**aspIRCd** is a high performance, lightweight, and scalable
+**aspIRCd** is a high performance, IRCv3.2 capable, and scalable
 IRC daemon. It is a fork of the now-defunct ircd-seven and seeks to continue in
 the direction ircd-seven was headed.
 
@@ -47,13 +47,11 @@ directions.
 ## Support
 Interested in meeting the developers?
 The official channel for aspIRCd is `#aspIRCd` on
-`irc.hyphovy.net Port 6667/+6697(SSL)`
+`irc.aspircd.com Port 6667/+6697(SSL)`
 
 Finding services that fully supports this IRCd?
-https://github.com/hyphovy/shale-services
+https://github.com/aspircd/shale-services
 the protocol for this IRCd is **aspircd.c** provided with services
-for further references of how to load the protocol, refer to atheme.conf
+for further references of how to load the protocol, refer to shale.example.conf
 
 Please use ***GitHub issue tracker*** for any issues
-Interested in meeting Developers?
-`irc.sparechat.net:6667/+6697`
