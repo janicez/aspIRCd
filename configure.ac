@@ -1,5 +1,4 @@
-dnl $Id: configure.ac 3516 2007-06-10 16:14:03Z jilles $
-dnl Process this file with autoconf to produce a configure script.
+dnl $Id: configure.ac 3516 2007-06-10 16:14:03Z jilles $ dnl Process this file with autoconf to produce a configure script.
 
 dnl TODO: clean up all the OpenSSL and shared module checking stuff;
 dnl the most major changes have already been made and it looks like
@@ -14,7 +13,7 @@ AC_INIT([aspIRCd],[5.0.9])
 
 AC_CONFIG_HEADER(include/setup.h)
 
-AC_DEFINE([CHARYBDIS_VERSION], ["charybdis-4"], [Version of charybdis on which this release is based])
+AC_DEFINE([CHARYBDIS_VERSION], ["charybdis-3.4+ircd-seven(we.forgot)"], [Version of charybdis on which this release is based])
 
 AC_PREFIX_DEFAULT($HOME/ircd)
 
