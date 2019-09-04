@@ -1732,14 +1732,14 @@ change_nick_user_host(struct Client *target_p,	const char *nick, const char *use
 
 			if(get_optype(mscptr) & CHFL_BOP)
 			{
-				*mptr++ = 'W';
+				*mptr++ = 'B';
 				strcat(modeval, nick);
 				strcat(modeval, " ");
 			}
 
 			if(get_optype(mscptr) & CHFL_QOP)
 			{
-				*mptr++ = 'w';
+				*mptr++ = 'q';
 				strcat(modeval, nick);
 				strcat(modeval, " ");
 			}
