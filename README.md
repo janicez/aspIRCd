@@ -6,6 +6,15 @@ the direction ircd-seven was headed.
 
 **ircd-seven**
 some of the coding from ircd-seven has been used on aspIRCd. Credit to ilbelkyr (www.freenode.net)
+
+## Main differences between this release and depreciated Charybdis 4:
+- It has +q (owner mode) , +a (admin mode) and the general +Ohv modes which Charybdis already contains. Due to this we had to shift the quiet mode to +y
+- It is headed in the direction of UnrealIRCd and hence a lot of features on the Charybdis platform.
+- It has one more major feature +h which IRC Operators set to declare themselves as helpops and show an swhois ‘is available for help.’ in their /whois
+- It has in built support for mbedTLS which is automatically selected on ARM based servers
+- It has support for Stream Control Transmission Protocol (SCTP) for connection and linking servers
+- It has support for starttls and TLS v1.3 (most secured TLS base in the IRC industry)
+
 ## Supported Platforms
 
 All modern \*NIX systems should work. You need the equivalent of the following
