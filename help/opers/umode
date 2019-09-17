@@ -56,5 +56,14 @@ M/L | NAME          | O | DESCRIPTION
  +P | ............. | C | Shows channels you share in WHOIS of all
     | override_chanhide | users, including +M users.
  +r | registered    | S | Signifies being registered with services
- +W | Web client    |   | Signifies that the user is using a
+ +X | Web client    |   | Signifies that the user is using a
                     |   | web client.
+ +m | OperOnlyMsg   |   | Prevents non-oper users from messaging
+                    |   | you (generally, who are -Oo)
+ +W | Whois_Notifier|   | This allows you to show up notices when
+                    |   | someone /whois'es you.
+ +t | SSL Only Msg  |   | Prevents the users who are connected via non-ssl
+                    |   | ports to the network from messaging you.
+ +B | Adds as a Bot |   | Shows a string "is a Bot on this server."
+                    |   | usually to mark you as a BOT.
+

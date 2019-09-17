@@ -62,5 +62,14 @@ M/L | NAME          | O | DESCRIPTION
     | override_chanhide | users, including +M users.
  +r | registered    | S | Signifies being registered with older-
     |               |   | style IRC services.
- +W | Web Client    |   | Signifies that the user is using a
+ +X | Web Client    |   | Signifies that the user is using a
                     |   | web client.
+ +m | operonlymsg   |   | Prevents non-oper users from messaging
+                    |   | you. (usually the ones -Oo).
+ +W | Whois_Notifier|   | Notifies you when someone /whois'es
+                    |   | you.
+ +t | SSL Only Msg  |   | Prevents the users who are connected via non-ssl
+                    |   | ports to the network from messaging you.
+ +B | Adds as a Bot |   | Shows a string "is a Bot on this server."
+                    |   | usually to mark you as a BOT.
+

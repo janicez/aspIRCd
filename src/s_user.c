@@ -68,16 +68,16 @@ int user_modes[256] = {
 	/* 0x20 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x2F */
 	/* 0x30 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 0x3F */
 	0,			/* @ */
-	UMODE_SCTPCLIENT,	/* A */
+	UMODE_SCTPCLIENT,       /* A */
 	0,			/* B */
 	0,			/* C */
 	UMODE_DEAF,		/* D */
 	0,			/* E */
 	0,			/* F */
 	0,			/* G */
-	UMODE_HIDEOPER,	                /* H */
+	UMODE_HIDEOPER,	        /* H */
 	0,			/* I */
-	0,			/* J */
+	0,                 	/* J */
 	0,			/* K */
 	0,			/* L */
 	0,			/* M */
@@ -90,8 +90,8 @@ int user_modes[256] = {
 	0,			/* T */
 	0,			/* U */
 	0,			/* V */
-        UMODE_WEBCLIENT,	/* W */
-	0,			/* X */
+        UMODE_WHO,	        /* W */       
+	UMODE_WEBCLIENT,	/* X */
 	0,			/* Y */
 	UMODE_SSLCLIENT,	/* Z */
 	/* 0x5B */ 0, 0, 0, 0, 0, 0, /* 0x60 */
@@ -107,15 +107,15 @@ int user_modes[256] = {
 	0,			/* j */
 	0,			/* k */
 	UMODE_LOCOPS,		/* l */
-	0,			/* m */
+        UMODE_STAFFONLYMSG,	/* m */
 	0,			/* n */
 	UMODE_OPER,		/* o */
 	UMODE_OVERRIDE,		/* p */
 	0,			/* q */
 	UMODE_REGISTERED,	/* r */
 	UMODE_SERVNOTICE,	/* s */
-	0,			/* t */
-	0,			/* u */
+	UMODE_SSLONLYMSG,	/* t */
+        0,			/* u */
 	0,			/* v */
 	UMODE_WALLOP,		/* w */
 	0,			/* x */
@@ -187,7 +187,7 @@ char *user_mode_names[256] = {
 	NULL,			/* j */
 	NULL,			/* k */
 	"locops",		/* l */
-	NULL,			/* m */
+	"staffonlymsg",         /* m */
 	NULL,			/* n */
 	"ircop",		/* o */
 	"override",		/* p */
@@ -1314,7 +1314,7 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 			{
 				if(MyConnect(source_p))
 					badflag = YES;
-			}
+ 			}
 			break;
 		}
 
@@ -1353,6 +1353,19 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 		source_p->umodes &= ~UMODE_OVERRIDE;
 	}
 
+        if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsSSLClient(source_p)))
+        {
+                sendto_one_notice(source_p, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
+                source_p->umodes &= ~UMODE_SSLONLYMSG;
+        }
+
+        /* preventing anyone setting UMODE_STAFFONLYMSG (+m) because not everyone is IRCOp  -- Matt */
+        
+         if (MyConnect(source_p) && (source_p->umodes & UMODE_STAFFONLYMSG) && (!IsOper(source_p))) {
+                sendto_one_numeric(source_p, 481, ":Permission Denied - You're not an IRC operator");
+                source_p->umodes &= ~UMODE_STAFFONLYMSG;
+       } 
+        
         /* preventing anyone setting UMODE_HIDEOPER because not everyone will be IRC operator */
 
        if (MyConnect(source_p) && (source_p->umodes & UMODE_HIDEOPER) && (!IsOper(source_p))) {

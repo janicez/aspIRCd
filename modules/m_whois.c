@@ -326,7 +326,12 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
      * each irc operator can decide if they wish to hide rather than forced
      */
 
-    if (IsOper(target_p) && (!(target_p->umodes & UMODE_HIDEOPER) || IsOper(source_p)))
+   if(IsWebClient(target_p))
+        sendto_one_numeric(source_p, RPL_WHOISWEBIRC,
+                           form_str(RPL_WHOISWEBIRC),
+                           target_p->name);
+ 
+   if (IsOper(target_p) && (!(target_p->umodes & UMODE_HIDEOPER) || IsOper(source_p)))
 	{
 		if((md = user_metadata_find(target_p, "OPERSTRING")))
 			sendto_one_numeric(source_p, RPL_WHOISOPERATOR, "%s :%s",
@@ -350,12 +355,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 		sendto_one_numeric(source_p, RPL_WHOISSPECIAL, form_str(RPL_WHOISSPECIAL),
 				   target_p->name, buf);
 	}
-       
-        if(IsWebClient(target_p))
-                sendto_one_numeric(source_p, RPL_WHOISWEBIRC,
-                                form_str(RPL_WHOISWEBIRC),
-                                target_p->name);
-
+      
 	// Unrealesque helpop compatibility code.
 	if(MyClient(source_p))
 		call_hook(doing_whois_top_hook, &hdata);
@@ -410,9 +410,13 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 				   target_p->name, 
 				   rb_current_time() - target_p->localClient->last, 
 				   target_p->localClient->firsttime);
-	}
-	else
-	{
+                if (MyClient(target_p) && (source_p != target_p) && (target_p->umodes & UMODE_WHO)) {
+            sendto_one_notice(target_p,
+                              ":*** Notice -- %s (%s@%s) is doing a whois on you",
+                              source_p->name,
+                              source_p->username, source_p->host);
+                }
+     }	else  {
 		if (IsDynSpoof(target_p) && (IsOper(source_p) || source_p == target_p))
 		{
 			ClearDynSpoof(target_p);
