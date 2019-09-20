@@ -365,7 +365,7 @@ init_isupport(void)
 	add_isupport("STATUSMSG", isupport_string, "@");
 	add_isupport("PRIVILEGEMSG", isupport_string, "@,.,qaohv");
 	add_isupport("SJOIN", isupport_string, "(yqaohv)*~&@%+");
-	add_isupport("STD", isupport_string, "i-d,aspircd);
+	add_isupport("STD", isupport_string, "i-d,aspircd");
 	add_isupport("CALLERID", isupport_umode, "g");
 	add_isupport("CASEMAPPING", isupport_string, "rfc1459");
 	add_isupport("NICKLEN", isupport_nicklen, NULL);
