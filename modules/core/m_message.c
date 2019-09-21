@@ -864,7 +864,7 @@ msg_client(enum message_type msgtype,
 
 		/* XXX Controversial? allow opers always to send through a +g */
 		if(!IsServer(source_p) && !IsService(source_p) &&
-			((IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) || (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) ||
+			((IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) || (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)))
 		   	(hdata.approved == UMODE_CALLERID))
 		  )
 		{
