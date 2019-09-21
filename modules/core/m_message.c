@@ -886,7 +886,7 @@ msg_client(enum message_type msgtype,
 			}
                         else if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p))
                         {
-                                if (p_or_n != NOTICE)
+                                if (msgtype != MESSAGE_TYPE_NOTICE)
                                         sendto_one_numeric(source_p, ERR_NONONOP,
                                                         form_str(ERR_NONONOP),
                                                         target_p->name);
