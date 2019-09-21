@@ -4,8 +4,9 @@
 IRC daemon. It is a fork of the now-defunct ircd-seven and seeks to continue in
 the direction ircd-seven was headed.
 
-**ircd-seven**
-some of the coding from ircd-seven has been used on aspIRCd. Credit to ilbelkyr (www.freenode.net)
+**charybdis**
+some of the coding has been taken from charybdis 3.5.7 , credits to
+charybdis maintainers.
 
 ## Main differences between this release and depreciated Charybdis 4:
 - It has +q (owner mode) , +a (admin mode) and the general +Ohv modes which Charybdis already contains. Due to this we had to shift the quiet mode to +y
