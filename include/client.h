@@ -438,6 +438,7 @@ struct ListClient
 #define UMODE_ADMIN        0x2000	/* Admin on server */
 #define UMODE_SSLCLIENT    0x4000	/* using SSL */
 #define UMODE_SCTPCLIENT   0x8000	/* using SCTP */
+#define UMODE_HIDEOPER     0x1000000    /* Hide oper from /whois */
 
 /* overflow flags */
 /* EARLIER FLAGS ARE IN s_newconf.h */
@@ -548,6 +549,7 @@ struct ListClient
 				(!((x)->umodes & UMODE_CERTFPHIDE) && ConfigFileEntry.hide_certfp == 1) \
 				)
 
+#define IsHideOper(x)           ((x)->umodes & UMODE_HIDEOPER)
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)
 #define IsGotId(x)              (((x)->flags & FLAGS_GOTID) != 0)
 
