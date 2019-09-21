@@ -1274,7 +1274,7 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
             source_p->umodes &= ~UMODE_STAFFONLYMSG;
          }
 
-         if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsOper(source_p))) {
+         if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsSSLClient(source_p))) {
             sendto_one_numeric(source_p, 497, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
             source_p->umodes &= ~UMODE_SSLONLYMSG;
          }
