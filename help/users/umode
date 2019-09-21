@@ -50,5 +50,5 @@ M/L | NAME          | O | DESCRIPTION
  +F | hidecert      |   | Hides your SSL certificate
     |               |   | fingerprint from others.
  +I | hide idle     |   | Hide idle from most users.
- +O | hide oper     |   | Hide IRC Operator status from users.
+ +H | hide oper     |   | Hide IRC Operator status from users.
 

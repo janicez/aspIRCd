@@ -337,6 +337,7 @@ struct ListClient
 #define IsServer(x)             ((x)->status == STAT_SERVER)
 #define IsClient(x)             ((x)->status == STAT_CLIENT)
 #define IsReject(x)		((x)->status == STAT_REJECT)
+#define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
 
 #define IsAnyServer(x)          (IsServer(x) || IsHandshake(x) || IsConnecting(x))
 
@@ -432,6 +433,7 @@ struct ListClient
 #define UMODE_REGONLYMSG   0x0200	/* only allow logged in users to msg */
 #define UMODE_CERTFPHIDE   0x0400	/* hide certfp from !opers, or if
 					network::hide_certfp, show certfp to all */
+#define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
 
 /* user information flags, only settable by remote mode or local oper */
 #define UMODE_OPER         0x1000	/* Operator */

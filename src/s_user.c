@@ -76,14 +76,14 @@ int user_modes[256] = {
 	0,			/* E */
 	UMODE_CERTFPHIDE,	/* F */
 	0,			/* G */
-	0,			/* H */
+	UMODE_HIDEOPER,         /* H */
 	UMODE_HIDEIDLE,	        /* I */
 	0,			/* J */
 	0,			/* K */
 	0,			/* L */
 	0,			/* M */
 	0,			/* N */
-        UMODE_HIDEOPER,	        /* O */
+        0,            	        /* O */
 	0,			/* P */
 	UMODE_NOFORWARD,	/* Q */
 	UMODE_REGONLYMSG,	/* R */
@@ -108,7 +108,7 @@ int user_modes[256] = {
 	0,			/* j */
 	0,			/* k */
 	UMODE_LOCOPS,		/* l */
-	0,			/* m */
+	UMODE_STAFFONLYMSG,	/* m */
 	0,			/* n */
 	UMODE_OPER,		/* o */
 	0,			/* p */
