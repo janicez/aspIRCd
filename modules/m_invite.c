@@ -181,7 +181,7 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
 	if(MyConnect(target_p))
 	{
 		if(!IsOper(source_p) && (IsSetCallerId(target_p) ||
-                                         (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))) ||
+                                         (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) ||
                                         (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) ||
 					(IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) &&
 				!accept_message(source_p, target_p))
