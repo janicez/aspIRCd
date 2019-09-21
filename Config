@@ -3,8 +3,7 @@
 """
 Copyright 2014 Sam Dodrill <shadowh511@gmail.com>
 
-edited by Craigory <root@chatfreedom.us>
-
+edited by DavidFranklin <syzolin@aspircd.com>
 This software is under GPL.
 """
 
@@ -124,7 +123,7 @@ system("clear")
 print(art)
 
 print("""
-=================================================================================
+================================================================================
 ================================================================================
 Next, run make and make install. Then copy %s/ircd/etc/example.conf to
 %s/ircd/etc/ircd.conf and read through the example configuration completely to make
@@ -133,7 +132,18 @@ and start to connect clients and servers as you need.
 
 If you have any problems, please check the documentation in the doc/ folder
 of the source repository. If problems persist please stop by #aspIRCd
-on irc.aspircd.com and ask.""" %\
+on irc.aspircd.com and ask.
+================================================================================
+================================================================================
+                     ALL RIGHTS RESERVED   Copyright (C) 2018-2019
+================================================================================
+================================================================================
+                            AspIRCd IRC Daemon Software
+                     For support let us know and contact us at
+                             syzolin@aspircd.com
+================================================================================
+================================================================================
+""" %\
     (installloc2, installloc2, installloc2))
 
 # vim: set ts=4 sw=4 tw=0 et
