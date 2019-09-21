@@ -864,7 +864,7 @@ msg_client(enum message_type msgtype,
 
 		/* XXX Controversial? allow opers always to send through a +g */
 		if(!IsServer(source_p) && !IsService(source_p) &&
-			((IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) ||
+			((IsSetCallerId(target_p) || (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) || (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))) || (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])) ||
 		   	(hdata.approved == UMODE_CALLERID))
 		  )
 		{
@@ -877,6 +877,12 @@ msg_client(enum message_type msgtype,
 					   source_p->username,
 					   source_p->host, cmdname[msgtype], target_p->name, text);
 			}
+                        else if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))
+                        {
+                                if (msgtype != MESSAGE_TYPE_NOTICE)
+                                {       sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to m$
+                                                   target_p->name, target_p->username, target_p->host, source_p->name); }
+                        }
 			else if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])
 			{
 				if (msgtype != MESSAGE_TYPE_NOTICE)
