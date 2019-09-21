@@ -156,10 +156,10 @@ m_cmessage(int p_or_n, const char *command,
 			return 0;
 		}
                  if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) {
-                     if (p_or_n != NOTICE) {
-                                    sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please send t$
-                                    target_p->name, target_p->username, target_p->host, source_p->name);
-                       }
+                     if (p_or_n != NOTICE) 
+                                      sendto_one_numeric(source_p, ERR_NONONSL,
+                                                form_str(ERR_NONONSL),
+                                                target_p->name);
                          return 0;
                  }
 

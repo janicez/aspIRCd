@@ -880,8 +880,9 @@ msg_client(enum message_type msgtype,
                         else if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p))
                         {
                                 if (msgtype != MESSAGE_TYPE_NOTICE)
-                                {       sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to m$
-                                                   target_p->name, target_p->username, target_p->host, source_p->name); }
+                                        sendto_one_numeric(source_p, ERR_NONONSL,
+                                                        form_str(ERR_NONONSL),
+                                                        target_p->name);
                         }
 			else if (IsSetRegOnlyMsg(target_p) && !source_p->user->suser[0])
 			{

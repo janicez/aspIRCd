@@ -194,10 +194,9 @@ m_invite(struct Client *client_p, struct Client *source_p, int parc, const char 
 				return 0;
 			}
                         else if (IsSetSslOnlyMsg(target_p) && !IsSSLClient(source_p)) {
-                        {
-                                      sendto_one(source_p, ":%s!%s@%s PRIVMSG %s :You must be connected using SSL/TLS to message me, please se$
-                                     target_p->name, target_p->username, target_p->host, source_p->name);
-                        }
+                                       sendto_one_numeric(source_p, ERR_NONONSL,
+                                                form_str(ERR_NONONSL),
+                                                target_p->name);
                                  return 0;
                         }
                         if (IsSetStaffOnlyMsg(target_p) && !IsOper(source_p)) {
