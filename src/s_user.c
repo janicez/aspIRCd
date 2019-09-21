@@ -77,7 +77,7 @@ int user_modes[256] = {
 	UMODE_CERTFPHIDE,	/* F */
 	0,			/* G */
 	0,			/* H */
-	0,			/* I */
+	UMODE_HIDEIDLE,	        /* I */
 	0,			/* J */
 	0,			/* K */
 	0,			/* L */
