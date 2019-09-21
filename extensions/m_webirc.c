@@ -79,24 +79,22 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 	const char *encr;
 	char *ip;
 
-	sendto_one(source_p, "NOTICE * :Reached top of WEBIRC");
 	if (!strchr(parv[4], '.') && !strchr(parv[4], ':'))
 	{
-		sendto_one(source_p, "NOTICE * :Invalid IP");
+		sendto_one(source_p, ":%s NOTICE * :Invalid IP", me.name);
 		return 0;
 	}
 
 	if (strchr(parv[4], ':') && parv[4][0] == '[')
 	{
-		sendto_one(source_p, "NOTICE * :Invalid IP, tell your webIRC developer to prefix a 0");
+		sendto_one(source_p, ":%s NOTICE * :Invalid IP, tell your webIRC developer to prefix a 0", me.name);
 		return 0;
 	}
 
-	sendto_one(source_p, "NOTICE * :Reached length check");
 	ip = rb_strdup(parv[4]);
 	if (EmptyString(ip))
 	{
-		sendto_one(source_p, "NOTICE * :Invalid IP");
+		sendto_one(source_p, ":%s NOTICE * :Invalid IP", me.name);
 		return 0;
 	}
 
@@ -107,15 +105,15 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 				client_p->localClient->ip.ss_family, NULL);
 	if (aconf == NULL || !(aconf->status & CONF_CLIENT))
 		return 0;
-	if (!IsConfDoSpoofWebchat(aconf))
+	if (!IsConfDoSpoofWebchat(aconf) || EmptyString(aconf->webircname))
 	{
 		/* XXX */
-		sendto_one(source_p, "NOTICE * :Not a CGI:IRC auth block");
+		sendto_one(source_p, ":%s NOTICE * :Not a CGI:IRC auth block (or is but is incorrectly configurated)", me.name);
 		return 0;
 	}
 	if (EmptyString(aconf->passwd))
 	{
-		sendto_one(source_p, "NOTICE * :CGI:IRC auth blocks must have a password");
+		sendto_one(source_p, ":%s NOTICE * :CGI:IRC auth blocks must have a password", me.name);
 		return 0;
 	}
 
@@ -126,11 +124,9 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 	else
 		encr = parv[1];
 
-	sendto_one(source_p, "NOTICE * :Reached password check");
-
 	if (strcmp(encr, aconf->passwd))
 	{
-		sendto_one(source_p, "NOTICE * :CGI:IRC password incorrect");
+		sendto_one(source_p, ":%s NOTICE * :CGI:IRC password incorrect", me.name);
 		return 0;
 	}
 
@@ -147,8 +143,6 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 	else
 		rb_strlcpy(source_p->host, source_p->sockhost, sizeof(source_p->host));
 
-	sendto_one(source_p, "NOTICE * :Reached bogon override");
-
 	// Bogus IPs. Treat hostNAME as sockhost.
 	if(!strcmp("127.0.0.1", ip))
 		rb_strlcpy(source_p->sockhost, source_p->host, sizeof(source_p->sockhost));
@@ -162,7 +156,6 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 	rb_inet_pton_sock(parv[4], (struct sockaddr *)&source_p->localClient->ip);
 
 	user_metadata_add(source_p, "WEBIRCNAME", rb_strdup(aconf->webircname), 0);
-	sendto_one(source_p, "NOTICE * :Reached metadatum");
 
 	/* Check dlines now, klines will be checked on registration */
 	if((aconf = find_dline((struct sockaddr *)&source_p->localClient->ip, 
@@ -175,7 +168,7 @@ mr_webirc(struct Client *client_p, struct Client *source_p, int parc, const char
 		}
 	}
 
-	sendto_one(source_p, "NOTICE * :CGI:IRC host/IP set to %s %s", parv[3], parv[4]);
+	sendto_one(source_p, ":%s NOTICE * :CGI:IRC host/IP set to %s %s", me.name, parv[3], parv[4]);
 	rb_free(ip);
 	return 0;
 }

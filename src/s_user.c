@@ -1173,7 +1173,8 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 		/* can only be set on burst */
 		case 'S':
 		case 'Z':
-		case ' ':
+		case 'T':
+                case ' ':
 		case '\n':
 		case '\r':
 		case '\t':
