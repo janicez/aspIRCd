@@ -47,7 +47,9 @@ M/L | NAME          | O | DESCRIPTION
     |               |   | users messaging you.
  +Z | sslclient     | P | Is connected through SSL
  +T | sctpclient    | P | Is connected through SCTP
- +I | chanhide      | C | Hide all channels from most users
-    |               |   | (except those who are set umode +P)
  +F | hidecert      |   | Hides your SSL certificate
     |               |   | fingerprint from others.
+ +I | hide idle     |   | Hide idle from most users.
+ +H | hide oper     |   | Hide IRC Operator status from users.
+ +m | OPER only msg |   | When set +m , people other than IRC operators
+                    |   | can't message you, invite you.

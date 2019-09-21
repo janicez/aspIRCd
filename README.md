@@ -41,7 +41,7 @@ Debian packages:
 * then to build the configuration file: `./autogen.sh`
 * then use `libtoolize --ltdl` to link all the modules
 
-* then to configure the IRCd run `./configure`
+* then to run the configure script, this will ask you simple questions important for your IRC setup, run `./Config`
 * to build the IRCd run `make`
 * followed by `make install`
 

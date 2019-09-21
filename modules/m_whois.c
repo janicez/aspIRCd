@@ -325,8 +325,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 		sendto_one_numeric(source_p, RPL_AWAY, form_str(RPL_AWAY),
 				   target_p->name, target_p->user->away);
 
-	if(IsOper(target_p))
-	{
+	 if (IsOper(target_p) && (!(target_p->umodes & UMODE_HIDEOPER) || IsOper(source_p))) {
 		hdata.approved = 0;
 		call_hook(doing_whois_oper_visibility_hook, &hdata);
 
@@ -449,6 +448,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 		}
 #endif /* RB_IPV6 */
 
+                if (!IsService(target_p) && (!(target_p->umodes & UMODE_HIDEIDLE) || IsOper(source_p)))
 		sendto_one_numeric(source_p, RPL_WHOISIDLE, form_str(RPL_WHOISIDLE),
 				   target_p->name,
 				   (long)(rb_current_time() - target_p->localClient->last),

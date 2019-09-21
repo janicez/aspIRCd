@@ -76,14 +76,14 @@ int user_modes[256] = {
 	0,			/* E */
 	UMODE_CERTFPHIDE,	/* F */
 	0,			/* G */
-	0,			/* H */
-	0,			/* I */
+	UMODE_HIDEOPER,         /* H */
+	UMODE_HIDEIDLE,	        /* I */
 	0,			/* J */
 	0,			/* K */
 	0,			/* L */
 	0,			/* M */
 	0,			/* N */
-	0,			/* O */
+        0,            	        /* O */
 	0,			/* P */
 	UMODE_NOFORWARD,	/* Q */
 	UMODE_REGONLYMSG,	/* R */
@@ -108,14 +108,14 @@ int user_modes[256] = {
 	0,			/* j */
 	0,			/* k */
 	UMODE_LOCOPS,		/* l */
-	0,			/* m */
+	UMODE_STAFFONLYMSG,	/* m */
 	0,			/* n */
 	UMODE_OPER,		/* o */
 	0,			/* p */
 	0,			/* q */
 	0,			/* r */
 	UMODE_SERVNOTICE,	/* s */
-	0,			/* t */
+	UMODE_SSLONLYMSG,	/* t */
 	0,			/* u */
 	0,			/* v */
 	UMODE_WALLOP,		/* w */
@@ -1261,6 +1261,24 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 		sendto_one_notice(source_p, ":*** You need oper and admin flag for +a");
 		source_p->umodes &= ~UMODE_ADMIN;
 	}
+
+        /* preventing anyone setting UMODE_HIDEOPER because not everyone will be IRC operator */
+
+        if (MyConnect(source_p) && (source_p->umodes & UMODE_HIDEOPER) && (!IsOper(source_p))) {
+            sendto_one_numeric(source_p, 481, ":Permission Denied - You're not an IRC operator");
+            source_p->umodes &= ~UMODE_HIDEOPER;
+         }
+
+        if (MyConnect(source_p) && (source_p->umodes & UMODE_STAFFONLYMSG) && (!IsOper(source_p))) {
+            sendto_one_numeric(source_p, 496, ":Permission Denied - You're not an IRC operator");
+            source_p->umodes &= ~UMODE_STAFFONLYMSG;
+         }
+
+         if (MyConnect(source_p) && (source_p->umodes & UMODE_SSLONLYMSG) && (!IsSSLClient(source_p))) {
+            sendto_one_numeric(source_p, 497, ":*** Notice -- You need to be connected using SSL/TLS to set +t");
+            source_p->umodes &= ~UMODE_SSLONLYMSG;
+         }
+
 
 	/* let modules providing usermodes know that we've changed our usermode --nenolod */
 	hdata.client = source_p;

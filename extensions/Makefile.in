@@ -96,9 +96,6 @@ SRCS =                          \
   extb_sctp.c			\
   whois_helpop.c		\
   umode_isabot.c		\
-  umode_comchanonlymsg.c	\
-  umode_showonlycomchans.c	\
-  umode_sslonlymsg.c		\
   example_module.c
 
 OBJS = ${SRCS:.c=.so}

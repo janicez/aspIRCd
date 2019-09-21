@@ -337,6 +337,8 @@ struct ListClient
 #define IsServer(x)             ((x)->status == STAT_SERVER)
 #define IsClient(x)             ((x)->status == STAT_CLIENT)
 #define IsReject(x)		((x)->status == STAT_REJECT)
+#define IsSetStaffOnlyMsg(x)       ((x)->umodes & UMODE_STAFFONLYMSG)
+#define IsSetSslOnlyMsg(x)      ((x)->umodes & UMODE_SSLONLYMSG)
 
 #define IsAnyServer(x)          (IsServer(x) || IsHandshake(x) || IsConnecting(x))
 
@@ -432,12 +434,17 @@ struct ListClient
 #define UMODE_REGONLYMSG   0x0200	/* only allow logged in users to msg */
 #define UMODE_CERTFPHIDE   0x0400	/* hide certfp from !opers, or if
 					network::hide_certfp, show certfp to all */
+#define UMODE_SSLONLYMSG   0x200000     /* only allow users using SSL to msg */
+#define UMODE_STAFFONLYMSG 0x400000	/* only allow logged in users to msg */
 
 /* user information flags, only settable by remote mode or local oper */
 #define UMODE_OPER         0x1000	/* Operator */
 #define UMODE_ADMIN        0x2000	/* Admin on server */
 #define UMODE_SSLCLIENT    0x4000	/* using SSL */
 #define UMODE_SCTPCLIENT   0x8000	/* using SCTP */
+#define UMODE_HIDEOPER     0x1000000    /* Hide oper from /whois */
+#define UMODE_HIDEIDLE     0x800000     /* Hide idle from /whois */
+
 
 /* overflow flags */
 /* EARLIER FLAGS ARE IN s_newconf.h */
@@ -548,6 +555,7 @@ struct ListClient
 				(!((x)->umodes & UMODE_CERTFPHIDE) && ConfigFileEntry.hide_certfp == 1) \
 				)
 
+#define IsHideOper(x)           ((x)->umodes & UMODE_HIDEOPER)
 #define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)
 #define IsGotId(x)              (((x)->flags & FLAGS_GOTID) != 0)
 

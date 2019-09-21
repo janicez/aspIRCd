@@ -196,6 +196,8 @@ extern void prepare_numerics(void);
 #define NUMERIC_STR_483      ":You can't kill a server!"
 #define NUMERIC_STR_484      ":%s 484 %s %s %s :Cannot kick or deop a network service"
 #define NUMERIC_STR_486      "%s :You must log in with services to message this user"
+#define NUMERIC_STR_496      "%s :You must be an IRC Operator to message this user"
+#define NUMERIC_STR_497      "%s :You must be connected using SSL/TLS to message this user"
 #define NUMERIC_STR_489      ":%s 489 %s %s :You're neither voiced nor channel operator"
 #define NUMERIC_STR_491      ":No appropriate operator blocks were found for your host"
 #define NUMERIC_STR_494      "%s :cannot answer you while you are %s, your message was not sent"
