@@ -199,6 +199,7 @@ struct config_file_entry
 	int pace_wait_simple;
 	int short_motd;
 	int no_oper_flood;
+        int listfake_wait;
 	int hide_server;
 	int hide_spoof_ips;
 	int hide_error_messages;
@@ -329,6 +330,15 @@ struct alias_entry
 	char *prefix;
 	int flags;			/* reserved for later use */
 	int hits;
+};
+
+struct fakechannel_entry
+{
+	char *name;
+	char *topic;
+
+	int users_min;
+	int users_max;
 };
 
 /* All variables are GLOBAL */
