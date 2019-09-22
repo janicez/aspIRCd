@@ -27,6 +27,6 @@
 #include "setup.h"
 
 #ifndef PATCHLEVEL
-#define OLD_VERSION "charybdis(3.5.5)"
+#define OLD_VERSION "charybdis(3.5.7)"
 #define PATCHLEVEL   BRANDING_NAME "(" BRANDING_VERSION ")"
 #endif
