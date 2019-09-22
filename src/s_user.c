@@ -1568,6 +1568,7 @@ construct_umodebuf(void)
 				sendto_realops_snomask(SNO_DEBUG, L_ALL, "Umode +%c is now orphaned", i);
 			}
 			else
+                        {
 				orphaned_umodes &= ~prev_user_modes[i];
                                 sendto_realops_snomask(SNO_DEBUG, L_ALL, "Orphaned umode +%c is picked up by module", i);
 			}
