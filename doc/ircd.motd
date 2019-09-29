@@ -1,20 +1,22 @@
 
-This is the default Message of the Day ($INSTPATH/etc/ircd.motd) for:
+This is the default Message of the Day ($INSPATH/etc/ircd.motd)
 
-               ::
-
-              .::  .:..:::.  .:::.   .:::.
-               ::   ::'    .:'      '   '::
-               ::   ::     ::       .:''.::
-               ::   ::     ':.     ::    ::
-              .::. .::.      ':.:'  ':..:::
+  ___           ___________  _____     _ 
+ / _ \         |_   _| ___ \/  __ \   | |
+/ /_\ \___ _ __  | | | |_/ /| /  \/ __| |
+|  _  / __| '_ \ | | |    / | |    / _` |
+| | | \__ \ |_) || |_| |\ \ | \__/\ (_| |
+\_| |_/___/ .__/\___/\_| \_| \____/\__,_|
+          | |                            
+          |_|                
 
 a simple, Charybdis based chat daemon for UN*X.
 
-(No, that's not a figlet font. I don't actually have figlet
-installed on this computer at the moment. -- Ellenor)
+The configuration file is example.conf , rename it to ircd.conf
+For documentation help , refer to https://docs.aspircd.com and not the reference.conf as it is 
+out-dated, copied from 5.1.1
 
-The help files are inaccurate. The coder is working to fix this.
+Refer to example.conf
 
 For now, +P has been moved to +r in line with Rizon's use of +z as
 both "channel is registered" and "channel is permanent" - charybdis
@@ -110,19 +112,9 @@ whois_helpop, and most networks will want override.
 Effectively operating irca requires some intimacy with the source
 code - many features are undocumented or misdocumented.
 
-There is a file, network.conf.example, in $INSTPATH/etc. ENSURE THAT
-YOU DO NOT FORGET TO EDIT IT AND RENAME IT TO network.conf. It is
-separated from the rest of ircd.conf because it contains settings
-that are supposed to be the same all across the IRC network, regardless
-of administrator preference.
-
-Some functions are not documented in reference.conf, but are in
-ircd.conf.example, which is itself horribly out of date, being a carry-
-over from Charybdis 3.5.
-
 As soon as required, it is advised that this message of the day be
 modified to suit your IRC network.
 
 Thank you for reading.
 
-   -- Ellenor Malik, and contributors.
+   -- Syzolin (David Franklin), and contributors.
