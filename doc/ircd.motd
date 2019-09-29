@@ -93,13 +93,6 @@ way as listen::port and listen::sslport may.
 
            ============ END IMPORTANT BIT ============ 
 
-The example configuration is horribly out of date. It is a carryover
-from ircd-chatd, my previous project at bringing you the best in IRC.
-Notably, many portions will flatly not work as described or at all.
-Conversely, some portions that required undocumented modification in
-chatd will work correctly in irca (oper:local_kill/oper:kill - former
-works and is in the configuration, latter doesn't)
-
 Flood_multiplier is in the pipeline. I promise.
 
 Some extensions (m_force, m_grant) have been moved into base and are
@@ -117,4 +110,4 @@ modified to suit your IRC network.
 
 Thank you for reading.
 
-   -- Syzolin (David Franklin), and contributors.
+   -- David Franklin, and contributors.
