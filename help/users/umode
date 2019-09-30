@@ -51,4 +51,4 @@ M/L | NAME          | O | DESCRIPTION
     |               |   | fingerprint from others.
  +I | hide idle     |   | Hide idle from most users.
  +H | hide oper     |   | Hide IRC Operator status from users.
-
+ +t | SSL only msg  |   | When set +t only users connected via SSL/TLS can message you.
