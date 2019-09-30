@@ -1,9 +1,9 @@
 Copyright (C) 2018 - DavidFranklin (as ircd-nine)
 Copyright (C) 2019 - DavidFranklin (as aspIRCd)
 
-##aspIRCd 6.0.1
+##aspIRCd 5.2.0
 
-Hi folks, this is AspIRCd 6.0.1-
+Hi folks, this is AspIRCd 5.2.0-
 
 - For now, +P has been moved to +r in line with Rizon's use of +z as both "channel is registered" and "channel is permanent" - charybdis had no "channel is registered" mode so it was overloaded on +P to make it so that https://github.com/aspircd/shale-services did what DALNet users would think of as "set channel registered" when it was told to set +r on channels when they were registered. 
 - The idea is if a channel is CMODE_PERM then it will be less taxing on
