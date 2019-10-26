@@ -2072,11 +2072,11 @@ rb_init_netio(void)
 
 	if(!try_kqueue())
 		return;
-	if(!try_epoll())
-		return;
 	if(!try_ports())
 		return;
 	if(!try_devpoll())
+		return;
+	if(!try_epoll())
 		return;
 	if(!try_sigio())
 		return;
