@@ -35,6 +35,7 @@ enum ssld_status {
 
 void init_ssld(void);
 void restart_ssld(void);
+void ssl_killall(void); // made public to support odd platforms like illumos ~ellenor
 int start_ssldaemon(int count, const char *ssl_cert, const char *ssl_private_key, const char *ssl_dh_params, const char *ssl_cipher_list);
 ssl_ctl_t *start_ssld_accept(rb_fde_t *sslF, rb_fde_t *plainF, uint32_t id);
 ssl_ctl_t *start_ssld_connect(rb_fde_t *sslF, rb_fde_t *plainF, uint32_t id);

@@ -2,6 +2,7 @@
 #define INCLUDED_bandbi_h
 
 void init_bandb(void);
+void bandb_killall(void);
 
 typedef enum
 {
