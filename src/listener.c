@@ -44,6 +44,7 @@
 #include "hash.h"
 #include "s_assert.h"
 #include "logger.h"
+#include "fcntl.h"
 
 #ifndef INADDR_NONE
 #define INADDR_NONE ((unsigned int) 0xffffffff)
@@ -271,6 +272,8 @@ inetport(struct Listener *listener)
 
 	listener->F = F;
 
+	// Added as workaround for 'bandb listen' (charybdis-ircd/charybdis#291) bug by ellenor - let's see if it works
+	fcntl (rb_get_fd(listener->F), F_SETFD, fcntl(rb_get_fd(listener->F), F_GETFD, 0) | FD_CLOEXEC);
 	rb_accept_tcp(listener->F, accept_precallback, accept_callback, listener);
 	return 1;
 }
@@ -382,6 +385,9 @@ inetport_sctp(struct Listener *listener)
 
 	listener->F = F;
 
+	// Added as workaround for 'bandb listen' (charybdis-ircd/charybdis#291) bug by ellenor - let's see if it works
+	// Not applicable to mainline Charybdis 3.5.7 because this is for SCTP, not TCP, but the bug still occurs.
+	fcntl (rb_get_fd(listener->F), F_SETFD, fcntl(rb_get_fd(listener->F), F_GETFD, 0) | FD_CLOEXEC);
 	rb_accept_tcp(listener->F, accept_precallback, accept_callback, listener);
 	return 1;
 #endif
