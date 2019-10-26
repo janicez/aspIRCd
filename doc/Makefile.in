@@ -29,10 +29,11 @@ moduledir	= @moduledir@
 automoduledir	= @moduledir@/autoload
 
 # Local to the etc Makefile
-mandir          = @mandir@/man8
-MANPAGES        = ircd.8
+man8dir          = @mandir@/man8
+MANPAGES         = ircd.1m
+man1mdir         = @mandir@/man1m
 
-CONFS		= example.conf ircd.motd
+CONFS		= ircd.motd example.conf
 
 SSL_LIBS	= @SSL_LIBS@
 SSL_INCLUDES	= @SSL_INCLUDES@
@@ -73,12 +74,24 @@ install: install-mkdirs build
 		$(RM) $(DESTDIR)$(sysconfdir)/links.txt; \
 	fi
 
+	#sed -e $(printf "%s\n" "#ifdef sun" "s/%%MANSECTION%%/1M/g" "#else" "s/%%MANSECTION%%/8/g" "#endif" | $(CC) -E - | tail -n 1) ./ircd.1m
 	@echo "ircd: installing manpage"
-	@for i in $(MANPAGES); do \
-		if test ! -f $(DESTDIR)$(mandir)/$(PROGRAM_PREFIX)$$i; then \
-			$(INSTALL_DATA) $$i $(DESTDIR)$(mandir)/$(PROGRAM_PREFIX)$$i; \
-		fi; \
-	done
+	@mansection=$$(printf "%s\n" "#ifdef sun" "man1mdir" "#else" "man8dir" "#endif" | $(CC) -E - | tail -n 1) \
+	if test $$mansection == man1mdir ; then \
+		for i in $(MANPAGES); do \
+			if test ! -f $(DESTDIR)$(mandir)/$(PROGRAM_PREFIX)$$i; then \
+			sed -e $(printf "%s\n" "#ifdef sun" "s/%%MANSECTION%%/1M/g" "#else" "s/%%MANSECTION%%/8/g" "#endif" | $(CC) -E - | tail -n 1) ./$$i > $${i}.o \
+			$(INSTALL_DATA) $${i}.o $(DESTDIR)$(man1mdir)/$(PROGRAM_PREFIX)$${i%1m}.1m; \
+			fi; \
+		done \
+	else \
+		for i in $(MANPAGES); do \
+			if test ! -f $(DESTDIR)$(mandir)/$(PROGRAM_PREFIX)$$i; then \
+			sed -e $(printf "%s\n" "#ifdef sun" "s/%%MANSECTION%%/1M/g" "#else" "s/%%MANSECTION%%/8/g" "#endif" | $(CC) -E - | tail -n 1) ./$$i > $${i}.o \
+			$(INSTALL_DATA) $${i}.o $(DESTDIR)$(man8dir)/$(PROGRAM_PREFIX)$${i%1m}.8; \
+			fi; \
+		done \
+	fi
 
 build:
 
